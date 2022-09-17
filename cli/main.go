@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"sync"
 
+	"github.com/spudtrooper/goutil/check"
 	"github.com/spudtrooper/goutil/flags"
 	goutiljson "github.com/spudtrooper/goutil/json"
 	minimalcli "github.com/spudtrooper/minimalcli/app"
@@ -133,6 +135,34 @@ func Main(ctx context.Context) error {
 		if err := cache.SaveRestaurant(ctx, *info, ingest.SaveRestaurantVerbose(*verbose)); err != nil {
 			return err
 		}
+		return nil
+	})
+
+	app.Register("SearchAndSave", func(context.Context) error {
+		requireStringFlag(term, "term")
+		info, err := client.Search(*term, api.SearchVerbose(*verbose))
+		if err != nil {
+			return err
+		}
+		fmt.Printf("SearchAndSave: %s\n", mustFormatString(info))
+		var wg sync.WaitGroup
+		for _, r := range info.Restaurants {
+			r := r
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				rest, err := client.RawRestaurantDetailsFromLink(r.ProfileLink)
+				if err != nil {
+					check.Err(err)
+					return
+				}
+				if err := cache.SaveRestaurant(ctx, *rest, ingest.SaveRestaurantVerbose(*verbose)); err != nil {
+					check.Err(err)
+					return
+				}
+			}()
+		}
+		wg.Wait()
 		return nil
 	})
 
