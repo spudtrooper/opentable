@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+
+	"github.com/pkg/errors"
 )
 
 type restaurantDetailsInitialState struct {
@@ -962,27 +964,27 @@ func (c CurrencyAmount) String() string {
 	return fmt.Sprintf("$%0.2f", c)
 }
 
-func toCurrencyAmount(x interface{}) CurrencyAmount {
+func toCurrencyAmount(x interface{}) (CurrencyAmount, error) {
 	if x == nil {
-		return 0
+		return 0, nil
 	}
 	switch x := x.(type) {
 	case float64:
-		return CurrencyAmount(x)
+		return CurrencyAmount(x), nil
 	case float32:
-		return CurrencyAmount(x)
+		return CurrencyAmount(x), nil
 	case int:
-		return CurrencyAmount(x)
+		return CurrencyAmount(x), nil
 	case int64:
-		return CurrencyAmount(x)
+		return CurrencyAmount(x), nil
 	case string:
 		f, err := strconv.ParseFloat(x, 32)
 		if err != nil {
-			panic(err.Error())
+			return 0, err
 		}
-		return CurrencyAmount(f)
+		return CurrencyAmount(f), nil
 	default:
-		panic(fmt.Sprintf("unknown type %T", x))
+		return 0, errors.Errorf("unknown type %T", x)
 	}
 }
 
@@ -993,24 +995,48 @@ type RestaurantDetailsMenuSectionItem struct {
 }
 
 type RestaurantDetails struct {
-	Menus []RestaurantDetailsMenu
+	RestaurantID      int
+	Name              string
+	Description       string
+	DiningStyle       string
+	PublicTransit     string
+	ExecutiveChef     interface{}
+	Entertainment     interface{}
+	DniTags           []interface{}
+	CateringDetails   string
+	Website           string
+	HoursOfOperation  string
+	ParkingDetails    interface{}
+	ParkingInfo       string
+	DressCode         string
+	CrossStreet       interface{}
+	AdditionalDetails []string
+	PaymentOptions    []interface{}
+	Type              string
+	StateID           int
+	MaxAdvanceDays    int
+	Menus             []RestaurantDetailsMenu
 }
 
 type RestaurantDetailsInfo struct {
 	RestaurantDetails RestaurantDetails
 }
 
-func (payload restaurantDetailsInitialState) Convert() *RestaurantDetailsInfo {
+func (payload restaurantDetailsInitialState) Convert() (*RestaurantDetailsInfo, error) {
 	var menus []RestaurantDetailsMenu
 	for _, menu := range payload.RestaurantProfile.Menus.MenuData {
 		var sections []RestaurantDetailsMenuSection
 		for _, s := range menu.Sections {
 			var items []RestaurantDetailsMenuSectionItem
 			for _, it := range s.Items {
+				price, err := toCurrencyAmount(it.Price)
+				if err != nil {
+					return nil, err
+				}
 				items = append(items, RestaurantDetailsMenuSectionItem{
 					Title:       it.Title,
 					Description: it.Description,
-					Price:       toCurrencyAmount(it.Price),
+					Price:       price,
 				})
 			}
 			sections = append(sections, RestaurantDetailsMenuSection{
@@ -1026,9 +1052,30 @@ func (payload restaurantDetailsInitialState) Convert() *RestaurantDetailsInfo {
 			Sections:    sections,
 		})
 	}
-	return &RestaurantDetailsInfo{
+	res := &RestaurantDetailsInfo{
 		RestaurantDetails: RestaurantDetails{
-			Menus: menus,
+			RestaurantID:      payload.RestaurantProfile.Restaurant.RestaurantID,
+			Name:              payload.RestaurantProfile.Restaurant.Name,
+			Description:       payload.RestaurantProfile.Restaurant.Description,
+			DiningStyle:       payload.RestaurantProfile.Restaurant.DiningStyle,
+			PublicTransit:     payload.RestaurantProfile.Restaurant.PublicTransit,
+			ExecutiveChef:     payload.RestaurantProfile.Restaurant.ExecutiveChef,
+			Entertainment:     payload.RestaurantProfile.Restaurant.Entertainment,
+			DniTags:           payload.RestaurantProfile.Restaurant.DniTags,
+			CateringDetails:   payload.RestaurantProfile.Restaurant.CateringDetails,
+			Website:           payload.RestaurantProfile.Restaurant.Website,
+			HoursOfOperation:  payload.RestaurantProfile.Restaurant.HoursOfOperation,
+			ParkingDetails:    payload.RestaurantProfile.Restaurant.ParkingDetails,
+			ParkingInfo:       payload.RestaurantProfile.Restaurant.ParkingInfo,
+			DressCode:         payload.RestaurantProfile.Restaurant.DressCode,
+			CrossStreet:       payload.RestaurantProfile.Restaurant.CrossStreet,
+			AdditionalDetails: payload.RestaurantProfile.Restaurant.AdditionalDetails,
+			PaymentOptions:    payload.RestaurantProfile.Restaurant.PaymentOptions,
+			Type:              payload.RestaurantProfile.Restaurant.Type,
+			StateID:           payload.RestaurantProfile.Restaurant.StateID,
+			MaxAdvanceDays:    payload.RestaurantProfile.Restaurant.MaxAdvanceDays,
+			Menus:             menus,
 		},
 	}
+	return res, nil
 }

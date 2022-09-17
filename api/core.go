@@ -227,7 +227,11 @@ func (c *Client) RestaurantDetailsFromLink(uri string, optss ...RestaurantDetail
 					}
 					return nil, err
 				}
-				return s.Convert(), nil
+				res, err := s.Convert()
+				if err != nil {
+					return nil, err
+				}
+				return res, nil
 			}
 		}
 		return nil, nil
