@@ -34,10 +34,11 @@ func Main(ctx context.Context) error {
 	app := minimalcli.Make()
 	app.Init()
 
-	client, err := api.NewClientFromFlags()
+	core, err := api.NewClientFromFlags()
 	if err != nil {
 		return err
 	}
+	client := api.FromClient(core)
 
 	app.Register("TestFailedJSON", func(context.Context) error {
 		requireStringFlag(failureJSON, "failure_json")
@@ -101,6 +102,16 @@ func Main(ctx context.Context) error {
 			return err
 		}
 		fmt.Printf("RestaurantDetails: %s\n", mustFormatString(info))
+		return nil
+	})
+
+	app.Register("FindMenuItem", func(context.Context) error {
+		requireStringFlag(term, "term")
+		info, err := client.FindMenuItem(*term, api.FindMenuItemVerbose(*verbose))
+		if err != nil {
+			return err
+		}
+		fmt.Printf("FindMenuItem: %s\n", mustFormatString(info))
 		return nil
 	})
 
