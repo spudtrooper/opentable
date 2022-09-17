@@ -116,6 +116,29 @@ func Main(ctx context.Context) error {
 		return nil
 	})
 
+	app.Register("FindMatchingMenuItems", func(context.Context) error {
+		requireStringFlag(term, "term")
+		requireStringFlag(restID, "rest_id")
+		info, err := client.RestaurantDetailsFromID(*restID, api.RestaurantDetailsVerbose(*verbose), api.RestaurantDetailsDebugFailures(*debugFailures))
+		if err != nil {
+			return err
+		}
+		items := api.FindMatchingMenuItems(info.RestaurantDetails, *term)
+		fmt.Printf("FindMatchingMenuItems: %s\n", mustFormatString(items))
+		return nil
+	})
+
+	app.Register("AllMenuItems", func(context.Context) error {
+		requireStringFlag(restID, "rest_id")
+		info, err := client.RestaurantDetailsFromID(*restID, api.RestaurantDetailsVerbose(*verbose), api.RestaurantDetailsDebugFailures(*debugFailures))
+		if err != nil {
+			return err
+		}
+		items := api.AllMenuItems(info.RestaurantDetails)
+		fmt.Printf("AllMenuItems: %s\n", mustFormatString(items))
+		return nil
+	})
+
 	app.Register("FindMenuItem", func(context.Context) error {
 		requireStringFlag(term, "term")
 		info, err := client.FindMenuItem(*term, api.FindMenuItemVerbose(*verbose))

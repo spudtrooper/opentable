@@ -1,7 +1,6 @@
 package api
 
 import (
-	"log"
 	"strings"
 	"sync"
 )
@@ -43,6 +42,62 @@ type FindMenuItemInfoForDebugging struct {
 	Results []FindMenuItemResultItemForDebugging
 }
 
+type FindMatchingMenuItemsInfo struct {
+	Items []RestaurantDetailsMenuSectionItem
+}
+
+func FindMatchingMenuItems(rd RestaurantDetails, term string) FindMatchingMenuItemsInfo {
+	var items []RestaurantDetailsMenuSectionItem
+	for _, menu := range rd.Menus {
+		for _, sec := range menu.Sections {
+			for _, item := range sec.Items {
+				if strings.EqualFold(item.Title, term) {
+					items = append(items, item)
+				}
+			}
+		}
+	}
+	return FindMatchingMenuItemsInfo{items}
+}
+
+func findMatchingMenuItems(rd RestaurantDetails, term string) []RestaurantDetailsMenuSectionItem {
+	var items []RestaurantDetailsMenuSectionItem
+	for _, menu := range rd.Menus {
+		for _, sec := range menu.Sections {
+			for _, item := range sec.Items {
+				if strings.EqualFold(item.Title, term) {
+					items = append(items, item)
+				}
+			}
+		}
+	}
+	return items
+}
+
+type AllMenuItemsInfo struct {
+	Items []RestaurantDetailsMenuSectionItem
+}
+
+func AllMenuItems(rd RestaurantDetails) AllMenuItemsInfo {
+	var items []RestaurantDetailsMenuSectionItem
+	for _, menu := range rd.Menus {
+		for _, sec := range menu.Sections {
+			items = append(items, sec.Items...)
+		}
+	}
+	return AllMenuItemsInfo{items}
+}
+
+func allMenuItems(rd RestaurantDetails) []RestaurantDetailsMenuSectionItem {
+	var items []RestaurantDetailsMenuSectionItem
+	for _, menu := range rd.Menus {
+		for _, sec := range menu.Sections {
+			items = append(items, sec.Items...)
+		}
+	}
+	return items
+}
+
 //go:generate genopts --function FindMenuItem verbose
 func (e *Extended) FindMenuItem(term string, optss ...FindMenuItemOption) (*FindMenuItemInfo, error) {
 	opts := MakeFindMenuItemOptions(optss...)
@@ -61,23 +116,12 @@ func (e *Extended) FindMenuItem(term string, optss ...FindMenuItemOption) (*Find
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
-				var items []RestaurantDetailsMenuSectionItem
 				rd, err := e.RestaurantDetails(r, RestaurantDetailsVerbose(opts.Verbose()))
 				if err != nil {
 					errsCh <- err
 					return
 				}
-				for _, menu := range rd.RestaurantDetails.Menus {
-					for _, sec := range menu.Sections {
-						for _, item := range sec.Items {
-							if strings.EqualFold(item.Title, term) {
-								log.Printf("found item: %+v", item)
-								items = append(items, item)
-							}
-						}
-					}
-				}
-				if len(items) > 0 {
+				if items := findMatchingMenuItems(rd.RestaurantDetails, term); len(items) > 0 {
 					itemsCh <- FindMenuItemResultItem{
 						Restaurant: r,
 						Items:      items,
