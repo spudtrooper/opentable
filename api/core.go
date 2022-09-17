@@ -205,9 +205,6 @@ func (c *Client) RestaurantDetails(rest Restaurant, optss ...RestaurantDetailsOp
 			m := re.FindStringSubmatch(line)
 			if len(m) == 2 {
 				jsonContents := m[1]
-				// remove escaped quotes and fix escaped backslashes before quotes
-				// jsonContents = strings.ReplaceAll(jsonContents, `\"`, `"`)
-				jsonContents = strings.ReplaceAll(jsonContents, `\\"`, `\\\"`)
 				var s restaurantDetailsInitialState
 				if err := json.Unmarshal([]byte(jsonContents), &s); err != nil {
 					if opts.DebugFailures() {
@@ -218,6 +215,7 @@ func (c *Client) RestaurantDetails(rest Restaurant, optss ...RestaurantDetailsOp
 							log.Printf("wrote json contents to %q for debugging", f)
 						}
 					}
+					return nil, err
 				}
 				return s.Convert(), nil
 			}

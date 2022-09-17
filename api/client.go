@@ -19,7 +19,7 @@ var (
 	userCreds = flag.String("user_creds", ".user_creds.json", "file with user credentials")
 )
 
-// Client is a client for sohohouse.com
+// Client is a client for opentable.com
 type Client struct {
 	authCke string
 }
