@@ -18,6 +18,7 @@ var (
 	term          = flags.String("term", "global term")
 	debugFailures = flags.Bool("debug_failures", "global debug_failres")
 	failureJSON   = flags.String("failure_json", "file to test parsing")
+	restID        = flags.String("rest_id", `restaurant id, e.g. "kumi-japanese-restaurant-and-bar-nyc-new-york"`)
 )
 
 func requireStringFlag(flag *string, name string) {
@@ -102,6 +103,16 @@ func Main(ctx context.Context) error {
 			return err
 		}
 		fmt.Printf("RestaurantDetails: %s\n", mustFormatString(info))
+		return nil
+	})
+
+	app.Register("RestaurantDetailsFromID", func(context.Context) error {
+		requireStringFlag(restID, "rest_id")
+		info, err := client.RestaurantDetailsFromID(*restID, api.RestaurantDetailsVerbose(*verbose), api.RestaurantDetailsDebugFailures(*debugFailures))
+		if err != nil {
+			return err
+		}
+		fmt.Printf("RestaurantDetailsFromID: %s\n", mustFormatString(info))
 		return nil
 	})
 

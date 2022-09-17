@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"regexp"
@@ -193,11 +194,20 @@ func (c *Client) Search(term string, optss ...SearchOption) (*SearchInfo, error)
 
 //go:generate genopts --function RestaurantDetails verbose debugFailures
 func (c *Client) RestaurantDetails(rest Restaurant, optss ...RestaurantDetailsOption) (*RestaurantDetailsInfo, error) {
-	opts := MakeRestaurantDetailsOptions(optss...)
-
 	uri := request.MakeURL(rest.ProfileLink,
 		request.MakeParam("avt", rest.RestaurantAvailabilityToken),
 	)
+	return c.RestaurantDetailsFromLink(uri, optss...)
+
+}
+
+func (c *Client) RestaurantDetailsFromID(id string, optss ...RestaurantDetailsOption) (*RestaurantDetailsInfo, error) {
+	uri := fmt.Sprintf("https://www.opentable.com/r/%s", id)
+	return c.RestaurantDetailsFromLink(uri, optss...)
+}
+
+func (c *Client) RestaurantDetailsFromLink(uri string, optss ...RestaurantDetailsOption) (*RestaurantDetailsInfo, error) {
+	opts := MakeRestaurantDetailsOptions(optss...)
 
 	convert := func(data []byte) (*RestaurantDetailsInfo, error) {
 		re := regexp.MustCompile(`(?m)\s*window.__INITIAL_STATE__=({.*});\s*`)
