@@ -130,7 +130,7 @@ func Main(ctx context.Context) error {
 			return err
 		}
 		fmt.Printf("SaveRawRestaurantDetailsFromID: %s\n", mustFormatString(info))
-		if err := cache.SaveRestaurant(ctx, *info); err != nil {
+		if err := cache.SaveRestaurant(ctx, *info, ingest.SaveRestaurantVerbose(*verbose)); err != nil {
 			return err
 		}
 		return nil

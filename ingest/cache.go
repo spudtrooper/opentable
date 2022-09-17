@@ -2,6 +2,7 @@ package ingest
 
 import (
 	"context"
+	"log"
 
 	"github.com/spudtrooper/opentable/api"
 	"go.mongodb.org/mongo-driver/bson"
@@ -9,7 +10,7 @@ import (
 )
 
 type Cache interface {
-	SaveRestaurant(ctx context.Context, rest api.RawRestaurantDetails) error
+	SaveRestaurant(ctx context.Context, rest api.RawRestaurantDetails, optss ...SaveRestaurantOption) error
 	// GetRestaurant(ctx context.Context, query string) (*api.RawRestaurantDetails, error)
 }
 
@@ -28,21 +29,35 @@ func makeDBCache(db *mongo.Database) *dbCache {
 
 type storedRestaurant struct {
 	RawRestaurantDetails api.RawRestaurantDetails
+	RestaurantDetails    api.RestaurantDetails
 }
 
-func (c *dbCache) SaveRestaurant(ctx context.Context, rest api.RawRestaurantDetails) error {
+//go:generate genopts --function SaveRestaurant verbose
+func (c *dbCache) SaveRestaurant(ctx context.Context, raw api.RawRestaurantDetails, optss ...SaveRestaurantOption) error {
+	opts := MakeSaveRestaurantOptions(optss...)
+
+	id, name := raw.RestaurantProfile.Restaurant.RestaurantID, raw.RestaurantProfile.Restaurant.Name
 	filter := bson.D{
-		{Key: "id", Value: rest.RestaurantProfile.Restaurant.RestaurantID},
-		{Key: "name", Value: rest.RestaurantProfile.Restaurant.Name},
+		{Key: "id", Value: id},
+		{Key: "name", Value: name},
 	}
 	if _, err := c.db.Collection("restaurants").DeleteMany(ctx, filter); err != nil {
 		return err
 	}
+	rest, err := raw.Convert()
+	if err != nil {
+		return err
+	}
 	stored := storedRestaurant{
-		RawRestaurantDetails: rest,
+		RawRestaurantDetails: raw,
+		RestaurantDetails:    rest.RestaurantDetails,
 	}
 	if _, err := c.db.Collection("restaurants").InsertOne(ctx, stored); err != nil {
 		return err
+	}
+
+	if opts.Verbose() {
+		log.Printf("saved restaurant %q as %d", rest.RestaurantDetails.Name)
 	}
 	return nil
 }
