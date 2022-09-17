@@ -206,16 +206,33 @@ func (c *Client) RestaurantDetailsFromID(id string, optss ...RestaurantDetailsOp
 	return c.RestaurantDetailsFromLink(uri, optss...)
 }
 
+func (c *Client) RawRestaurantDetailsFromID(id string, optss ...RestaurantDetailsOption) (*RawRestaurantDetails, error) {
+	uri := fmt.Sprintf("https://www.opentable.com/r/%s", id)
+	return c.RawRestaurantDetailsFromLink(uri, optss...)
+}
+
 func (c *Client) RestaurantDetailsFromLink(uri string, optss ...RestaurantDetailsOption) (*RestaurantDetailsInfo, error) {
+	s, err := c.RawRestaurantDetailsFromLink(uri, optss...)
+	if err != nil {
+		return nil, err
+	}
+	res, err := s.Convert()
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func (c *Client) RawRestaurantDetailsFromLink(uri string, optss ...RestaurantDetailsOption) (*RawRestaurantDetails, error) {
 	opts := MakeRestaurantDetailsOptions(optss...)
 
-	convert := func(data []byte) (*RestaurantDetailsInfo, error) {
+	convert := func(data []byte) (*RawRestaurantDetails, error) {
 		re := regexp.MustCompile(`(?m)\s*window.__INITIAL_STATE__=({.*});\s*`)
 		for _, line := range strings.Split(string(data), "\n") {
 			m := re.FindStringSubmatch(line)
 			if len(m) == 2 {
 				jsonContents := m[1]
-				var s restaurantDetailsInitialState
+				var s RawRestaurantDetails
 				if err := json.Unmarshal([]byte(jsonContents), &s); err != nil {
 					if opts.DebugFailures() {
 						const f = ".debug/RestaurantDetails.json"
@@ -227,11 +244,7 @@ func (c *Client) RestaurantDetailsFromLink(uri string, optss ...RestaurantDetail
 					}
 					return nil, err
 				}
-				res, err := s.Convert()
-				if err != nil {
-					return nil, err
-				}
-				return res, nil
+				return &s, nil
 			}
 		}
 		return nil, nil

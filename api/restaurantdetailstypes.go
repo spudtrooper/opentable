@@ -8,7 +8,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-type restaurantDetailsInitialState struct {
+type RawRestaurantDetails struct {
 	AuthModal struct {
 		IsAuthModalOpen                 bool        `json:"isAuthModalOpen"`
 		HideCloseButton                 bool        `json:"hideCloseButton"`
@@ -1022,7 +1022,7 @@ type RestaurantDetailsInfo struct {
 	RestaurantDetails RestaurantDetails
 }
 
-func (payload restaurantDetailsInitialState) Convert() (*RestaurantDetailsInfo, error) {
+func (payload RawRestaurantDetails) Convert() (*RestaurantDetailsInfo, error) {
 	var menus []RestaurantDetailsMenu
 	for _, menu := range payload.RestaurantProfile.Menus.MenuData {
 		var sections []RestaurantDetailsMenuSection

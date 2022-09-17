@@ -11,6 +11,7 @@ import (
 	goutiljson "github.com/spudtrooper/goutil/json"
 	minimalcli "github.com/spudtrooper/minimalcli/app"
 	"github.com/spudtrooper/opentable/api"
+	"github.com/spudtrooper/opentable/ingest"
 )
 
 var (
@@ -40,6 +41,12 @@ func Main(ctx context.Context) error {
 		return err
 	}
 	client := api.FromClient(core)
+
+	db, err := ingest.ConnectToDB(ctx)
+	if err != nil {
+		return err
+	}
+	cache := ingest.MakeDBCache(db)
 
 	app.Register("TestFailedJSON", func(context.Context) error {
 		requireStringFlag(failureJSON, "failure_json")
@@ -113,6 +120,19 @@ func Main(ctx context.Context) error {
 			return err
 		}
 		fmt.Printf("RestaurantDetailsFromID: %s\n", mustFormatString(info))
+		return nil
+	})
+
+	app.Register("SaveRawRestaurantDetailsFromID", func(context.Context) error {
+		requireStringFlag(restID, "rest_id")
+		info, err := client.RawRestaurantDetailsFromID(*restID, api.RestaurantDetailsVerbose(*verbose), api.RestaurantDetailsDebugFailures(*debugFailures))
+		if err != nil {
+			return err
+		}
+		fmt.Printf("SaveRawRestaurantDetailsFromID: %s\n", mustFormatString(info))
+		if err := cache.SaveRestaurant(ctx, *info); err != nil {
+			return err
+		}
 		return nil
 	})
 
