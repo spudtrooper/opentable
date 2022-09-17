@@ -57,7 +57,7 @@ func (c *dbCache) SaveRestaurant(ctx context.Context, raw api.RawRestaurantDetai
 	}
 
 	if opts.Verbose() {
-		log.Printf("saved restaurant %q as %d", rest.RestaurantDetails.Name)
+		log.Printf("saved restaurant %q as %d", name, id)
 	}
 	return nil
 }
