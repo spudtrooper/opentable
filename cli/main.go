@@ -111,7 +111,7 @@ func Main(ctx context.Context) error {
 		if err != nil {
 			return err
 		}
-		fmt.Printf("FindMenuItem: %s\n", mustFormatString(info))
+		fmt.Printf("FindMenuItem: %s\n", mustFormatString(info.ForDebugging()))
 		return nil
 	})
 

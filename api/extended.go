@@ -15,12 +15,32 @@ func FromClient(c *Client) *Extended {
 }
 
 type FindMenuItemResultItem struct {
-	RestaurantName string
-	Items          []RestaurantDetailsMenuSectionItem
+	Restaurant
+	Items []RestaurantDetailsMenuSectionItem
 }
 
 type FindMenuItemInfo struct {
 	Results []FindMenuItemResultItem
+}
+
+func (r FindMenuItemInfo) ForDebugging() FindMenuItemInfoForDebugging {
+	var res FindMenuItemInfoForDebugging
+	for _, it := range r.Results {
+		res.Results = append(res.Results, FindMenuItemResultItemForDebugging{
+			RestaurantName: it.Restaurant.Name,
+			Items:          it.Items,
+		})
+	}
+	return res
+}
+
+type FindMenuItemResultItemForDebugging struct {
+	RestaurantName string
+	Items          []RestaurantDetailsMenuSectionItem
+}
+
+type FindMenuItemInfoForDebugging struct {
+	Results []FindMenuItemResultItemForDebugging
 }
 
 //go:generate genopts --function FindMenuItem verbose
@@ -32,8 +52,8 @@ func (e *Extended) FindMenuItem(term string, optss ...FindMenuItemOption) (*Find
 		return nil, err
 	}
 
-	items := make(chan FindMenuItemResultItem)
-	errs := make(chan error)
+	itemsCh := make(chan FindMenuItemResultItem)
+	errsCh := make(chan error)
 	go func() {
 		var wg sync.WaitGroup
 		for _, r := range searchInfo.Restaurants {
@@ -41,10 +61,10 @@ func (e *Extended) FindMenuItem(term string, optss ...FindMenuItemOption) (*Find
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
-				var fmiri FindMenuItemResultItem
+				var items []RestaurantDetailsMenuSectionItem
 				rd, err := e.RestaurantDetails(r, RestaurantDetailsVerbose(opts.Verbose()))
 				if err != nil {
-					errs <- err
+					errsCh <- err
 					return
 				}
 				for _, menu := range rd.RestaurantDetails.Menus {
@@ -52,24 +72,26 @@ func (e *Extended) FindMenuItem(term string, optss ...FindMenuItemOption) (*Find
 						for _, item := range sec.Items {
 							if strings.EqualFold(item.Title, term) {
 								log.Printf("found item: %+v", item)
-								fmiri.Items = append(fmiri.Items, item)
+								items = append(items, item)
 							}
 						}
 					}
 				}
-				if len(fmiri.Items) > 0 {
-					fmiri.RestaurantName = r.Name
-					items <- fmiri
+				if len(items) > 0 {
+					itemsCh <- FindMenuItemResultItem{
+						Restaurant: r,
+						Items:      items,
+					}
 				}
 			}()
 		}
 		wg.Wait()
-		close(items)
-		close(errs)
+		close(itemsCh)
+		close(errsCh)
 	}()
 
 	var res FindMenuItemInfo
-	for item := range items {
+	for item := range itemsCh {
 		res.Results = append(res.Results, item)
 	}
 	return &res, nil
