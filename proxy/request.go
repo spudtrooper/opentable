@@ -23,7 +23,7 @@ var (
 	numScraperAPIProxies = flags.Int("num_scraper_api_proxies", "number of scraperapi.com proxies to use")
 	numBrightdataProxies = flags.Int("num_brightdata_proxies", "number of brightdata.com proxies to use")
 	requestRetries       = flags.Int("request_retries", "number of HTTP retries, assuming we aren't using a proxy")
-	proxyConfigFile      = flag.String("proxy_config_file", ".proxy_config.json", "proxy config file")
+	proxyConfigFile      = flag.String("proxy_config_file", ".proxy.json", "proxy config file")
 )
 
 type respFn struct {
