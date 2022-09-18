@@ -13,6 +13,7 @@ import (
 	"github.com/spudtrooper/goutil/io"
 	goutiljson "github.com/spudtrooper/goutil/json"
 	"github.com/spudtrooper/goutil/request"
+	"github.com/spudtrooper/opentable/proxy"
 )
 
 var (
@@ -190,11 +191,11 @@ func (c *Client) get(uri string, auth, verbose bool) ([]byte, error) {
 		headers["cookie"] = request.CreateCookie(cookie)
 	}
 
-	var res *request.Response
+	var res *proxy.Response
 	var err error
 
 	for _, d := range backoff {
-		res, err = request.Get(uri, nil, request.RequestExtraHeaders(headers))
+		res, err = proxy.Get(uri, nil, headers)
 		if err == nil {
 			break
 		}
