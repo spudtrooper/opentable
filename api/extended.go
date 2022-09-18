@@ -1,8 +1,12 @@
 package api
 
 import (
+	"fmt"
 	"strings"
 	"sync"
+
+	goutillog "github.com/spudtrooper/goutil/log"
+	"github.com/spudtrooper/goutil/or"
 )
 
 type Extended struct {
@@ -139,4 +143,135 @@ func (e *Extended) FindMenuItem(term string, optss ...FindMenuItemOption) (*Find
 		res.Results = append(res.Results, item)
 	}
 	return &res, nil
+}
+
+//go:generate genopts --function RawSearchAllByURI verbose startPage:int
+func (e *Extended) RawSearchAllByURI(uri string, optss ...RawSearchAllByURIOption) (chan RawSearchByURIInfo, chan error) {
+	opts := MakeRawSearchAllByURIOptions(optss...)
+	log := goutillog.MakeLog("RawSearchAllByURI")
+
+	startPage := or.Int(opts.StartPage(), 1)
+
+	// Remove the page=X query param. Retain the ? so we don't screw up the URI
+	baseURI := uri
+	baseURI = strings.Replace(baseURI, "&page=1", "&_page=1", 1)
+	baseURI = strings.Replace(baseURI, "?page=1", "?_page=1", 1)
+
+	log.Printf("searching starting with %q", baseURI)
+
+	outCh, errCh := make(chan RawSearchByURIInfo), make(chan error)
+
+	go func() {
+		for page := startPage; ; page++ {
+			uri := fmt.Sprintf("%s&page=%d", baseURI, page)
+			log.Printf("searching %s", uri)
+			info, err := e.RawSearchByURI(uri, SearchByURIVerbose(opts.Verbose()))
+			if err != nil {
+				errCh <- err
+				break
+			}
+			if len(info.Convert().Restaurants) == 0 {
+				log.Println("done")
+				break
+			}
+			outCh <- *info
+		}
+		close(outCh)
+		close(errCh)
+	}()
+
+	return outCh, errCh
+}
+
+//go:generate genopts --function RawListAllByURI verbose "startPage:int" "threads:int" "sync:bool"
+func (e *Extended) RawListAllByURI(uri string, optss ...RawListAllByURIOption) (chan RawListByURIInfo, chan error) {
+	opts := MakeRawListAllByURIOptions(optss...)
+
+	startPage := or.Int(opts.StartPage(), 1)
+	threads := or.Int(opts.Threads(), 5)
+	verbose := opts.Verbose()
+
+	// Remove the page=X query param. Retain the ? so we don't screw up the URI
+	baseURI := uri
+	baseURI = strings.Replace(baseURI, "&page=1", "&_page=1", 1)
+	baseURI = strings.Replace(baseURI, "?page=1", "?_page=1", 1)
+
+	if opts.Sync() {
+		return e.rawListAllByURISync(baseURI, verbose, startPage)
+	}
+	return e.rawListAllByURIAsync(baseURI, verbose, startPage, threads)
+}
+
+func (e *Extended) listByURI(baseURI string, verbose bool, page int, outCh chan<- RawListByURIInfo, errCh chan<- error, log goutillog.Logger) (shouldBreak bool) {
+	uri := fmt.Sprintf("%s&page=%d", baseURI, page)
+	log.Printf("searching %s", uri)
+	info, err := e.RawListByURI(uri, ListByURIVerbose(verbose))
+	if err != nil {
+		errCh <- err
+		shouldBreak = true
+		return
+	}
+	if len(info.Convert().Restaurants) == 0 {
+		log.Println("done")
+		shouldBreak = true
+		return
+	}
+	outCh <- *info
+	return
+}
+
+func (e *Extended) rawListAllByURISync(baseURI string, verbose bool, startPage int) (chan RawListByURIInfo, chan error) {
+	log := goutillog.MakeLog("rawListAllByURISync")
+
+	log.Printf("searching starting with %q", baseURI)
+
+	outCh, errCh := make(chan RawListByURIInfo), make(chan error)
+
+	go func() {
+		for page := startPage; ; page++ {
+			if shouldBreak := e.listByURI(baseURI, verbose, page, outCh, errCh, log); shouldBreak {
+				break
+			}
+		}
+		close(outCh)
+		close(errCh)
+	}()
+
+	return outCh, errCh
+}
+
+func (e *Extended) rawListAllByURIAsync(baseURI string, verbose bool, startPage, threads int) (chan RawListByURIInfo, chan error) {
+	log := goutillog.MakeLog("rawListAllByURIAsync")
+
+	log.Printf("searching starting with %q", baseURI)
+
+	inputCh := make(chan int)
+	go func() {
+		for page := startPage; ; page++ {
+			inputCh <- page
+		}
+	}()
+
+	outCh, errCh := make(chan RawListByURIInfo), make(chan error)
+
+	go func() {
+		var wg sync.WaitGroup
+		for i := 0; i < threads; i++ {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				for page := range inputCh {
+					if shouldBreak := e.listByURI(baseURI, verbose, page, outCh, errCh, log); shouldBreak {
+						break
+					}
+
+				}
+			}()
+		}
+		wg.Wait()
+		close(outCh)
+		close(errCh)
+	}()
+
+	return outCh, errCh
 }

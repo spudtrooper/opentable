@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/pkg/errors"
 	"github.com/spudtrooper/goutil/flags"
@@ -189,7 +190,20 @@ func (c *Client) get(uri string, auth, verbose bool) ([]byte, error) {
 		headers["cookie"] = request.CreateCookie(cookie)
 	}
 
-	res, err := request.Get(uri, nil, request.RequestExtraHeaders(headers))
+	var res *request.Response
+	var err error
+
+	for _, d := range backoff {
+		res, err = request.Get(uri, nil, request.RequestExtraHeaders(headers))
+		if err == nil {
+			break
+		}
+		if canRetry(err) {
+			log.Printf("retrying in %v... %s", d, uri)
+			time.Sleep(d)
+		}
+	}
+
 	if err != nil {
 		return nil, errors.Errorf("request.Get: %v", err)
 	}
@@ -201,4 +215,13 @@ func (c *Client) get(uri string, auth, verbose bool) ([]byte, error) {
 	}
 
 	return payload, nil
+}
+
+var backoff = []time.Duration{1 * time.Second, 2 * time.Second, 5 * time.Second}
+
+func canRetry(err error) bool {
+	if strings.Contains(err.Error(), "status code: 403") {
+		return true
+	}
+	return false
 }

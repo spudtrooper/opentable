@@ -19,9 +19,11 @@ import (
 var (
 	verbose       = flags.Bool("verbose", "global verbose")
 	term          = flags.String("term", "global term")
+	uri           = flags.String("uri", "global uri")
 	debugFailures = flags.Bool("debug_failures", "global debug_failres")
 	failureJSON   = flags.String("failure_json", "file to test parsing")
 	restID        = flags.String("rest_id", `restaurant id, e.g. "kumi-japanese-restaurant-and-bar-nyc-new-york"`)
+	startPage     = flags.Int("start_page", "global start page")
 )
 
 func requireStringFlag(flag *string, name string) {
@@ -101,6 +103,36 @@ func Main(ctx context.Context) error {
 		return nil
 	})
 
+	app.Register("SearchByURI", func(context.Context) error {
+		requireStringFlag(uri, "uri")
+		info, err := client.SearchByURI(*uri, api.SearchByURIVerbose(*verbose))
+		if err != nil {
+			return err
+		}
+		fmt.Printf("SearchByURI: %s\n", mustFormatString(info))
+		return nil
+	})
+
+	app.Register("RawListByURI", func(context.Context) error {
+		requireStringFlag(uri, "uri")
+		info, err := client.RawListByURI(*uri, api.ListByURIVerbose(*verbose))
+		if err != nil {
+			return err
+		}
+		fmt.Printf("RawListByURI: %s\n", mustFormatString(info))
+		return nil
+	})
+
+	app.Register("ListByURI", func(context.Context) error {
+		requireStringFlag(uri, "uri")
+		info, err := client.ListByURI(*uri, api.ListByURIVerbose(*verbose))
+		if err != nil {
+			return err
+		}
+		fmt.Printf("ListByURI: %s\n", mustFormatString(info))
+		return nil
+	})
+
 	app.Register("RestaurantDetails", func(context.Context) error {
 		requireStringFlag(term, "term")
 		searchInfo, err := client.Search(*term, api.SearchVerbose(*verbose))
@@ -151,7 +183,36 @@ func Main(ctx context.Context) error {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
-				rest, err := client.RawRestaurantDetailsFromLink(r.ProfileLink)
+				rest, err := client.RawRestaurantDetailsByURI(r.ProfileLink)
+				if err != nil {
+					check.Err(err)
+					return
+				}
+				if err := cache.SaveRestaurant(ctx, *rest, ingest.SaveRestaurantVerbose(*verbose)); err != nil {
+					check.Err(err)
+					return
+				}
+			}()
+		}
+		wg.Wait()
+		return nil
+	})
+
+	app.Register("SearchyURIAndSave", func(context.Context) error {
+		requireStringFlag(uri, "uri")
+		info, err := client.SearchByURI(*uri, api.SearchByURIVerbose(*verbose))
+		if err != nil {
+			return err
+		}
+		fmt.Printf("SearchyURIAndSave: %s\n", mustFormatString(info))
+		log.Printf("have %d restaurants", len(info.Restaurants))
+		var wg sync.WaitGroup
+		for _, r := range info.Restaurants {
+			r := r
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				rest, err := client.RawRestaurantDetailsByURI(r.ProfileLink)
 				if err != nil {
 					check.Err(err)
 					return
@@ -196,6 +257,92 @@ func Main(ctx context.Context) error {
 			return err
 		}
 		fmt.Printf("FindMenuItem: %s\n", mustFormatString(info.ForDebugging()))
+		return nil
+	})
+
+	app.Register("RawSearchAllByURI", func(context.Context) error {
+		requireStringFlag(uri, "uri")
+		rawInfos, errs := client.RawSearchAllByURI(*uri)
+		if err != nil {
+			return err
+		}
+		var wg sync.WaitGroup
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			var wg sync.WaitGroup
+			for rawInfo := range rawInfos {
+				info := rawInfo.Convert()
+				for _, r := range info.Restaurants {
+					r := r
+					wg.Add(1)
+					go func() {
+						defer wg.Done()
+						rest, err := client.RawRestaurantDetailsByURI(r.ProfileLink)
+						if err != nil {
+							check.Err(err)
+							return
+						}
+						if err := cache.SaveRestaurant(ctx, *rest, ingest.SaveRestaurantVerbose(*verbose)); err != nil {
+							check.Err(err)
+							return
+						}
+					}()
+				}
+			}
+			wg.Wait()
+		}()
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for e := range errs {
+				log.Printf("error: %v", e)
+			}
+		}()
+		wg.Wait()
+		return nil
+	})
+
+	app.Register("RawListAllByURI", func(context.Context) error {
+		requireStringFlag(uri, "uri")
+		rawInfos, errs := client.RawListAllByURI(*uri, api.RawListAllByURIStartPage(*startPage))
+		if err != nil {
+			return err
+		}
+		var wg sync.WaitGroup
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			var wg sync.WaitGroup
+			for rawInfo := range rawInfos {
+				info := rawInfo.Convert()
+				for _, r := range info.Restaurants {
+					r := r
+					wg.Add(1)
+					go func() {
+						defer wg.Done()
+						rest, err := client.RawRestaurantDetailsByURI(r.ProfileLink)
+						if err != nil {
+							check.Err(err)
+							return
+						}
+						if err := cache.SaveRestaurant(ctx, *rest, ingest.SaveRestaurantVerbose(*verbose)); err != nil {
+							check.Err(err)
+							return
+						}
+					}()
+				}
+			}
+			wg.Wait()
+		}()
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for e := range errs {
+				log.Printf("error: %v", e)
+			}
+		}()
+		wg.Wait()
 		return nil
 	})
 

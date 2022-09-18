@@ -121,8 +121,50 @@ func (c *Client) RestaurantsAvailability(optss ...RestaurantsAvailabilityOption)
 	return payload.Convert(), nil
 }
 
+//go:generate genopts --function ListByURI verbose debugFailures
+func (c *Client) RawListByURI(uri string, optss ...ListByURIOption) (*RawListByURIInfo, error) {
+	opts := MakeListByURIOptions(optss...)
+
+	res := &RawListByURIInfo{}
+	if err := c.rawSearchByURI(uri, res, opts.Verbose(), opts.DebugFailures()); err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func (c *Client) ListByURI(uri string, optss ...ListByURIOption) (*SearchInfo, error) {
+	opts := MakeListByURIOptions(optss...)
+
+	res := &RawListByURIInfo{}
+	if err := c.rawSearchByURI(uri, res, opts.Verbose(), opts.DebugFailures()); err != nil {
+		return nil, err
+	}
+	return res.Convert(), nil
+}
+
+//go:generate genopts --function SearchByURI verbose debugFailures
+func (c *Client) RawSearchByURI(uri string, optss ...SearchByURIOption) (*RawSearchByURIInfo, error) {
+	opts := MakeSearchByURIOptions(optss...)
+
+	res := &RawSearchByURIInfo{}
+	if err := c.rawSearchByURI(uri, res, opts.Verbose(), opts.DebugFailures()); err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func (c *Client) SearchByURI(uri string, optss ...SearchByURIOption) (*SearchInfo, error) {
+	opts := MakeSearchByURIOptions(optss...)
+
+	res := &RawSearchByURIInfo{}
+	if err := c.rawSearchByURI(uri, res, opts.Verbose(), opts.DebugFailures()); err != nil {
+		return nil, err
+	}
+	return res.Convert(), nil
+}
+
 //go:generate genopts --function Search verbose debugFailures "originalTerm:string" "date:time.Time" "intentModifiedTerm:string" "covers:int" "latitude:float32" "longitude:float32" "metroID:int"
-func (c *Client) Search(term string, optss ...SearchOption) (*SearchInfo, error) {
+func (c *Client) RawSearch(term string, optss ...SearchOption) (*RawSearchInfo, error) {
 	opts := MakeSearchOptions(optss...)
 
 	originalTerm := or.String(opts.OriginalTerm(), term)
@@ -150,19 +192,33 @@ func (c *Client) Search(term string, optss ...SearchOption) (*SearchInfo, error)
 		request.MakeParam("metroId", metroID),
 	)
 
-	convert := func(data []byte) (*SearchInfo, error) {
-		// window.__INITIAL_STATE__=JSON.parse("...") -> {...}
+	res := &RawSearchInfo{}
+	if err := c.rawSearchByURI(uri, res, opts.Verbose(), opts.DebugFailures()); err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func (c *Client) Search(term string, optss ...SearchOption) (*SearchInfo, error) {
+	res, err := c.RawSearch(term, optss...)
+	if err != nil {
+		return nil, err
+	}
+	return res.Convert(), nil
+}
+
+func (c *Client) rawSearchByURI(uri string, res interface{}, verbose, debugFailures bool) error {
+	convert := func(data []byte) error {
 		re := regexp.MustCompile(`(?m)\s*window.__INITIAL_STATE__=JSON.parse\("(.*)"\);\s*`)
+		re2 := regexp.MustCompile(`(?m)\s*window.__INITIAL_STATE__=({.*});\s*`)
 		for _, line := range strings.Split(string(data), "\n") {
-			m := re.FindStringSubmatch(line)
-			if len(m) == 2 {
+			if m := re.FindStringSubmatch(line); len(m) == 2 {
 				jsonContents := m[1]
 				// remove escaped quotes and fix escaped backslashes before quotes
 				jsonContents = strings.ReplaceAll(jsonContents, `\"`, `"`)
 				jsonContents = strings.ReplaceAll(jsonContents, `\\"`, `\\\"`)
-				var s searchInitialState
-				if err := json.Unmarshal([]byte(jsonContents), &s); err != nil {
-					if opts.DebugFailures() {
+				if err := json.Unmarshal([]byte(jsonContents), res); err != nil {
+					if debugFailures {
 						const f = ".debug/Search.json"
 						if writeErr := ioutil.WriteFile(f, []byte(jsonContents), 0644); writeErr != nil {
 							err = errors.Wrap(err, writeErr.Error())
@@ -170,26 +226,37 @@ func (c *Client) Search(term string, optss ...SearchOption) (*SearchInfo, error)
 							log.Printf("wrote json contents to %q for debugging", f)
 						}
 					}
-
-					return nil, err
+					return err
 				}
-				return s.Convert(), nil
+			}
+			if m := re2.FindStringSubmatch(line); len(m) == 2 {
+				jsonContents := m[1]
+				if err := json.Unmarshal([]byte(jsonContents), res); err != nil {
+					if debugFailures {
+						const f = ".debug/Search.json"
+						if writeErr := ioutil.WriteFile(f, []byte(jsonContents), 0644); writeErr != nil {
+							err = errors.Wrap(err, writeErr.Error())
+						} else {
+							log.Printf("wrote json contents to %q for debugging", f)
+						}
+					}
+					return err
+				}
 			}
 		}
-		return nil, nil
+		return nil
 	}
 
-	data, err := c.get(uri, true, opts.Verbose())
+	data, err := c.get(uri, true, verbose)
 
 	if err != nil {
-		return nil, errors.Errorf("c.get: %+v", err)
+		return errors.Errorf("c.get: %+v", err)
 	}
 
-	ret, err := convert(data)
-	if err != nil {
-		return nil, errors.Errorf("convert: %+v", err)
+	if err := convert(data); err != nil {
+		return errors.Errorf("convert: %+v", err)
 	}
-	return ret, nil
+	return nil
 }
 
 //go:generate genopts --function RestaurantDetails verbose debugFailures
@@ -197,22 +264,22 @@ func (c *Client) RestaurantDetails(rest Restaurant, optss ...RestaurantDetailsOp
 	uri := request.MakeURL(rest.ProfileLink,
 		request.MakeParam("avt", rest.RestaurantAvailabilityToken),
 	)
-	return c.RestaurantDetailsFromLink(uri, optss...)
+	return c.RestaurantDetailsByURI(uri, optss...)
 
 }
 
 func (c *Client) RestaurantDetailsFromID(id string, optss ...RestaurantDetailsOption) (*RestaurantDetailsInfo, error) {
 	uri := fmt.Sprintf("https://www.opentable.com/r/%s", id)
-	return c.RestaurantDetailsFromLink(uri, optss...)
+	return c.RestaurantDetailsByURI(uri, optss...)
 }
 
 func (c *Client) RawRestaurantDetailsFromID(id string, optss ...RestaurantDetailsOption) (*RawRestaurantDetails, error) {
 	uri := fmt.Sprintf("https://www.opentable.com/r/%s", id)
-	return c.RawRestaurantDetailsFromLink(uri, optss...)
+	return c.RawRestaurantDetailsByURI(uri, optss...)
 }
 
-func (c *Client) RestaurantDetailsFromLink(uri string, optss ...RestaurantDetailsOption) (*RestaurantDetailsInfo, error) {
-	s, err := c.RawRestaurantDetailsFromLink(uri, optss...)
+func (c *Client) RestaurantDetailsByURI(uri string, optss ...RestaurantDetailsOption) (*RestaurantDetailsInfo, error) {
+	s, err := c.RawRestaurantDetailsByURI(uri, optss...)
 	if err != nil {
 		return nil, err
 	}
@@ -223,7 +290,7 @@ func (c *Client) RestaurantDetailsFromLink(uri string, optss ...RestaurantDetail
 	return res, nil
 }
 
-func (c *Client) RawRestaurantDetailsFromLink(uri string, optss ...RestaurantDetailsOption) (*RawRestaurantDetails, error) {
+func (c *Client) RawRestaurantDetailsByURI(uri string, optss ...RestaurantDetailsOption) (*RawRestaurantDetails, error) {
 	opts := MakeRestaurantDetailsOptions(optss...)
 
 	convert := func(data []byte) (*RawRestaurantDetails, error) {
