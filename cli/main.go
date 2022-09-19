@@ -6,9 +6,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"sync"
+	"time"
 
 	"github.com/spudtrooper/goutil/flags"
 	goutiljson "github.com/spudtrooper/goutil/json"
+	"github.com/spudtrooper/goutil/or"
 	"github.com/spudtrooper/goutil/parallel"
 	"github.com/spudtrooper/goutil/slice"
 	minimalcli "github.com/spudtrooper/minimalcli/app"
@@ -239,13 +242,26 @@ func Main(ctx context.Context) error {
 			}
 			parallel.WaitFor(
 				func() {
-					for r := range toSearch {
-						if err := client.SearchRestaurantFromQueue(ctx, r,
-							api.SearchRestaurantFromQueueVerbose(*verbose),
-						); err != nil {
-							fmt.Printf("SearchRestaurantFromQueue: %v\n", err)
-						}
+					threads := or.Int(*threads, 20)
+					sleep := or.Duration(*sleep, 3*time.Second)
+					var wg sync.WaitGroup
+					for i := 0; i < threads; i++ {
+						wg.Add(1)
+						go func() {
+							defer wg.Done()
+							for r := range toSearch {
+								if err := client.SearchRestaurantFromQueue(ctx, r,
+									api.SearchRestaurantFromQueueVerbose(*verbose),
+								); err != nil {
+									fmt.Printf("SearchRestaurantFromQueue: %v\n", err)
+								}
+								if sleep > 0 {
+									time.Sleep(sleep)
+								}
+							}
+						}()
 					}
+					wg.Wait()
 				},
 				func() {
 					for e := range errs {
