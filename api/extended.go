@@ -17,14 +17,18 @@ import (
 type Extended struct {
 	*Client
 	cache *Cache
+	stats *stats
 }
 
 func FromClient(c *Client, cache *Cache) *Extended {
 	return &Extended{
 		Client: c,
 		cache:  cache,
+		stats:  newStats(),
 	}
 }
+
+func (e *Extended) StatsString() string { return e.stats.Build() }
 
 type FindMenuItemResultItem struct {
 	Restaurant
@@ -394,7 +398,9 @@ func (e *Extended) AddRestaurantsToSearchByURIs(ctx context.Context, uri string,
 				wg.Add(1)
 				go func() {
 					defer wg.Done()
-					if err := e.cache.SaveRestaurantToSearch(ctx, r.ProfileLink, SaveRestaurantVerbose(opts.Verbose())); err != nil {
+					res, err := e.cache.SaveRestaurantToSearch(ctx, r.ProfileLink, SaveRestaurantVerbose(opts.Verbose()))
+					e.stats.IncInt("AddRestaurantsToSearchByURIs: " + string(res))
+					if err != nil {
 						check.Err(err)
 						return
 					}
@@ -456,6 +462,7 @@ func (e *Extended) SearchEmptyRestaurants(ctx context.Context, optss ...SearchEm
 					log.Printf("SaveRestaurant error: %v", err)
 					return
 				}
+				e.stats.IncInt("SearchEmptyRestaurants:searched")
 				if sleep != 0 {
 					time.Sleep(sleep)
 				}

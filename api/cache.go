@@ -66,7 +66,14 @@ func isEmptyResultError(err error) bool {
 	return err != nil && strings.Contains(err.Error(), "no documents in result")
 }
 
-func (c *Cache) SaveRestaurantToSearch(ctx context.Context, restaurantURI string, optss ...SaveRestaurantOption) error {
+type SaveRestaurantToSearchResult string
+
+const SaveRestaurantToSearch_RestaurantAlreadySearched SaveRestaurantToSearchResult = "restaurant already searched"
+const SaveRestaurantToSearch_RestaurantAlreadyWaiting SaveRestaurantToSearchResult = "restaurant already waiting"
+const SaveRestaurantToSearch_Added SaveRestaurantToSearchResult = "added"
+const SaveRestaurantToSearch_None SaveRestaurantToSearchResult = "none"
+
+func (c *Cache) SaveRestaurantToSearch(ctx context.Context, restaurantURI string, optss ...SaveRestaurantOption) (SaveRestaurantToSearchResult, error) {
 	opts := MakeSaveRestaurantOptions(optss...)
 
 	filter := bson.D{
@@ -76,17 +83,17 @@ func (c *Cache) SaveRestaurantToSearch(ctx context.Context, restaurantURI string
 		if opts.Verbose() {
 			log.Printf("restaurant already searched: %s", restaurantURI)
 		}
-		return nil
+		return SaveRestaurantToSearch_RestaurantAlreadySearched, nil
 	} else if !isEmptyResultError(res.Err()) {
-		return res.Err()
+		return SaveRestaurantToSearch_None, res.Err()
 	}
 	if res := c.db.Collection("restaurantsToSearch").FindOne(ctx, filter); res.Err() == nil {
 		if opts.Verbose() {
 			log.Printf("restaurant waiting to be searched already: %s", restaurantURI)
 		}
-		return nil
+		return SaveRestaurantToSearch_RestaurantAlreadyWaiting, nil
 	} else if !isEmptyResultError(res.Err()) {
-		return res.Err()
+		return SaveRestaurantToSearch_None, res.Err()
 	}
 
 	stored := storedRestaurant{
@@ -94,13 +101,13 @@ func (c *Cache) SaveRestaurantToSearch(ctx context.Context, restaurantURI string
 		Empty: true,
 	}
 	if _, err := c.db.Collection("restaurantsToSearch").InsertOne(ctx, stored); err != nil {
-		return err
+		return SaveRestaurantToSearch_None, err
 	}
 
 	if opts.Verbose() {
 		log.Printf("saved restaurant %s", restaurantURI)
 	}
-	return nil
+	return SaveRestaurantToSearch_Added, nil
 }
 
 //go:generate genopts --function DeleteRestaurant verbose

@@ -2,10 +2,13 @@ module github.com/spudtrooper/opentable
 
 go 1.18
 
+replace github.com/spudtrooper/minimalcli => ../minimalcli
+
 replace github.com/spudtrooper/goutil => ../goutil
 
 require (
 	github.com/fatih/color v1.13.0
+	github.com/olekukonko/tablewriter v0.0.5
 	github.com/pkg/errors v0.9.1
 	github.com/spudtrooper/goutil v0.1.87
 	github.com/spudtrooper/minimalcli v0.0.0-20220218140555-74daced67dea
@@ -19,6 +22,8 @@ require (
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
+	github.com/mattn/go-runewidth v0.0.9 // indirect
+	github.com/motki/cli v0.4.0 // indirect
 	github.com/thomaso-mirodin/intmath v0.0.0-20160323211736-5dc6d854e46e // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.0.2 // indirect

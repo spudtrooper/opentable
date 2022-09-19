@@ -54,6 +54,11 @@ func Main(ctx context.Context) error {
 
 	client := api.FromClient(core, cache)
 
+	app.AddPostRunHook(func(ctx context.Context) error {
+		log.Printf("\n\nStats\n%s", client.StatsString())
+		return nil
+	})
+
 	app.Register("TestFailedJSON", func(context.Context) error {
 		requireStringFlag(failureJSON, "failure_json")
 		var payload interface{}
