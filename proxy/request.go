@@ -66,12 +66,6 @@ func redundantProxy(uri string, fns []respFn) (*Response, error) {
 					log.Printf("%s from proxy[%d: %s]", color.HiYellowString("THROW AWWAY"), i, fn.str())
 					return
 				}
-				// Check if this is an application error
-				if err == nil {
-					log.Printf("have response: %s ", string(res.Data))
-				} else {
-					log.Printf("have error: %v", err)
-				}
 				if err == nil {
 					if strings.Contains(string(res.Data), `You're sending requests a bit too fast!`) {
 						err = errors.Errorf("Application error: %s", string(res.Data))

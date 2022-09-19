@@ -1,4 +1,4 @@
-package ingest
+package api
 
 import (
 	"context"

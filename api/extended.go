@@ -1,20 +1,29 @@
 package api
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"strings"
 	"sync"
+	"time"
 
+	"github.com/spudtrooper/goutil/check"
+	goutilerrors "github.com/spudtrooper/goutil/errors"
 	goutillog "github.com/spudtrooper/goutil/log"
 	"github.com/spudtrooper/goutil/or"
 )
 
 type Extended struct {
 	*Client
+	cache *Cache
 }
 
-func FromClient(c *Client) *Extended {
-	return &Extended{Client: c}
+func FromClient(c *Client, cache *Cache) *Extended {
+	return &Extended{
+		Client: c,
+		cache:  cache,
+	}
 }
 
 type FindMenuItemResultItem struct {
@@ -274,4 +283,186 @@ func (e *Extended) rawListAllByURIAsync(baseURI string, verbose bool, startPage,
 	}()
 
 	return outCh, errCh
+}
+
+//go:generate genopts --function SearchAndSave verbose
+func (e *Extended) SearchAndSave(ctx context.Context, term string, optss ...SearchAndSaveOption) error {
+	opts := MakeSearchAndSaveOptions(optss...)
+
+	info, err := e.Search(term, SearchVerbose(opts.Verbose()))
+	if err != nil {
+		return err
+	}
+	var wg sync.WaitGroup
+	wg.Add(1)
+	errsCh := make(chan error)
+	go func() {
+		defer wg.Done()
+		var wg sync.WaitGroup
+		for _, r := range info.Restaurants {
+			r := r
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				rest, err := e.RawRestaurantDetailsByURI(r.ProfileLink)
+				if err != nil {
+					errsCh <- err
+					return
+				}
+				if err := e.cache.SaveRestaurant(ctx, r.ProfileLink, *rest, SaveRestaurantVerbose(opts.Verbose())); err != nil {
+					errsCh <- err
+					return
+				}
+			}()
+		}
+		wg.Wait()
+		close(errsCh)
+	}()
+	wg.Wait()
+
+	eb := goutilerrors.MakeErrorCollector()
+	for err := range errsCh {
+		eb.Add(err)
+	}
+	if !eb.Empty() {
+		return eb.Build()
+	}
+	return nil
+
+}
+
+//go:generate genopts --function SearchByURIAndSave verbose
+func (e *Extended) SearchByURIAndSave(ctx context.Context, uri string, optss ...SearchByURIAndSaveOption) error {
+	opts := MakeSearchByURIAndSaveOptions(optss...)
+
+	info, err := e.SearchByURI(uri, SearchByURIVerbose(opts.Verbose()))
+	if err != nil {
+		return err
+	}
+	log.Printf("have %d restaurants", len(info.Restaurants))
+	var wg sync.WaitGroup
+	wg.Add(1)
+	errsCh := make(chan error)
+	go func() {
+		defer wg.Done()
+		var wg sync.WaitGroup
+		for _, r := range info.Restaurants {
+			r := r
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				rest, err := e.RawRestaurantDetailsByURI(r.ProfileLink)
+				if err != nil {
+					errsCh <- err
+					return
+				}
+				if err := e.cache.SaveRestaurant(ctx, r.ProfileLink, *rest, SaveRestaurantVerbose(opts.Verbose())); err != nil {
+					errsCh <- err
+					return
+				}
+			}()
+		}
+		wg.Wait()
+		close(errsCh)
+	}()
+	wg.Wait()
+
+	eb := goutilerrors.MakeErrorCollector()
+	for err := range errsCh {
+		eb.Add(err)
+	}
+	if !eb.Empty() {
+		return eb.Build()
+	}
+	return nil
+}
+
+//go:generate genopts --function AddRestaurantsToSearchByURIs "threads:int" verbose
+func (e *Extended) AddRestaurantsToSearchByURIs(ctx context.Context, uri string, optss ...AddRestaurantsToSearchByURIsOption) error {
+	opts := MakeAddRestaurantsToSearchByURIsOptions(optss...)
+
+	rawInfos, errs := e.RawListAllByURI(uri, RawListAllByURIThreads(opts.Threads()))
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		var wg sync.WaitGroup
+		for rawInfo := range rawInfos {
+			info := rawInfo.Convert()
+			for _, r := range info.Restaurants {
+				r := r
+				wg.Add(1)
+				go func() {
+					defer wg.Done()
+					if err := e.cache.SaveRestaurantToSearch(ctx, r.ProfileLink, SaveRestaurantVerbose(opts.Verbose())); err != nil {
+						check.Err(err)
+						return
+					}
+				}()
+			}
+		}
+		wg.Wait()
+	}()
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		for e := range errs {
+			log.Printf("error: %v", e)
+		}
+	}()
+	wg.Wait()
+	return nil
+}
+
+//go:generate genopts --function SearchEmptyRestaurants "threads:int" verbose "sleep:time.Duration"
+func (e *Extended) SearchEmptyRestaurants(ctx context.Context, optss ...SearchEmptyRestaurantsOption) error {
+	opts := MakeSearchEmptyRestaurantsOptions(optss...)
+
+	threads := or.Int(opts.Threads(), 20)
+	sleep := or.Duration(opts.Sleep(), 3*time.Second)
+
+	rs, err := e.cache.RestaurantsToSearch(ctx)
+	if err != nil {
+		return err
+	}
+	log.Printf("starting with %d restaurants to search", len(rs))
+	resCh := make(chan string, len(rs))
+	go func() {
+		for _, r := range rs {
+			resCh <- r.URI
+		}
+		close(resCh)
+	}()
+
+	var wg sync.WaitGroup
+	for i := 0; i < threads; i++ {
+		i := i
+		wg.Add(1)
+		go func() {
+			log := goutillog.MakeLog(fmt.Sprintf("#%d", i))
+			defer wg.Done()
+			for uri := range resCh {
+				log.Printf("searching %s", uri)
+				rest, err := e.RawRestaurantDetailsByURI(uri)
+				if err != nil {
+					log.Printf("RawRestaurantDetailsByURI error: %v", err)
+					return
+				}
+				if err := e.cache.SaveRestaurant(ctx, uri, *rest, SaveRestaurantVerbose(opts.Verbose())); err != nil {
+					log.Printf("SaveRestaurant error: %v", err)
+					return
+				}
+				if err := e.cache.DeleteRestaurantToSearch(ctx, uri, DeleteRestaurantVerbose(opts.Verbose())); err != nil {
+					log.Printf("SaveRestaurant error: %v", err)
+					return
+				}
+				if sleep != 0 {
+					time.Sleep(sleep)
+				}
+			}
+		}()
+	}
+	wg.Wait()
+
+	return nil
 }

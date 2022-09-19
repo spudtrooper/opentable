@@ -6,14 +6,13 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"sync"
 
-	"github.com/spudtrooper/goutil/check"
 	"github.com/spudtrooper/goutil/flags"
 	goutiljson "github.com/spudtrooper/goutil/json"
+	"github.com/spudtrooper/goutil/parallel"
+	"github.com/spudtrooper/goutil/slice"
 	minimalcli "github.com/spudtrooper/minimalcli/app"
 	"github.com/spudtrooper/opentable/api"
-	"github.com/spudtrooper/opentable/ingest"
 )
 
 var (
@@ -24,6 +23,8 @@ var (
 	failureJSON   = flags.String("failure_json", "file to test parsing")
 	restID        = flags.String("rest_id", `restaurant id, e.g. "kumi-japanese-restaurant-and-bar-nyc-new-york"`)
 	startPage     = flags.Int("start_page", "global start page")
+	threads       = flags.Int("threads", "global threads")
+	sleep         = flags.Duration("sleep", "global sleep")
 )
 
 func requireStringFlag(flag *string, name string) {
@@ -44,13 +45,14 @@ func Main(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
-	client := api.FromClient(core)
 
-	db, err := ingest.ConnectToDB(ctx)
+	db, err := api.ConnectToDB(ctx)
 	if err != nil {
 		return err
 	}
-	cache := ingest.MakeDBCache(db)
+	cache := api.MakeDBCache(db)
+
+	client := api.FromClient(core, cache)
 
 	app.Register("TestFailedJSON", func(context.Context) error {
 		requireStringFlag(failureJSON, "failure_json")
@@ -164,7 +166,8 @@ func Main(ctx context.Context) error {
 			return err
 		}
 		fmt.Printf("SaveRawRestaurantDetailsFromID: %s\n", mustFormatString(info))
-		if err := cache.SaveRestaurant(ctx, *info, ingest.SaveRestaurantVerbose(*verbose)); err != nil {
+		uri := fmt.Sprintf("https://www.opentable.com/r/%s", *restID)
+		if err := cache.SaveRestaurant(ctx, uri, *info, api.SaveRestaurantVerbose(*verbose)); err != nil {
 			return err
 		}
 		return nil
@@ -172,58 +175,17 @@ func Main(ctx context.Context) error {
 
 	app.Register("SearchAndSave", func(context.Context) error {
 		requireStringFlag(term, "term")
-		info, err := client.Search(*term, api.SearchVerbose(*verbose))
-		if err != nil {
+		if err := client.SearchAndSave(ctx, *term, api.SearchAndSaveVerbose(*verbose)); err != nil {
 			return err
 		}
-		fmt.Printf("SearchAndSave: %s\n", mustFormatString(info))
-		var wg sync.WaitGroup
-		for _, r := range info.Restaurants {
-			r := r
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				rest, err := client.RawRestaurantDetailsByURI(r.ProfileLink)
-				if err != nil {
-					check.Err(err)
-					return
-				}
-				if err := cache.SaveRestaurant(ctx, *rest, ingest.SaveRestaurantVerbose(*verbose)); err != nil {
-					check.Err(err)
-					return
-				}
-			}()
-		}
-		wg.Wait()
 		return nil
 	})
 
-	app.Register("SearchyURIAndSave", func(context.Context) error {
+	app.Register("SearchByURIAndSave", func(context.Context) error {
 		requireStringFlag(uri, "uri")
-		info, err := client.SearchByURI(*uri, api.SearchByURIVerbose(*verbose))
-		if err != nil {
+		if err := client.SearchByURIAndSave(ctx, *uri, api.SearchByURIAndSaveVerbose(*verbose)); err != nil {
 			return err
 		}
-		fmt.Printf("SearchyURIAndSave: %s\n", mustFormatString(info))
-		log.Printf("have %d restaurants", len(info.Restaurants))
-		var wg sync.WaitGroup
-		for _, r := range info.Restaurants {
-			r := r
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				rest, err := client.RawRestaurantDetailsByURI(r.ProfileLink)
-				if err != nil {
-					check.Err(err)
-					return
-				}
-				if err := cache.SaveRestaurant(ctx, *rest, ingest.SaveRestaurantVerbose(*verbose)); err != nil {
-					check.Err(err)
-					return
-				}
-			}()
-		}
-		wg.Wait()
 		return nil
 	})
 
@@ -260,89 +222,43 @@ func Main(ctx context.Context) error {
 		return nil
 	})
 
-	app.Register("RawSearchAllByURI", func(context.Context) error {
+	app.Register("AddRestaurantsToSearchByURIs", func(context.Context) error {
 		requireStringFlag(uri, "uri")
-		rawInfos, errs := client.RawSearchAllByURI(*uri)
-		if err != nil {
+		uris := slice.NonEmptyStrings(slice.Strings(*uri, ","))
+		for _, uri := range uris {
+			if err := client.AddRestaurantsToSearchByURIs(ctx, uri,
+				api.AddRestaurantsToSearchByURIsThreads(*threads),
+				api.AddRestaurantsToSearchByURIsVerbose(*verbose)); err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+
+	app.Register("SearchEmptyRestaurants", func(context.Context) error {
+		if err := client.SearchEmptyRestaurants(ctx,
+			api.SearchEmptyRestaurantsThreads(*threads),
+			api.SearchEmptyRestaurantsVerbose(*verbose),
+			api.SearchEmptyRestaurantsSleep(*sleep)); err != nil {
 			return err
 		}
-		var wg sync.WaitGroup
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			var wg sync.WaitGroup
-			for rawInfo := range rawInfos {
-				info := rawInfo.Convert()
-				for _, r := range info.Restaurants {
-					r := r
-					wg.Add(1)
-					go func() {
-						defer wg.Done()
-						rest, err := client.RawRestaurantDetailsByURI(r.ProfileLink)
-						if err != nil {
-							check.Err(err)
-							return
-						}
-						if err := cache.SaveRestaurant(ctx, *rest, ingest.SaveRestaurantVerbose(*verbose)); err != nil {
-							check.Err(err)
-							return
-						}
-					}()
-				}
-			}
-			wg.Wait()
-		}()
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			for e := range errs {
-				log.Printf("error: %v", e)
-			}
-		}()
-		wg.Wait()
 		return nil
 	})
 
 	app.Register("RawListAllByURI", func(context.Context) error {
 		requireStringFlag(uri, "uri")
-		rawInfos, errs := client.RawListAllByURI(*uri, api.RawListAllByURIStartPage(*startPage))
-		if err != nil {
-			return err
-		}
-		var wg sync.WaitGroup
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			var wg sync.WaitGroup
-			for rawInfo := range rawInfos {
-				info := rawInfo.Convert()
-				for _, r := range info.Restaurants {
-					r := r
-					wg.Add(1)
-					go func() {
-						defer wg.Done()
-						rest, err := client.RawRestaurantDetailsByURI(r.ProfileLink)
-						if err != nil {
-							check.Err(err)
-							return
-						}
-						if err := cache.SaveRestaurant(ctx, *rest, ingest.SaveRestaurantVerbose(*verbose)); err != nil {
-							check.Err(err)
-							return
-						}
-					}()
+		res, err := client.RawListAllByURI(*uri, api.RawListAllByURIVerbose(*verbose))
+		parallel.WaitFor(
+			func() {
+				for r := range res {
+					fmt.Printf("RawListAllByURI: %s\n", mustFormatString(r))
 				}
-			}
-			wg.Wait()
-		}()
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			for e := range errs {
-				log.Printf("error: %v", e)
-			}
-		}()
-		wg.Wait()
+			},
+			func() {
+				for e := range err {
+					fmt.Printf("RawListAllByURI error: %v\n", e)
+				}
+			})
 		return nil
 	})
 
