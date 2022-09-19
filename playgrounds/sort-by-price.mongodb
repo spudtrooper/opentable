@@ -1,0 +1,20 @@
+
+use('opentable')
+
+sortedByPrice = db.restaurants.aggregate([
+  { $unwind: "$restaurantdetails.menus" },
+  { $unwind: "$restaurantdetails.menus.sections" },
+  { $unwind: "$restaurantdetails.menus.sections.items" },
+  { $project: {
+      _id: false,
+      restaurantName: "$restaurantdetails.name",
+      restaurantWebsite: "$restaurantdetails.website",
+      title: "$restaurantdetails.menus.sections.items.title",
+      price: "$restaurantdetails.menus.sections.items.price",
+    } }, 
+  { $match: { price: { $gt: 0 } } },
+  { $sort: { price: -1 } },
+], { allowDiskUse: true }).toArray();
+
+db.createCollection('sortedByPrice');
+db.sortedByPrice.insertMany(sortedByPrice);
