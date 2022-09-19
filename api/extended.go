@@ -3,14 +3,12 @@ package api
 import (
 	"context"
 	"fmt"
-	"log"
 	"strings"
 	"sync"
 	"time"
 
-	"github.com/spudtrooper/goutil/check"
+	"github.com/pkg/errors"
 	goutilerrors "github.com/spudtrooper/goutil/errors"
-	goutillog "github.com/spudtrooper/goutil/log"
 	"github.com/spudtrooper/goutil/or"
 )
 
@@ -161,7 +159,7 @@ func (e *Extended) FindMenuItem(term string, optss ...FindMenuItemOption) (*Find
 //go:generate genopts --function RawSearchAllByURI verbose startPage:int
 func (e *Extended) RawSearchAllByURI(uri string, optss ...RawSearchAllByURIOption) (chan RawSearchByURIInfo, chan error) {
 	opts := MakeRawSearchAllByURIOptions(optss...)
-	log := goutillog.MakeLog("RawSearchAllByURI")
+	log := makeLog("RawSearchAllByURI")
 
 	startPage := or.Int(opts.StartPage(), 1)
 
@@ -176,6 +174,7 @@ func (e *Extended) RawSearchAllByURI(uri string, optss ...RawSearchAllByURIOptio
 
 	go func() {
 		for page := startPage; ; page++ {
+			log := makeLog(fmt.Sprintf("RawSearchAllByURI:%d", page))
 			uri := fmt.Sprintf("%s&page=%d", baseURI, page)
 			log.Printf("searching %s", uri)
 			info, err := e.RawSearchByURI(uri, SearchByURIVerbose(opts.Verbose()))
@@ -215,8 +214,10 @@ func (e *Extended) RawListAllByURI(uri string, optss ...RawListAllByURIOption) (
 	return e.rawListAllByURIAsync(baseURI, verbose, startPage, threads)
 }
 
-func (e *Extended) listByURI(baseURI string, verbose bool, page int, outCh chan<- RawListByURIInfo, errCh chan<- error, log goutillog.Logger) (shouldBreak bool) {
+func (e *Extended) listByURI(baseURI string, verbose bool, page int, outCh chan<- RawListByURIInfo, errCh chan<- error) (shouldBreak bool) {
 	uri := fmt.Sprintf("%s&page=%d", baseURI, page)
+	log := makeLog(fmt.Sprintf("listByURI:%d", page))
+
 	log.Printf("searching %s", uri)
 	info, err := e.RawListByURI(uri, ListByURIVerbose(verbose))
 	if err != nil {
@@ -234,7 +235,7 @@ func (e *Extended) listByURI(baseURI string, verbose bool, page int, outCh chan<
 }
 
 func (e *Extended) rawListAllByURISync(baseURI string, verbose bool, startPage int) (chan RawListByURIInfo, chan error) {
-	log := goutillog.MakeLog("rawListAllByURISync")
+	log := makeLog("rawListAllByURISync")
 
 	log.Printf("searching starting with %q", baseURI)
 
@@ -242,7 +243,7 @@ func (e *Extended) rawListAllByURISync(baseURI string, verbose bool, startPage i
 
 	go func() {
 		for page := startPage; ; page++ {
-			if shouldBreak := e.listByURI(baseURI, verbose, page, outCh, errCh, log); shouldBreak {
+			if shouldBreak := e.listByURI(baseURI, verbose, page, outCh, errCh); shouldBreak {
 				break
 			}
 		}
@@ -254,7 +255,7 @@ func (e *Extended) rawListAllByURISync(baseURI string, verbose bool, startPage i
 }
 
 func (e *Extended) rawListAllByURIAsync(baseURI string, verbose bool, startPage, threads int) (chan RawListByURIInfo, chan error) {
-	log := goutillog.MakeLog("rawListAllByURIAsync")
+	log := makeLog("rawListAllByURIAsync")
 
 	log.Printf("searching starting with %q", baseURI)
 
@@ -274,10 +275,9 @@ func (e *Extended) rawListAllByURIAsync(baseURI string, verbose bool, startPage,
 			go func() {
 				defer wg.Done()
 				for page := range inputCh {
-					if shouldBreak := e.listByURI(baseURI, verbose, page, outCh, errCh, log); shouldBreak {
+					if shouldBreak := e.listByURI(baseURI, verbose, page, outCh, errCh); shouldBreak {
 						break
 					}
-
 				}
 			}()
 		}
@@ -338,6 +338,7 @@ func (e *Extended) SearchAndSave(ctx context.Context, term string, optss ...Sear
 //go:generate genopts --function SearchByURIAndSave verbose
 func (e *Extended) SearchByURIAndSave(ctx context.Context, uri string, optss ...SearchByURIAndSaveOption) error {
 	opts := MakeSearchByURIAndSaveOptions(optss...)
+	log := makeLog("SearchByURIAndSave")
 
 	info, err := e.SearchByURI(uri, SearchByURIVerbose(opts.Verbose()))
 	if err != nil {
@@ -382,14 +383,15 @@ func (e *Extended) SearchByURIAndSave(ctx context.Context, uri string, optss ...
 }
 
 //go:generate genopts --function AddRestaurantsToSearchByURIs "threads:int" verbose
-func (e *Extended) AddRestaurantsToSearchByURIs(ctx context.Context, uri string, optss ...AddRestaurantsToSearchByURIsOption) error {
+func (e *Extended) AddRestaurantsToSearchByURIs(ctx context.Context, uri string, optss ...AddRestaurantsToSearchByURIsOption) (chan string, chan error, error) {
 	opts := MakeAddRestaurantsToSearchByURIsOptions(optss...)
+	log := makeLog("AddRestaurantsToSearchByURIs")
+
+	addedCh, errsCh := make(chan string), make(chan error)
 
 	rawInfos, errs := e.RawListAllByURI(uri, RawListAllByURIThreads(opts.Threads()))
-	var wg sync.WaitGroup
-	wg.Add(1)
+
 	go func() {
-		defer wg.Done()
 		var wg sync.WaitGroup
 		for rawInfo := range rawInfos {
 			info := rawInfo.Convert()
@@ -399,30 +401,38 @@ func (e *Extended) AddRestaurantsToSearchByURIs(ctx context.Context, uri string,
 				go func() {
 					defer wg.Done()
 					res, err := e.cache.SaveRestaurantToSearch(ctx, r.ProfileLink, SaveRestaurantVerbose(opts.Verbose()))
-					e.stats.IncInt("AddRestaurantsToSearchByURIs: " + string(res))
+					e.stats.IncInt(fmt.Sprintf("AddRestaurantsToSearchByURIs:%s", res))
 					if err != nil {
-						check.Err(err)
+						errsCh <- err
+						return
+					}
+					switch res {
+					case SaveRestaurantToSearch_Added,
+						SaveRestaurantToSearch_RestaurantAlreadyWaiting:
+						addedCh <- r.ProfileLink
 						return
 					}
 				}()
 			}
 		}
 		wg.Wait()
+		close(addedCh)
+		close(errsCh)
 	}()
-	wg.Add(1)
+
 	go func() {
-		defer wg.Done()
 		for e := range errs {
 			log.Printf("error: %v", e)
 		}
 	}()
-	wg.Wait()
-	return nil
+
+	return addedCh, errsCh, nil
 }
 
 //go:generate genopts --function SearchEmptyRestaurants "threads:int" verbose "sleep:time.Duration"
 func (e *Extended) SearchEmptyRestaurants(ctx context.Context, optss ...SearchEmptyRestaurantsOption) error {
 	opts := MakeSearchEmptyRestaurantsOptions(optss...)
+	log := makeLog("SearchEmptyRestaurants")
 
 	threads := or.Int(opts.Threads(), 20)
 	sleep := or.Duration(opts.Sleep(), 3*time.Second)
@@ -445,24 +455,12 @@ func (e *Extended) SearchEmptyRestaurants(ctx context.Context, optss ...SearchEm
 		i := i
 		wg.Add(1)
 		go func() {
-			log := goutillog.MakeLog(fmt.Sprintf("#%d", i))
+			log := makeLog(fmt.Sprintf("#%d", i))
 			defer wg.Done()
 			for uri := range resCh {
-				log.Printf("searching %s", uri)
-				rest, err := e.RawRestaurantDetailsByURI(uri)
-				if err != nil {
-					log.Printf("RawRestaurantDetailsByURI error: %v", err)
-					return
+				if err := e.SearchRestaurantFromQueue(ctx, uri, SearchRestaurantFromQueueVerbose(opts.Verbose())); err != nil {
+					log.Printf("SearchRestaurantFromQueue error: %v", err)
 				}
-				if err := e.cache.SaveRestaurant(ctx, uri, *rest, SaveRestaurantVerbose(opts.Verbose())); err != nil {
-					log.Printf("SaveRestaurant error: %v", err)
-					return
-				}
-				if err := e.cache.DeleteRestaurantToSearch(ctx, uri, DeleteRestaurantVerbose(opts.Verbose())); err != nil {
-					log.Printf("SaveRestaurant error: %v", err)
-					return
-				}
-				e.stats.IncInt("SearchEmptyRestaurants:searched")
 				if sleep != 0 {
 					time.Sleep(sleep)
 				}
@@ -470,6 +468,27 @@ func (e *Extended) SearchEmptyRestaurants(ctx context.Context, optss ...SearchEm
 		}()
 	}
 	wg.Wait()
+
+	return nil
+}
+
+//go:generate genopts --function SearchRestaurantFromQueue verbose
+func (e *Extended) SearchRestaurantFromQueue(ctx context.Context, uri string, optss ...SearchRestaurantFromQueueOption) error {
+	opts := MakeSearchRestaurantFromQueueOptions(optss...)
+	log := makeLog("SearchRestaurantFromQueue")
+
+	log.Printf("searching %s", uri)
+	rest, err := e.RawRestaurantDetailsByURI(uri)
+	if err != nil {
+		return errors.Errorf("RawRestaurantDetailsByURI: %v", err)
+	}
+	if err := e.cache.SaveRestaurant(ctx, uri, *rest, SaveRestaurantVerbose(opts.Verbose())); err != nil {
+		return errors.Errorf("SaveRestaurant: %v", err)
+	}
+	if err := e.cache.DeleteRestaurantToSearch(ctx, uri, DeleteRestaurantVerbose(opts.Verbose())); err != nil {
+		return errors.Errorf("DeleteRestaurantToSearch: %v", err)
+	}
+	e.stats.IncInt("SearchEmptyRestaurants:searched")
 
 	return nil
 }

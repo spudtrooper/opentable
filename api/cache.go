@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"log"
 	"strings"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -34,6 +33,7 @@ type storedRestaurant struct {
 //go:generate genopts --function SaveRestaurant verbose
 func (c *Cache) SaveRestaurant(ctx context.Context, uri string, raw RawRestaurantDetails, optss ...SaveRestaurantOption) error {
 	opts := MakeSaveRestaurantOptions(optss...)
+	log := makeLog("SaveRestaurant")
 
 	id, name := raw.RestaurantProfile.Restaurant.RestaurantID, raw.RestaurantProfile.Restaurant.Name
 	filter := bson.D{
@@ -75,6 +75,7 @@ const SaveRestaurantToSearch_None SaveRestaurantToSearchResult = "none"
 
 func (c *Cache) SaveRestaurantToSearch(ctx context.Context, restaurantURI string, optss ...SaveRestaurantOption) (SaveRestaurantToSearchResult, error) {
 	opts := MakeSaveRestaurantOptions(optss...)
+	log := makeLog("SaveRestaurantToSearch")
 
 	filter := bson.D{
 		{Key: "uri", Value: restaurantURI},
@@ -113,6 +114,7 @@ func (c *Cache) SaveRestaurantToSearch(ctx context.Context, restaurantURI string
 //go:generate genopts --function DeleteRestaurant verbose
 func (c *Cache) DeleteRestaurantToSearch(ctx context.Context, restaurantURI string, optss ...DeleteRestaurantOption) error {
 	opts := MakeDeleteRestaurantOptions(optss...)
+	log := makeLog("DeleteRestaurantToSearch")
 
 	filter := bson.D{
 		{Key: "uri", Value: restaurantURI},

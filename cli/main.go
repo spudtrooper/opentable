@@ -231,11 +231,27 @@ func Main(ctx context.Context) error {
 		requireStringFlag(uri, "uri")
 		uris := slice.NonEmptyStrings(slice.Strings(*uri, ","))
 		for _, uri := range uris {
-			if err := client.AddRestaurantsToSearchByURIs(ctx, uri,
+			toSearch, errs, err := client.AddRestaurantsToSearchByURIs(ctx, uri,
 				api.AddRestaurantsToSearchByURIsThreads(*threads),
-				api.AddRestaurantsToSearchByURIsVerbose(*verbose)); err != nil {
+				api.AddRestaurantsToSearchByURIsVerbose(*verbose))
+			if err != nil {
 				return err
 			}
+			parallel.WaitFor(
+				func() {
+					for r := range toSearch {
+						if err := client.SearchRestaurantFromQueue(ctx, r,
+							api.SearchRestaurantFromQueueVerbose(*verbose),
+						); err != nil {
+							fmt.Printf("SearchRestaurantFromQueue: %v\n", err)
+						}
+					}
+				},
+				func() {
+					for e := range errs {
+						fmt.Printf("AddRestaurantsToSearchByURIs error: %v\n", e)
+					}
+				})
 		}
 		return nil
 	})

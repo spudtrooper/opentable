@@ -247,7 +247,7 @@ func (c *Client) rawSearchByURI(uri string, res interface{}, verbose, debugFailu
 		return nil
 	}
 
-	data, err := c.get(uri, true, verbose)
+	data, err := c.get(uri, false, verbose)
 
 	if err != nil {
 		return errors.Errorf("c.get: %+v", err)
