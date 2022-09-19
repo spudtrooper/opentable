@@ -8,6 +8,10 @@ type RawSearchAllByURIOptions interface {
 	HasVerbose() bool
 	StartPage() int
 	HasStartPage() bool
+	Threads() int
+	HasThreads() bool
+	Sync() bool
+	HasSync() bool
 }
 
 func RawSearchAllByURIVerbose(verbose bool) RawSearchAllByURIOption {
@@ -42,17 +46,57 @@ func RawSearchAllByURIStartPageFlag(startPage *int) RawSearchAllByURIOption {
 	}
 }
 
+func RawSearchAllByURIThreads(threads int) RawSearchAllByURIOption {
+	return func(opts *rawSearchAllByURIOptionImpl) {
+		opts.has_threads = true
+		opts.threads = threads
+	}
+}
+func RawSearchAllByURIThreadsFlag(threads *int) RawSearchAllByURIOption {
+	return func(opts *rawSearchAllByURIOptionImpl) {
+		if threads == nil {
+			return
+		}
+		opts.has_threads = true
+		opts.threads = *threads
+	}
+}
+
+func RawSearchAllByURISync(sync bool) RawSearchAllByURIOption {
+	return func(opts *rawSearchAllByURIOptionImpl) {
+		opts.has_sync = true
+		opts.sync = sync
+	}
+}
+func RawSearchAllByURISyncFlag(sync *bool) RawSearchAllByURIOption {
+	return func(opts *rawSearchAllByURIOptionImpl) {
+		if sync == nil {
+			return
+		}
+		opts.has_sync = true
+		opts.sync = *sync
+	}
+}
+
 type rawSearchAllByURIOptionImpl struct {
 	verbose       bool
 	has_verbose   bool
 	startPage     int
 	has_startPage bool
+	threads       int
+	has_threads   bool
+	sync          bool
+	has_sync      bool
 }
 
 func (r *rawSearchAllByURIOptionImpl) Verbose() bool      { return r.verbose }
 func (r *rawSearchAllByURIOptionImpl) HasVerbose() bool   { return r.has_verbose }
 func (r *rawSearchAllByURIOptionImpl) StartPage() int     { return r.startPage }
 func (r *rawSearchAllByURIOptionImpl) HasStartPage() bool { return r.has_startPage }
+func (r *rawSearchAllByURIOptionImpl) Threads() int       { return r.threads }
+func (r *rawSearchAllByURIOptionImpl) HasThreads() bool   { return r.has_threads }
+func (r *rawSearchAllByURIOptionImpl) Sync() bool         { return r.sync }
+func (r *rawSearchAllByURIOptionImpl) HasSync() bool      { return r.has_sync }
 
 func makeRawSearchAllByURIOptionImpl(opts ...RawSearchAllByURIOption) *rawSearchAllByURIOptionImpl {
 	res := &rawSearchAllByURIOptionImpl{}

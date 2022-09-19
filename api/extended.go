@@ -156,17 +156,82 @@ func (e *Extended) FindMenuItem(term string, optss ...FindMenuItemOption) (*Find
 	return &res, nil
 }
 
-//go:generate genopts --function RawSearchAllByURI verbose startPage:int
+//go:generate genopts --function RawSearchAllByURI verbose startPage:int threads:int sync
 func (e *Extended) RawSearchAllByURI(uri string, optss ...RawSearchAllByURIOption) (chan RawSearchByURIInfo, chan error) {
 	opts := MakeRawSearchAllByURIOptions(optss...)
-	log := makeLog("RawSearchAllByURI")
 
 	startPage := or.Int(opts.StartPage(), 1)
+	threads := or.Int(opts.Threads(), 5)
+	verbose := opts.Verbose()
 
 	// Remove the page=X query param. Retain the ? so we don't screw up the URI
 	baseURI := uri
 	baseURI = strings.Replace(baseURI, "&page=1", "&_page=1", 1)
 	baseURI = strings.Replace(baseURI, "?page=1", "?_page=1", 1)
+
+	if opts.Sync() {
+		return e.rawSearchAllByURISync(baseURI, verbose, startPage)
+	}
+	return e.rawSearchAllByURIAsync(baseURI, verbose, startPage, threads)
+}
+
+func (e *Extended) rawSearchAllByURIAsync(baseURI string, verbose bool, startPage int, threads int) (chan RawSearchByURIInfo, chan error) {
+	log := makeLog("rawSearchAllByURIAsync")
+
+	log.Printf("searching starting with %q", baseURI)
+
+	inputCh := make(chan int)
+	go func() {
+		for page := startPage; ; page++ {
+			inputCh <- page
+		}
+	}()
+
+	outCh, errCh := make(chan RawSearchByURIInfo), make(chan error)
+
+	go func() {
+		var wg sync.WaitGroup
+		for i := 0; i < threads; i++ {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				for page := range inputCh {
+					if shouldBreak := e.searchByURI(baseURI, verbose, page, outCh, errCh); shouldBreak {
+						break
+					}
+				}
+			}()
+		}
+		wg.Wait()
+		close(outCh)
+		close(errCh)
+	}()
+
+	return outCh, errCh
+}
+
+func (e *Extended) searchByURI(baseURI string, verbose bool, page int, outCh chan<- RawSearchByURIInfo, errCh chan<- error) (shouldBreak bool) {
+	uri := fmt.Sprintf("%s&page=%d", baseURI, page)
+	log := makeLog(fmt.Sprintf("listByURI:%d", page))
+
+	log.Printf("searching %s", uri)
+	info, err := e.RawSearchByURI(uri, SearchByURIVerbose(verbose))
+	if err != nil {
+		errCh <- err
+		shouldBreak = true
+		return
+	}
+	if len(info.Convert().Restaurants) == 0 {
+		log.Println("done")
+		shouldBreak = true
+		return
+	}
+	outCh <- *info
+	return
+}
+
+func (e *Extended) rawSearchAllByURISync(baseURI string, verbose bool, startPage int) (chan RawSearchByURIInfo, chan error) {
+	log := makeLog("rawSearchAllByURISync")
 
 	log.Printf("searching starting with %q", baseURI)
 
@@ -174,19 +239,9 @@ func (e *Extended) RawSearchAllByURI(uri string, optss ...RawSearchAllByURIOptio
 
 	go func() {
 		for page := startPage; ; page++ {
-			log := makeLog(fmt.Sprintf("RawSearchAllByURI:%d", page))
-			uri := fmt.Sprintf("%s&page=%d", baseURI, page)
-			log.Printf("searching %s", uri)
-			info, err := e.RawSearchByURI(uri, SearchByURIVerbose(opts.Verbose()))
-			if err != nil {
-				errCh <- err
+			if shouldBreak := e.searchByURI(baseURI, verbose, page, outCh, errCh); shouldBreak {
 				break
 			}
-			if len(info.Convert().Restaurants) == 0 {
-				log.Println("done")
-				break
-			}
-			outCh <- *info
 		}
 		close(outCh)
 		close(errCh)
@@ -389,30 +444,44 @@ func (e *Extended) AddRestaurantsToSearchByURIs(ctx context.Context, uri string,
 
 	addedCh, errsCh := make(chan string), make(chan error)
 
-	rawInfos, errs := e.RawListAllByURI(uri, RawListAllByURIThreads(opts.Threads()))
+	rawListInfos, rawListErrs := e.RawListAllByURI(uri, RawListAllByURIThreads(opts.Threads()))
+	rawSearchInfos, rawSearchErrs := e.RawSearchAllByURI(uri, RawSearchAllByURIThreads(opts.Threads()))
+
+	search := func(uri string) {
+		res, err := e.cache.SaveRestaurantToSearch(ctx, uri, SaveRestaurantVerbose(opts.Verbose()))
+		e.stats.IncInt(fmt.Sprintf("AddRestaurantsToSearchByURIs:%s", res))
+		if err != nil {
+			errsCh <- err
+			return
+		}
+		switch res {
+		case SaveRestaurantToSearch_Added,
+			SaveRestaurantToSearch_RestaurantAlreadyWaiting:
+			addedCh <- uri
+			return
+		}
+	}
 
 	go func() {
 		var wg sync.WaitGroup
-		for rawInfo := range rawInfos {
-			info := rawInfo.Convert()
-			for _, r := range info.Restaurants {
-				r := r
+		for rawInfo := range rawListInfos {
+			for _, r := range rawInfo.Convert().Restaurants {
+				uri := r.ProfileLink
 				wg.Add(1)
 				go func() {
 					defer wg.Done()
-					res, err := e.cache.SaveRestaurantToSearch(ctx, r.ProfileLink, SaveRestaurantVerbose(opts.Verbose()))
-					e.stats.IncInt(fmt.Sprintf("AddRestaurantsToSearchByURIs:%s", res))
-					if err != nil {
-						errsCh <- err
-						return
-					}
-					switch res {
-					case SaveRestaurantToSearch_Added,
-						SaveRestaurantToSearch_RestaurantAlreadyWaiting:
-						addedCh <- r.ProfileLink
-						return
-					}
+					search(uri)
 				}()
+			}
+			for rawInfo := range rawSearchInfos {
+				for _, r := range rawInfo.Convert().Restaurants {
+					uri := r.ProfileLink
+					wg.Add(1)
+					go func() {
+						defer wg.Done()
+						search(uri)
+					}()
+				}
 			}
 		}
 		wg.Wait()
@@ -421,8 +490,13 @@ func (e *Extended) AddRestaurantsToSearchByURIs(ctx context.Context, uri string,
 	}()
 
 	go func() {
-		for e := range errs {
-			log.Printf("error: %v", e)
+		for e := range rawListErrs {
+			log.Printf("rawListError: %v", e)
+		}
+	}()
+	go func() {
+		for e := range rawSearchErrs {
+			log.Printf("rawSearchError: %v", e)
 		}
 	}()
 
