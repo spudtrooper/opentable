@@ -25,6 +25,7 @@ func (s *stats) AddInt(key string, value int32) {
 	}
 	atomic.AddInt32(s.intValues[key], value)
 }
+
 func (s *stats) IncInt(key string) { s.AddInt(key, 1) }
 
 func (s *stats) Build() string {
