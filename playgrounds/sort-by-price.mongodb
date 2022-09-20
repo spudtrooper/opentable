@@ -5,16 +5,25 @@ sortedByPrice = db.restaurants.aggregate([
   { $unwind: "$restaurantdetails.menus" },
   { $unwind: "$restaurantdetails.menus.sections" },
   { $unwind: "$restaurantdetails.menus.sections.items" },
+  { $group: {    
+       _id: { 
+        restaurantName: "$restaurantdetails.name",
+        restaurantWebsite: "$restaurantdetails.website",
+        title: "$restaurantdetails.menus.sections.items.title",
+        price: "$restaurantdetails.menus.sections.items.price",
+      },
+ } },    
   { $project: {
       _id: false,
-      restaurantName: "$restaurantdetails.name",
-      restaurantWebsite: "$restaurantdetails.website",
-      title: "$restaurantdetails.menus.sections.items.title",
-      price: "$restaurantdetails.menus.sections.items.price",
+      restaurantName: "$_id.restaurantName",
+      restaurantWebsite: "$_id.restaurantWebsite",
+      title: "$_id.title",
+      price: "$_id.price",
     } }, 
   { $match: { price: { $gt: 0 } } },
   { $sort: { price: -1 } },
 ], { allowDiskUse: true }).toArray();
 
+db.sortedByPrice.drop();
 db.createCollection('sortedByPrice');
 db.sortedByPrice.insertMany(sortedByPrice);

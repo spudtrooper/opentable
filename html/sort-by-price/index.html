@@ -21,12 +21,11 @@
     $(document).ready(function () {
       data.forEach(row => {
         let tr = $('<tr>')
-          .append($('<td>').append(row.restaurantName))
           .append($('<td>').append($('<a>')
-            .text(row.restaurantWebsite)
+            .html(row.restaurantName)
             .attr('target', '_')
             .attr('href', row.restaurantWebsite)))
-          .append($('<td>').append(row.title))
+          .append($('<td>').html(row.title))
           .append($('<td>').append(row.price));
         $('#data-table tbody').append(tr);
       })
@@ -47,7 +46,6 @@
     <table id="data-table" class="table" style="width:100%">
       <thead>
         <th>Name</th>
-        <th>Site</th>
         <th>Title</th>
         <th>Price</th>
       </thead>
