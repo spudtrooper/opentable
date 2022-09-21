@@ -48,7 +48,7 @@ func createSortByPrice(ctx context.Context) error {
 	fmt.Println(`
 # OpenTable - Sorted by Price
 
-Menu items from opentable sorted by price from [github.com/spudtrooper/opentable](https://github.com/spudtrooper/opentable")
+Menu items from opentable sorted by price from [github.com/spudtrooper/opentable](https://github.com/spudtrooper/opentable)
 `)
 
 	var rows [][]string

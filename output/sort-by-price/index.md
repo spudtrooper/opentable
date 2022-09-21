@@ -1,7 +1,7 @@
 
 # OpenTable - Sorted by Price
 
-Menu items from opentable sorted by price from [github.com/spudtrooper/opentable](https://github.com/spudtrooper/opentable")
+Menu items from opentable sorted by price from [github.com/spudtrooper/opentable](https://github.com/spudtrooper/opentable)
 
 | opentable URI | URI | Menu Item | Price |
 | ------------- | --- | --------- | ----- |
