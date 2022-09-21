@@ -9,11 +9,13 @@ replace github.com/spudtrooper/goutil => ../goutil
 require (
 	github.com/bluele/gcache v0.0.2
 	github.com/fatih/color v1.13.0
+	github.com/fbiville/markdown-table-formatter v0.3.0
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/pkg/errors v0.9.1
 	github.com/spudtrooper/goutil v0.1.87
 	github.com/spudtrooper/minimalcli v0.0.0-20220218140555-74daced67dea
 	go.mongodb.org/mongo-driver v1.8.4
+	golang.org/x/text v0.3.6
 )
 
 require (
@@ -33,5 +35,4 @@ require (
 	golang.org/x/crypto v0.0.0-20201216223049-8b5274cf687f // indirect
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e // indirect
 	golang.org/x/sys v0.0.0-20211205182925-97ca703d548d // indirect
-	golang.org/x/text v0.3.6 // indirect
 )
