@@ -4,5 +4,6 @@
 #
 set -e 
 
+mkdir -p output/sort-by-price
 go mod tidy
-go run createsortbyprice.go > html/sort-by-price/index.md
+go run createsortbyprice.go > output/sort-by-price/index.md
