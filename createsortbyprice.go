@@ -32,7 +32,7 @@ func createSortByPrice(ctx context.Context) error {
 		OpentableLink     string
 	}
 
-	const limit = 10000
+	const limit = 1000
 	var ss []storedSorteResult
 	for i := 0; i < limit && cur.Next(ctx); i++ {
 		var el storedSorteResult
