@@ -7,6 +7,7 @@ replace github.com/spudtrooper/minimalcli => ../minimalcli
 replace github.com/spudtrooper/goutil => ../goutil
 
 require (
+	github.com/bluele/gcache v0.0.2
 	github.com/fatih/color v1.13.0
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/pkg/errors v0.9.1

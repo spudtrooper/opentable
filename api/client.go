@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/bluele/gcache"
 	"github.com/pkg/errors"
 	"github.com/spudtrooper/goutil/flags"
 	"github.com/spudtrooper/goutil/io"
@@ -23,7 +24,8 @@ var (
 
 // Client is a client for opentable.com
 type Client struct {
-	authCke string
+	authCke  string
+	urlCache gcache.Cache
 }
 
 // NewClientFromFlags creates a new client from command line flags
@@ -45,7 +47,8 @@ func NewClientFromFlags() (*Client, error) {
 // NewClient creates a new client directly from the API Key
 func NewClient(authCke string) *Client {
 	return &Client{
-		authCke: authCke,
+		authCke:  authCke,
+		urlCache: gcache.New(20).LRU().Build(),
 	}
 }
 
@@ -56,7 +59,8 @@ func NewClientFromFile(credsFile string) (*Client, error) {
 		return nil, err
 	}
 	return &Client{
-		authCke: creds.AuthCke,
+		authCke:  creds.AuthCke,
+		urlCache: gcache.New(20).LRU().Build(),
 	}, nil
 }
 
@@ -165,6 +169,22 @@ func (c *Client) query(operationName string, auth, verbose bool, variables inter
 }
 
 func (c *Client) get(uri string, auth, verbose bool) ([]byte, error) {
+	if c.urlCache.Has(uri) {
+		res, err := c.urlCache.Get(uri)
+		if err != nil {
+			return nil, err
+		}
+		return res.([]byte), nil
+	}
+	res, err := c.doGet(uri, auth, verbose)
+	if err != nil {
+		return nil, err
+	}
+	c.urlCache.Set(uri, res)
+	return res, nil
+}
+
+func (c *Client) doGet(uri string, auth, verbose bool) ([]byte, error) {
 	headers := map[string]string{
 		"authority":                 `www.opentable.com`,
 		"accept":                    `text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
