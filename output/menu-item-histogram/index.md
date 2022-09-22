@@ -1,8 +1,4 @@
-
-# OpenTable - Menu Item Histogram
-
-A histogram of New York City opentable menu items.
-
+The most frequently-mentioned open table menu items in NYC.
 | Menu Item | Count |
 | --------- | ----- |
 | Caesar Salad | 677 |

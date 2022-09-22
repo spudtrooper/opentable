@@ -40,11 +40,7 @@ func createMenuItemHistogram(ctx context.Context) error {
 		ss = append(ss, el)
 	}
 
-	fmt.Println(`
-# OpenTable - Menu Item Histogram
-
-A histogram of New York City opentable menu items.
-`)
+	fmt.Println("The most frequently-mentioned open table menu items in NYC.")
 
 	var rows [][]string
 	commas := message.NewPrinter(language.AmericanEnglish)

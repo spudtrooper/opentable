@@ -46,11 +46,7 @@ func createSortByPrice(ctx context.Context) error {
 		ss = append(ss, el)
 	}
 
-	fmt.Println(`
-# OpenTable - Sorted by Price
-
-New York City opentable menu items sorted by price.
-`)
+	fmt.Println("The most expensive opentable menu items in NYC.")
 
 	var rows [][]string
 	commas := message.NewPrinter(language.AmericanEnglish)

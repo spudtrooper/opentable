@@ -1,8 +1,4 @@
-
-# OpenTable - Sorted by Price
-
-New York City opentable menu items sorted by price.
-
+The most expensive opentable menu items in NYC.
 | opentable URI | URI | Menu Item | Price |
 | ------------- | --- | --------- | ----- |
 | [Bâtard](https://www.opentable.com/r/batard-new-york) | [Web](http://www.batardtribeca.com/) | Griottes-Chambertin Grand Cru, Joseph Roty 2007 | 650,650 |
