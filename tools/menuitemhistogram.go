@@ -43,7 +43,7 @@ func createMenuItemHistogram(ctx context.Context) error {
 	fmt.Println(`
 # OpenTable - Menu Item Histogram
 
-A histogram of New York City menu items from [github.com/spudtrooper/opentable](https://github.com/spudtrooper/opentable)
+A histogram of New York City opentable menu items.
 `)
 
 	var rows [][]string
