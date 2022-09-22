@@ -30,7 +30,7 @@ func createMenuItemHistogram(ctx context.Context) error {
 		Count    int
 	}
 
-	const limit = 1000
+	const limit = 10000
 	var ss []stored
 	for i := 0; i < limit && cur.Next(ctx); i++ {
 		var el stored
