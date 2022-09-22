@@ -1,7 +1,7 @@
 
 # OpenTable - Sorted by Price
 
-New York City menu items from opentable sorted by price from [github.com/spudtrooper/opentable](https://github.com/spudtrooper/opentable)
+New York City opentable menu items sorted by price.
 
 | opentable URI | URI | Menu Item | Price |
 | ------------- | --- | --------- | ----- |
