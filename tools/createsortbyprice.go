@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/fbiville/markdown-table-formatter/pkg/markdown"
 	"github.com/spudtrooper/goutil/check"
 	"github.com/spudtrooper/opentable/api"
 	"go.mongodb.org/mongo-driver/bson"
@@ -51,26 +50,33 @@ func createSortByPrice(ctx context.Context) error {
 Menu items from opentable sorted by price from [github.com/spudtrooper/opentable](https://github.com/spudtrooper/opentable)
 `)
 
-	var rows [][]string
+	fmt.Println(`
+	<table>
+		<thead>
+			<tr>
+				<th>opentable URI</th>
+				<th>URI</th>
+				<th>Menu Item</th>
+				<th>Price</th>
+			</tr>
+		</thead>
+		<tbody>
+`)
+	td := func(s string) {
+		fmt.Printf("<td>%s</td>\n", s)
+	}
 	commas := message.NewPrinter(language.AmericanEnglish)
 	for _, s := range ss {
-		row := []string{
-			fmt.Sprintf("[%s](%s)", s.RestaurantName, s.OpentableLink),
-			fmt.Sprintf("[Web](%s)", s.RestaurantWebsite),
-			s.Title,
-			commas.Sprintf("%d", int(s.Price)),
-		}
-		rows = append(rows, row)
+		fmt.Println("<tr>")
+		td(fmt.Sprintf("[%s](%s)", s.RestaurantName, s.OpentableLink))
+		td(fmt.Sprintf("[Web](%s)", s.RestaurantWebsite))
+		td(s.Title)
+		td(commas.Sprintf("%d", int(s.Price)))
+		fmt.Println("</tr>")
 	}
-
-	tab, err := markdown.
-		NewTableFormatterBuilder().
-		Build("opentable URI", "URI", "Menu Item", "Price").
-		Format(rows)
-	if err != nil {
-		return err
-	}
-	fmt.Println(tab)
+	fmt.Println(`
+	<tbody>
+	</table>`)
 
 	return nil
 }
