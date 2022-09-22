@@ -44,8 +44,9 @@ func createMenuItemHistogram(ctx context.Context) error {
 
 	var rows [][]string
 	commas := message.NewPrinter(language.AmericanEnglish)
-	for _, s := range ss {
+	for i, s := range ss {
 		row := []string{
+			commas.Sprintf("%d", i+1),
 			strings.ReplaceAll(s.MenuItem, "|", " "),
 			commas.Sprintf("%d", int(s.Count)),
 		}
@@ -54,7 +55,7 @@ func createMenuItemHistogram(ctx context.Context) error {
 
 	tab, err := markdown.
 		NewTableFormatterBuilder().
-		Build("Menu Item", "Count").
+		Build("#", "Menu Item", "Count").
 		Format(rows)
 	if err != nil {
 		return err
