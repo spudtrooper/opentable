@@ -1,0 +1,32 @@
+
+use('opentable')
+
+menuItemHistogram = db.restaurants.aggregate([
+  { $unwind: "$restaurantdetails.menus" },
+  { $unwind: "$restaurantdetails.menus.sections" },
+  { $unwind: "$restaurantdetails.menus.sections.items" },
+  { $group: {    
+       _id: { 
+        restaurantName: "$restaurantdetails.name",
+        menuItem: "$restaurantdetails.menus.sections.items.title",
+      },
+ } },    
+  { $group: {    
+       _id: { 
+        menuItem: "$_id.menuItem",
+      },
+      count: { $sum: 1 },
+ } },    
+  { $project: {
+      _id: false,
+      menuItem: "$_id.menuItem",
+      count: "$count",
+  } }, 
+  { $sort: { count: -1 } },
+]).toArray();
+
+db.menuItemHistogram.drop();
+db.createCollection('menuItemHistogram');
+db.menuItemHistogram.insertMany(menuItemHistogram);
+
+

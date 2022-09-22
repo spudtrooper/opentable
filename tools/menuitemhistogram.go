@@ -14,23 +14,20 @@ import (
 	"golang.org/x/text/message"
 )
 
-func createSortByPrice(ctx context.Context) error {
+func createMenuItemHistogram(ctx context.Context) error {
 	db, err := api.ConnectToDB(ctx)
 	if err != nil {
 		return err
 	}
 
-	cur, err := db.Collection("sortedByPrice").Find(ctx, bson.D{})
+	cur, err := db.Collection("menuItemHistogram").Find(ctx, bson.D{})
 	if err != nil {
 		return err
 	}
 
 	type stored struct {
-		RestaurantName    string
-		RestaurantWebsite string
-		Title             string
-		Price             float32
-		OpentableLink     string
+		MenuItem string
+		Count    int
 	}
 
 	const limit = 1000
@@ -40,33 +37,29 @@ func createSortByPrice(ctx context.Context) error {
 		if err := cur.Decode(&el); err != nil {
 			return err
 		}
-		if el.Price == 0 {
-			break
-		}
 		ss = append(ss, el)
 	}
 
 	fmt.Println(`
-# OpenTable - Sorted by Price
+# OpenTable - Menu Item Histogram
 
-New York City menu items from opentable sorted by price from [github.com/spudtrooper/opentable](https://github.com/spudtrooper/opentable)
+A histogram of New York City menu items from [github.com/spudtrooper/opentable](https://github.com/spudtrooper/opentable)
 `)
 
 	var rows [][]string
 	commas := message.NewPrinter(language.AmericanEnglish)
 	for _, s := range ss {
 		row := []string{
-			fmt.Sprintf("[%s](%s)", strings.ReplaceAll(s.RestaurantName, "|", " "), s.OpentableLink),
-			fmt.Sprintf("[Web](%s)", s.RestaurantWebsite),
-			strings.ReplaceAll(s.Title, "|", " "),
-			commas.Sprintf("%d", int(s.Price)),
+			strings.ReplaceAll(s.MenuItem, "|", " "),
+			commas.Sprintf("%d", int(s.Count)),
+			strings.Repeat("*", s.Count/10),
 		}
 		rows = append(rows, row)
 	}
 
 	tab, err := markdown.
 		NewTableFormatterBuilder().
-		Build("opentable URI", "URI", "Menu Item", "Price").
+		Build("Menu Item", "Count", "Bar").
 		Format(rows)
 	if err != nil {
 		return err
@@ -78,5 +71,5 @@ New York City menu items from opentable sorted by price from [github.com/spudtro
 
 func main() {
 	flag.Parse()
-	check.Err(createSortByPrice(context.Background()))
+	check.Err(createMenuItemHistogram(context.Background()))
 }
