@@ -52,14 +52,13 @@ A histogram of New York City opentable menu items.
 		row := []string{
 			strings.ReplaceAll(s.MenuItem, "|", " "),
 			commas.Sprintf("%d", int(s.Count)),
-			strings.Repeat("*", s.Count/10),
 		}
 		rows = append(rows, row)
 	}
 
 	tab, err := markdown.
 		NewTableFormatterBuilder().
-		Build("Menu Item", "Count", "Bar").
+		Build("Menu Item", "Count").
 		Format(rows)
 	if err != nil {
 		return err
