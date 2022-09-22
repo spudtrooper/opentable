@@ -37,7 +37,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [San Pietro](https://www.opentable.com/r/san-pietro-new-york) | [Web](http://www.sanpietroristorantenyc.com/) | Domaine de La Romanee-Conti, La Tache Grand Cru 2003 | 5,000 |
 | [Russian Tea Room - NYC](https://www.opentable.com/r/russian-tea-room-nyc-new-york) | [Web](http://www.russiantearoomnyc.com/) | 1986 Château Lafite-Rothschild | 4,800 |
 | [Russian Tea Room - NYC](https://www.opentable.com/r/russian-tea-room-nyc-new-york) | [Web](http://www.russiantearoomnyc.com/) | 1982 Château Latour | 4,750 |
-| [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | Glen Grant 48yr 1965 by Gordon & Macphail | 40%, Speyside | 4,500 |
+| [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | Glen Grant 48yr 1965 by Gordon & Macphail   40%, Speyside | 4,500 |
 | [Casa Lever](https://www.opentable.com/casa-lever) | [Web](http://www.casalever.com/) | 944 Vosne Romanée Grand Cru "Romanée-St-Vivant", La Romanée-Conti, (2014) Pinot Noir | 4,230 |
 | [Russian Tea Room - NYC](https://www.opentable.com/r/russian-tea-room-nyc-new-york) | [Web](http://www.russiantearoomnyc.com/) | 1986 Château Mouton-Rothschild | 4,200 |
 | [Russian Tea Room - NYC](https://www.opentable.com/r/russian-tea-room-nyc-new-york) | [Web](http://www.russiantearoomnyc.com/) | 1996 Château Lafite-Rothschild | 4,200 |
@@ -68,7 +68,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [San Pietro](https://www.opentable.com/r/san-pietro-new-york) | [Web](http://www.sanpietroristorantenyc.com/) | Domaine de la Romanee Conti, Le Montrachet 1999 | 3,500 |
 | [San Pietro](https://www.opentable.com/r/san-pietro-new-york) | [Web](http://www.sanpietroristorantenyc.com/) | Gaja "Darmagi" 5l, Cabernet Sauvignon 2005 | 3,500 |
 | [Nusr-Et Steakhouse New York](https://www.opentable.com/r/nusr-et-steakhouse-new-york) | [Web](http://www.nusr-et.com.tr/) | Pauillac, Château Mouton Rothschild 2009, 1er Grand Cru Classé 2009 | 3,400 |
-| [Nobu Downtown | Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | BIN#1035: Chateau Mouton Rothschild, 1er Grand Cru, Pauillac, Bordeaux, France 10 | 3,300 |
+| [Nobu Downtown   Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | BIN#1035: Chateau Mouton Rothschild, 1er Grand Cru, Pauillac, Bordeaux, France 10 | 3,300 |
 | [Nobu Fifty Seven](https://www.opentable.com/nobu-fifty-seven) | [Web](https://www.noburestaurants.com/fifty-seven) | BIN#580: Chateau Mouton Rothschild, 1er Grand Cru, Pauillac, Bordeaux, France 10 | 3,300 |
 | [Russian Tea Room - NYC](https://www.opentable.com/r/russian-tea-room-nyc-new-york) | [Web](http://www.russiantearoomnyc.com/) | 1989 Château Haut Brion | 3,300 |
 | [Bowery Meat Company](https://www.opentable.com/bowery-meat-company) | [Web](http://www.bowerymeatcompany.com/) | Château Latour, Pauillac 2005 | 3,200 |
@@ -80,11 +80,11 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [PHD Terrace – Dream Midtown](https://www.opentable.com/r/phd-terrace-dream-midtown-new-york) | [Web](http://www.phdterrace.com/) | Dom Pérignon Rosé | 3,100 |
 | [Russian Tea Room - NYC](https://www.opentable.com/r/russian-tea-room-nyc-new-york) | [Web](http://www.russiantearoomnyc.com/) | 1986 Pétrus | 3,100 |
 | [Russian Tea Room - NYC](https://www.opentable.com/r/russian-tea-room-nyc-new-york) | [Web](http://www.russiantearoomnyc.com/) | 1990 Château Mouton-Rothschild | 3,100 |
-| [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | Bruichladdich 1984/32 All In Rare Cask Bourbon | 43.7%, Islay | 3,080 |
+| [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | Bruichladdich 1984/32 All In Rare Cask Bourbon   43.7%, Islay | 3,080 |
 | [The East Pole - Kitchen and Bar](https://www.opentable.com/r/the-east-pole-kitchen-and-bar-new-york) | [Web](http://theeastpolenyc.com/) | Krug Champagne "Clos D'ambonnay", 1998 Champagne, France | 3,030 |
 | [2 Spring](https://www.opentable.com/r/2-spring-oyster-bay) | [Web](http://www.2springstreet.com/) | Coche-Dury, Meursault-Perrières 1er Cru 2002 | 3,000 |
 | [Dabble](https://www.opentable.com/r/dabble-new-york) | [Web](https://www.dabblenewyork.com/?y_source=1_MjY1ODkzOTctODYwLWxvY2F0aW9uLndlYnNpdGU=) | Château Ceval Blanc, Saint- Emilion 1er Grand Cru 1982 | 3,000 |
-| [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | Balblair 32yr 1989 by Gordon & Macphail | 54.2%, Highlands | 3,000 |
+| [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | Balblair 32yr 1989 by Gordon & Macphail   54.2%, Highlands | 3,000 |
 | [Gabriel's Bar & Restaurant](https://www.opentable.com/r/gabriels-bar-and-restaurant-new-york) | [Web](http://www.gabrielsbarandrest.com/) | Château Lafite Rothschild Pauillac 2018, Bordeaux | 3,000 |
 | [RH Guesthouse, The Dining Room](https://www.opentable.com/r/rh-guesthouse-the-dining-room-new-york) | [Web](https://rh.com/guesthouse/newyork/diningroom) | Harlan Estate, Napa Valley, California 2018 | 3,000 |
 | [Russian Tea Room - NYC](https://www.opentable.com/r/russian-tea-room-nyc-new-york) | [Web](http://www.russiantearoomnyc.com/) | 1990 Château Lafite-Rothschild | 3,000 |
@@ -123,8 +123,8 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [PHD Terrace – Dream Midtown](https://www.opentable.com/r/phd-terrace-dream-midtown-new-york) | [Web](http://www.phdterrace.com/) | Moët & Chandon Rosé | 2,550 |
 | [48 Lounge](https://www.opentable.com/48-lounge) | [Web](https://48nyc.com/) | DOM PERIGNON P3 1985 | 2,500 |
 | [Ascent Lounge New York](https://www.opentable.com/r/ascent-lounge-new-york) | [Web](https://ascentloungenyc.com/) | Dom Perignon P3, 1985 | 2,500 |
-| [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | Clynelish 20yr 200th Anniversary | 57.3%, Highlands | 2,500 |
-| [Nobu Downtown | Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | DAIGINJO YK35 SHIZUKU JUKUSEI KOSHU | 2,500 |
+| [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | Clynelish 20yr 200th Anniversary   57.3%, Highlands | 2,500 |
+| [Nobu Downtown   Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | DAIGINJO YK35 SHIZUKU JUKUSEI KOSHU | 2,500 |
 | [Bâtard](https://www.opentable.com/r/batard-new-york) | [Web](http://www.batardtribeca.com/) | Chambertin Grand Cru, Armand Rousseau 2009 | 2,450 |
 | [Bâtard](https://www.opentable.com/r/batard-new-york) | [Web](http://www.batardtribeca.com/) | Chambertin-Clos-de-Bèze Grand Cru, Armand Rousseau 2010 | 2,450 |
 | [Nello](https://www.opentable.com/nello) | [Web](http://www.nello.com/) | 13 Masseto, Tenuta dell'Ornellaia, Toscana | 2,450 |
@@ -188,7 +188,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [La Goulue New York](https://www.opentable.com/r/la-goulue-new-york-2) | [Web](http://www.lagouluerestaurant.com/) | 89 Château Ausone - Saint-Emilion 1er Grand Cru Classé A | 1,900 |
 | [Lincoln Ristorante](https://www.opentable.com/r/lincoln-ristorante-new-york) | [Web](http://www.lincolnristorante.com/) | CERETTO 'CANNUBI' | 1,900 |
 | [Nello](https://www.opentable.com/nello) | [Web](http://www.nello.com/) | 14 Gaja. Sori Tilden, A. Gaja, Piemonte | 1,900 |
-| [Nobu Downtown | Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | BIN#1030: Chateau Margaux, 1er Grand Cru, Haut-Medoc, Bordeaux, France 06 | 1,900 |
+| [Nobu Downtown   Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | BIN#1030: Chateau Margaux, 1er Grand Cru, Haut-Medoc, Bordeaux, France 06 | 1,900 |
 | [Nobu Fifty Seven](https://www.opentable.com/nobu-fifty-seven) | [Web](https://www.noburestaurants.com/fifty-seven) | BIN#578: Chateau Margaux, 1er Grand Cru, Haut-Medoc, Bordeaux, France 06 | 1,900 |
 | [San Pietro](https://www.opentable.com/r/san-pietro-new-york) | [Web](http://www.sanpietroristorantenyc.com/) | Chateau Margaux, Premier Grand Cru Classe 2006 | 1,900 |
 | [San Pietro](https://www.opentable.com/r/san-pietro-new-york) | [Web](http://www.sanpietroristorantenyc.com/) | Petrus, Pomerol Grand Cru 1976 | 1,900 |
@@ -216,7 +216,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [Tribeca Grill](https://www.opentable.com/tribeca-grill) | [Web](http://www.tribecagrill.com/) | Domaine de la Romanée-Conti, Romanée-Saint-Vivant Grand Cru White Burgundy 2012 | 1,799 |
 | [Casa Mono](https://www.opentable.com/r/casa-mono-new-york) | [Web](http://www.casamononyc.com/) | Pingus 2010 | 1,790 |
 | [Casa Mono](https://www.opentable.com/r/casa-mono-new-york) | [Web](http://www.casamononyc.com/) | Pingus 2013 | 1,790 |
-| [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | Hirsch 25yr Small Batch Kentucky Straight Bourbon | 46% | 1,778 |
+| [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | Hirsch 25yr Small Batch Kentucky Straight Bourbon   46% | 1,778 |
 | [Bowery Meat Company](https://www.opentable.com/bowery-meat-company) | [Web](http://www.bowerymeatcompany.com/) | Cabernet, Jordan, Alexander Vly 2006 | 1,750 |
 | [Dabble](https://www.opentable.com/r/dabble-new-york) | [Web](https://www.dabblenewyork.com/?y_source=1_MjY1ODkzOTctODYwLWxvY2F0aW9uLndlYnNpdGU=) | Château Margaux 1er Grand Cru 2000 | 1,750 |
 | [L'Antagoniste](https://www.opentable.com/lantagoniste) | [Web](http://www.lantagoniste.com/) | Domaine de la Romanee-Conti Grands Echézeaux Grand Cru 1986, Pinot Noir, Cote de Nuits | 1,750 |
@@ -252,7 +252,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [PHD Terrace – Dream Midtown](https://www.opentable.com/r/phd-terrace-dream-midtown-new-york) | [Web](http://www.phdterrace.com/) | Don Julio 1942 Magnum | 1,600 |
 | [PHD Terrace – Dream Midtown](https://www.opentable.com/r/phd-terrace-dream-midtown-new-york) | [Web](http://www.phdterrace.com/) | Louis Roederer Cristal Rosé | 1,600 |
 | [RH Guesthouse, The Dining Room](https://www.opentable.com/r/rh-guesthouse-the-dining-room-new-york) | [Web](https://rh.com/guesthouse/newyork/diningroom) | Bond, Pluribus, Napa Valley, California 2018 | 1,600 |
-| [Sirena Ristorante](https://www.opentable.com/r/sirena-ristorante-long-branch) | [Web](http://www.sirenaristorante.com/) | Harlan Estate | Napa Valley, California 2012 | 1,600 |
+| [Sirena Ristorante](https://www.opentable.com/r/sirena-ristorante-long-branch) | [Web](http://www.sirenaristorante.com/) | Harlan Estate   Napa Valley, California 2012 | 1,600 |
 | [Bâtard](https://www.opentable.com/r/batard-new-york) | [Web](http://www.batardtribeca.com/) | Charmes-Chambertin Grand Cru, Joseph Roty 'TréS Vieilles Vignes' 1993 | 1,575 |
 | [Dons Bogam BBQ & Wine Bar](https://www.opentable.com/dons-bogam-bbq-and-wine-bar) | [Web](http://www.donsbogam.com/) | Cabernet Blend, Château Margaux, Margaux, Bordeaux, France 2001 | 1,575 |
 | [Match 65 Brasserie (formerly Paris Match)](https://www.opentable.com/r/match-65-brasserie-formerly-paris-match-new-york) | [Web](http://www.match65.com/) | Château Ausone 2007 | 1,550 |
@@ -307,7 +307,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [Nick & Stef’s Steakhouse - New York](https://www.opentable.com/r/nick-and-stefs-steakhouse-new-york) | [Web](http://www.patinagroup.com/nick-and-stefs-steakhouse-nyc) | Château Mouton Rothschild, Pauillac 1995 | 1,400 |
 | [Nusr-Et Steakhouse Meatpacking](https://www.opentable.com/r/nusr-et-steakhouse-meatpacking-new-york) | [Web](https://www.nusr-et.com.tr/) | Armand de Brignac, Brut Rosé 'Ace of Spades' NV | 1,400 |
 | [San Pietro](https://www.opentable.com/r/san-pietro-new-york) | [Web](http://www.sanpietroristorantenyc.com/) | Harlan Estate, Napa Valley 2003 | 1,400 |
-| [Sirena Ristorante](https://www.opentable.com/r/sirena-ristorante-long-branch) | [Web](http://www.sirenaristorante.com/) | Harlan Estate | Napa Valley, California 2010 | 1,400 |
+| [Sirena Ristorante](https://www.opentable.com/r/sirena-ristorante-long-branch) | [Web](http://www.sirenaristorante.com/) | Harlan Estate   Napa Valley, California 2010 | 1,400 |
 | [Vetro by Russo's on the Bay](https://www.opentable.com/r/vetro-by-russos-on-the-bay-howard-beach) | [Web](http://www.vetronyc.com/) | Left Bank – Château Latour 2001, Pauillac 1st Growth, Cabernet Sauvignon | 1,400 |
 | [Casa Mono](https://www.opentable.com/r/casa-mono-new-york) | [Web](http://www.casamononyc.com/) | Alvaro Palacios, Clos l'Ermita 2010 | 1,398 |
 | [La Griglia](https://www.opentable.com/la-griglia-kenilworth) | [Web](http://www.lagriglia.com/) | Conterno, Giacomo, Degli Amici Riserva 1964 | 1,395 |
@@ -338,7 +338,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [Nello](https://www.opentable.com/nello) | [Web](http://www.nello.com/) | 05 Dom Perignon, Rose, Moet & Chandon, Epernay | 1,335 |
 | [Rothmann's Steakhouse](https://www.opentable.com/rothmanns-steakhouse) | [Web](http://www.chasrothmanns.com/) | Chambertin, Domaine Armand Rousseau Père & Fils 2011 | 1,335 |
 | [Bâtard](https://www.opentable.com/r/batard-new-york) | [Web](http://www.batardtribeca.com/) | Charmes-Chambertin Grand Cru, G. Roumier 'Aux Mazoyères' 2002 | 1,325 |
-| [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | Dalmore 40yr | 40%, Highlands | 1,315 |
+| [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | Dalmore 40yr   40%, Highlands | 1,315 |
 | [Nello](https://www.opentable.com/nello) | [Web](http://www.nello.com/) | N.V. Krug, Rose, C. Krug, Reims | 1,305 |
 | [Bâtard](https://www.opentable.com/r/batard-new-york) | [Web](http://www.batardtribeca.com/) | Chapelle-Chambertin Grand Cru, Cécile Tremblay 2015 | 1,300 |
 | [Gabriel's Bar & Restaurant](https://www.opentable.com/r/gabriels-bar-and-restaurant-new-york) | [Web](http://www.gabrielsbarandrest.com/) | Gaja Sori San Lorenzo, Barbaresco 2011 | 1,300 |
@@ -355,7 +355,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [Oceana](https://www.opentable.com/oceana) | [Web](http://www.oceanarestaurant.com/) | Chevalier-Montrachet, Domaine Leflaive, Grand Cru 2005 Côte de Beaune | 1,300 |
 | [San Pietro](https://www.opentable.com/r/san-pietro-new-york) | [Web](http://www.sanpietroristorantenyc.com/) | Allegrini "Amarone" 6.0l, Corvina/Molinara/Rondinella 2003 | 1,300 |
 | [San Pietro](https://www.opentable.com/r/san-pietro-new-york) | [Web](http://www.sanpietroristorantenyc.com/) | Tenuta dell Ornellaia "Masseto" Merlot 2007 | 1,300 |
-| [Sirena Ristorante](https://www.opentable.com/r/sirena-ristorante-long-branch) | [Web](http://www.sirenaristorante.com/) | Harlan Estate | Napa Valley, California 2009 | 1,300 |
+| [Sirena Ristorante](https://www.opentable.com/r/sirena-ristorante-long-branch) | [Web](http://www.sirenaristorante.com/) | Harlan Estate   Napa Valley, California 2009 | 1,300 |
 | [Somewhere Nowhere NYC](https://www.opentable.com/r/somewhere-nowhere-nyc-new-york) | [Web](https://www.somewherenowherenyc.com/) | Macallan 18yr | 1,300 |
 | [Vetro by Russo's on the Bay](https://www.opentable.com/r/vetro-by-russos-on-the-bay-howard-beach) | [Web](http://www.vetronyc.com/) | Penfold's Grange 2008 Bin 95, Penfold's, Cabernet Sauvignon | 1,300 |
 | [Water and Wine](https://www.opentable.com/water-and-wine) | [Web](http://www.visitwaterandwine.com/) | Harlan Estate (Napa) 2007 | 1,300 |
@@ -384,8 +384,8 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [Magic Hour Rooftop Bar & Lounge](https://www.opentable.com/r/magic-hour-rooftop-bar-and-lounge-new-york) | [Web](https://taogroup.com/venues/magic-hour-rooftop-bar-lounge/) | 1 Moët Brut Imperial 1.5l & 1 Belvedere 'Silver Saber' 1.75l | 1,250 |
 | [Magic Hour Rooftop Bar & Lounge](https://www.opentable.com/r/magic-hour-rooftop-bar-and-lounge-new-york) | [Web](https://taogroup.com/venues/magic-hour-rooftop-bar-lounge/) | Armand de Brignac, 'Ace of Spades' | 1,250 |
 | [Magic Hour Rooftop Bar & Lounge](https://www.opentable.com/r/magic-hour-rooftop-bar-and-lounge-new-york) | [Web](https://taogroup.com/venues/magic-hour-rooftop-bar-lounge/) | Patron Piedra | 1,250 |
-| [Nobu Downtown | Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | BIN#1022: Hundred Acre 'Ark Vineyards', Cabernet Sauvignon, Howell Mountain, Napa, Ca 16 | 1,250 |
-| [Nobu Downtown | Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | BIN#880: Henschke 'Hill of Grace', Shiraz, Eden Valley, Australia 10 | 1,250 |
+| [Nobu Downtown   Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | BIN#1022: Hundred Acre 'Ark Vineyards', Cabernet Sauvignon, Howell Mountain, Napa, Ca 16 | 1,250 |
+| [Nobu Downtown   Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | BIN#880: Henschke 'Hill of Grace', Shiraz, Eden Valley, Australia 10 | 1,250 |
 | [Nusr-Et Steakhouse New York](https://www.opentable.com/r/nusr-et-steakhouse-new-york) | [Web](http://www.nusr-et.com.tr/) | Golden Kafes | 1,250 |
 | [PHD Terrace – Dream Midtown](https://www.opentable.com/r/phd-terrace-dream-midtown-new-york) | [Web](http://www.phdterrace.com/) | Krug Grand Cuvée | 1,250 |
 | [Piccola Italia](https://www.opentable.com/piccola-italia-ocean-township) | [Web](http://www.piccolaitalianj.com/) | Soldera 'Brunello di Montalcino' 1999 | 1,250 |
@@ -404,7 +404,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [Caviar Russe](https://www.opentable.com/r/caviar-russe-new-york) | [Web](https://caviarrusse.com/pages/new-york-about) | Billecart-Salmon, Cuvée Le Clos Saint-Hilaire, Blanc de Noirs 2006 | 1,200 |
 | [Caviar Russe](https://www.opentable.com/r/caviar-russe-new-york) | [Web](https://caviarrusse.com/pages/new-york-about) | Corton-Charlemagne, Grand Cru, Domaine Jacques Prieur 2019 | 1,200 |
 | [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | The Macallan M | 1,200 |
-| [Jockey Hollow Bar & Kitchen](https://www.opentable.com/r/jockey-hollow-bar-and-kitchen-morristown) | [Web](http://www.jockeyhollowbarandkitchen.com/) | Chateau Angélus St. Emilion Grand Cru | 1985 | 1,200 |
+| [Jockey Hollow Bar & Kitchen](https://www.opentable.com/r/jockey-hollow-bar-and-kitchen-morristown) | [Web](http://www.jockeyhollowbarandkitchen.com/) | Chateau Angélus St. Emilion Grand Cru   1985 | 1,200 |
 | [Kosaka](https://www.opentable.com/r/kosaka-new-york-city) | [Web](http://www.kosakanyc.com/) | Yuki no Bosha Chosetsu "The Sound of Snow", Junmai Daiginjo Genshu, Akita | 1,200 |
 | [La Goulue New York](https://www.opentable.com/r/la-goulue-new-york-2) | [Web](http://www.lagouluerestaurant.com/) | 85 Château Latour - Pauillac | 1,200 |
 | [La Goulue New York](https://www.opentable.com/r/la-goulue-new-york-2) | [Web](http://www.lagouluerestaurant.com/) | 95 Château Mouton-Rothschild - Pauillac | 1,200 |
@@ -457,7 +457,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [Nusr-Et Steakhouse New York](https://www.opentable.com/r/nusr-et-steakhouse-new-york) | [Web](http://www.nusr-et.com.tr/) | E. Guigal, Ex-Voto, Ermitage 2013 | 1,145 |
 | [Bar Milano by Eataly](https://www.opentable.com/r/bar-milano-by-eataly-new-york) | [Web](https://www.eataly.com/us_en/stores/nyc-flatiron/bar-milano-by-eataly/) | Fontanafredda 1961 | 1,140 |
 | [San Pietro](https://www.opentable.com/r/san-pietro-new-york) | [Web](http://www.sanpietroristorantenyc.com/) | Gaja "Darmagi" 1.5l, Cabernet Sauvignon 2006 | 1,140 |
-| [Boulevard Five72](https://www.opentable.com/boulevard-five72) | [Web](http://www.boulevardfive72.com/) | Château Latour | Pauillac 1998 | 1,133 |
+| [Boulevard Five72](https://www.opentable.com/boulevard-five72) | [Web](http://www.boulevardfive72.com/) | Château Latour   Pauillac 1998 | 1,133 |
 | [2 Spring](https://www.opentable.com/r/2-spring-oyster-bay) | [Web](http://www.2springstreet.com/) | Bryant Family, Napa Valley 2012 | 1,130 |
 | [Bâtard](https://www.opentable.com/r/batard-new-york) | [Web](http://www.batardtribeca.com/) | J.F. Coche-Dury 2001 | 1,125 |
 | [Casa Mono](https://www.opentable.com/r/casa-mono-new-york) | [Web](http://www.casamononyc.com/) | Alvaro Palacios, Clos l'Ermita 2008 | 1,125 |
@@ -477,7 +477,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [Magic Hour Rooftop Bar & Lounge](https://www.opentable.com/r/magic-hour-rooftop-bar-and-lounge-new-york) | [Web](https://taogroup.com/venues/magic-hour-rooftop-bar-lounge/) | Dom Pérignon, Luminous | 1,100 |
 | [Magic Hour Rooftop Bar & Lounge](https://www.opentable.com/r/magic-hour-rooftop-bar-and-lounge-new-york) | [Web](https://taogroup.com/venues/magic-hour-rooftop-bar-lounge/) | Perrier-Jouët Belle Epoque | 1,100 |
 | [Mirabelle Restaurant and Tavern at the Three Village Inn](https://www.opentable.com/mirabelle-restaurant-and-tavern-at-the-three-village-inn) | [Web](http://threevillageinn.com/) | Pessac-Léognan, "Grand Cru" Château Haut-Brion, 1990 | 1,100 |
-| [Nobu Downtown | Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | BIN#230: Dom Perignon Brut Rose 06 | 1,100 |
+| [Nobu Downtown   Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | BIN#230: Dom Perignon Brut Rose 06 | 1,100 |
 | [Nobu Fifty Seven](https://www.opentable.com/nobu-fifty-seven) | [Web](https://www.noburestaurants.com/fifty-seven) | BIN#140: Dom Perignon Brut Rose 06 | 1,100 |
 | [Nusr-Et Steakhouse Meatpacking](https://www.opentable.com/r/nusr-et-steakhouse-meatpacking-new-york) | [Web](https://www.nusr-et.com.tr/) | Dominus, Napa Valley Red Blend 2019 | 1,100 |
 | [Nusr-Et Steakhouse Meatpacking](https://www.opentable.com/r/nusr-et-steakhouse-meatpacking-new-york) | [Web](https://www.nusr-et.com.tr/) | Vega Sicilia, 'Único' Ribera del Duero 2012 | 1,100 |
@@ -602,7 +602,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [Water and Wine](https://www.opentable.com/water-and-wine) | [Web](http://www.visitwaterandwine.com/) | Case Basse-Soldera, Riserva 1999 | 995 |
 | [2 Spring](https://www.opentable.com/r/2-spring-oyster-bay) | [Web](http://www.2springstreet.com/) | Bryant Family, Napa Valley 2008 | 990 |
 | [Caviar Russe](https://www.opentable.com/r/caviar-russe-new-york) | [Web](https://caviarrusse.com/pages/new-york-about) | Perrier-Jouët, Belle Époque, Blanc de Blancs 2012 | 990 |
-| [Nobu Downtown | Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | BIN#622: Jean Noel Gagnard, Grand Cru, Batard-Montrachet, Burgundy, France 14 | 990 |
+| [Nobu Downtown   Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | BIN#622: Jean Noel Gagnard, Grand Cru, Batard-Montrachet, Burgundy, France 14 | 990 |
 | [Nobu Fifty Seven](https://www.opentable.com/nobu-fifty-seven) | [Web](https://www.noburestaurants.com/fifty-seven) | BIN#375: Jean Noel Gagnard, Grand Cru, Batard-Montrachet, Burgundy, France 15 | 990 |
 | [Nusr-Et Steakhouse Meatpacking](https://www.opentable.com/r/nusr-et-steakhouse-meatpacking-new-york) | [Web](https://www.nusr-et.com.tr/) | Opus One, Red Blend Napa Valley 2018 | 990 |
 | [RH Guesthouse, The Dining Room](https://www.opentable.com/r/rh-guesthouse-the-dining-room-new-york) | [Web](https://rh.com/guesthouse/newyork/diningroom) | Billecart-Salmon, Cuvée Nicolas François, Champagne, France 2002 | 990 |
@@ -620,7 +620,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [Water and Wine](https://www.opentable.com/water-and-wine) | [Web](http://www.visitwaterandwine.com/) | Screaming Eagle, Second Flight (Napa) 2010 | 985 |
 | [Casa Mono](https://www.opentable.com/r/casa-mono-new-york) | [Web](http://www.casamononyc.com/) | La Rioja Alta 904 Gran Reserva 1964 | 983 |
 | [American Cut Steakhouse](https://www.opentable.com/r/american-cut-steakhouse-new-york) | [Web](http://www.americancutsteakhouse.com/) | Château Léoville Las Cases, 2Éme Cru, 1995 Saint-Julien | 980 |
-| [Sirena Ristorante](https://www.opentable.com/r/sirena-ristorante-long-branch) | [Web](http://www.sirenaristorante.com/) | Opus One | Napa Valley, California 2007 | 980 |
+| [Sirena Ristorante](https://www.opentable.com/r/sirena-ristorante-long-branch) | [Web](http://www.sirenaristorante.com/) | Opus One   Napa Valley, California 2007 | 980 |
 | [Wine 30](https://www.opentable.com/wine-30) | [Web](http://www.wine30nyc.com/) | 1991 Chateau Mouton-Rothschild, Pauillac | 980 |
 | [2 Spring](https://www.opentable.com/r/2-spring-oyster-bay) | [Web](http://www.2springstreet.com/) | Château Mouton Rothschild 1990 | 975 |
 | [Bâtard](https://www.opentable.com/r/batard-new-york) | [Web](http://www.batardtribeca.com/) | Charmes-Chambertin Grand Cru, Domaine Dujac 2002 | 975 |
@@ -649,7 +649,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [American Cut Steakhouse](https://www.opentable.com/r/american-cut-steakhouse-new-york) | [Web](http://www.americancutsteakhouse.com/) | Domaine Robert Groffier "Bonnes Mares" Grand Cru, 2002 Chambolle-Musigny | 950 |
 | [Bar Boutique](https://www.opentable.com/r/bar-boutique-ramsey) | [Web](https://www.barboutiquenj.com/) | Nebbiolo, Giacomo Conterno, Barolo, Piedmont 1967 | 950 |
 | [Chianti Il Ristorante](https://www.opentable.com/chianti-il-ristorante) | [Web](http://www.chiantiristorante.com/) | Sori' Tildin (Piemonte), Vintage '13 | 950 |
-| [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | Ardbeg Galileo | 49%, Islay | 950 |
+| [Fine & Rare](https://www.opentable.com/r/fine-and-rare-new-york) | [Web](http://www.fineandrare.nyc/) | Ardbeg Galileo   49%, Islay | 950 |
 | [Gabriel's Bar & Restaurant](https://www.opentable.com/r/gabriels-bar-and-restaurant-new-york) | [Web](http://www.gabrielsbarandrest.com/) | Stag's Leap Cask 23, Cabernet Sauvignon 2008, Napa Valley, California | 950 |
 | [Jalao](https://www.opentable.com/r/jalao-new-york) | [Web](http://jalaonyc.com/) | Clase Azul Reposado | 950 |
 | [Kosaka](https://www.opentable.com/r/kosaka-new-york-city) | [Web](http://www.kosakanyc.com/) | Daishichi Myoka Rankyoku, Junmai Daiginjo, Fukushima | 950 |
@@ -761,7 +761,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [San Pietro](https://www.opentable.com/r/san-pietro-new-york) | [Web](http://www.sanpietroristorantenyc.com/) | Domaine Leflavie, Batard-Montrachet 2007 | 900 |
 | [San Pietro](https://www.opentable.com/r/san-pietro-new-york) | [Web](http://www.sanpietroristorantenyc.com/) | E. Guigal Ex Voto, Syrah "Ermitage" 2007 | 900 |
 | [San Pietro](https://www.opentable.com/r/san-pietro-new-york) | [Web](http://www.sanpietroristorantenyc.com/) | E. Guigal La Turque, Syrah "Cote Rotie" 2007 | 900 |
-| [Sirena Ristorante](https://www.opentable.com/r/sirena-ristorante-long-branch) | [Web](http://www.sirenaristorante.com/) | Bond Melbury | Oakville, Napa Valley 2011 | 900 |
+| [Sirena Ristorante](https://www.opentable.com/r/sirena-ristorante-long-branch) | [Web](http://www.sirenaristorante.com/) | Bond Melbury   Oakville, Napa Valley 2011 | 900 |
 | [Somewhere Nowhere NYC](https://www.opentable.com/r/somewhere-nowhere-nyc-new-york) | [Web](https://www.somewherenowherenyc.com/) | Johnny Walker Blue Label | 900 |
 | [The Williamsburg Hotel Restaurant](https://www.opentable.com/r/the-williamsburg-hotel-restaurant-brooklyn) | [Web](https://www.thewilliamsburghotel.com/bars-restaurants) | Dom Perignon, Brut Grande Reserve, 2010, FR | 900 |
 | [Wolfgang's Steak House - 54th Street](https://www.opentable.com/wolfgangs-steak-house-54th-street) | [Web](http://www.wolfgangssteakhouse.net/) | Abacus, ZD Wines (16th Bottling) | 900 |
@@ -812,7 +812,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [Nello](https://www.opentable.com/nello) | [Web](http://www.nello.com/) | 11 Perrier Jouet "Belle Epoque" Brut, L. Perrier, Reims | 865 |
 | [Bar Boutique](https://www.opentable.com/r/bar-boutique-ramsey) | [Web](https://www.barboutiquenj.com/) | Nebbiolo, Giuseppe Mascarello, Pugnane, Barolo, Piedmont 1971 | 863 |
 | [La Parma II](https://www.opentable.com/la-parma-ii) | [Web](http://www.laparma.com/) | 2014 Cabernet Sauvignon Reserve, Plumpjack Reserve, Oakville, Napa, California | 860 |
-| [Nobu Downtown | Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | BIN#1020: Opus One, Cabernet Sauvignon Blend, Napa, California 16 | 860 |
+| [Nobu Downtown   Restaurant](https://www.opentable.com/r/nobu-downtown-new-york) | [Web](https://www.noburestaurants.com/downtown) | BIN#1020: Opus One, Cabernet Sauvignon Blend, Napa, California 16 | 860 |
 | [Nobu Fifty Seven](https://www.opentable.com/nobu-fifty-seven) | [Web](https://www.noburestaurants.com/fifty-seven) | BIN#573: Opus One, Cabernet Sauvignon Blend, Napa, California 15 | 860 |
 | [STK - NYC - Meatpacking](https://www.opentable.com/r/stk-nyc-meatpacking-new-york) | [Web](https://stksteakhouse.com/venues/nyc-downtown/) | Cabernet Sauvignon, Silver Oak, Napa Valley, CA '15 | 860 |
 | [STK - NYC - Meatpacking](https://www.opentable.com/r/stk-nyc-meatpacking-new-york) | [Web](https://stksteakhouse.com/venues/nyc-downtown/) | Dom Pérignon, Brut, FR, NV | 860 |
@@ -881,7 +881,7 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 | [PHD Terrace – Dream Midtown](https://www.opentable.com/r/phd-terrace-dream-midtown-new-york) | [Web](http://www.phdterrace.com/) | Clase Azul Reposado | 825 |
 | [Panevino Ristorante](https://www.opentable.com/r/panevino-ristorante-livingston) | [Web](http://www.panevinonj.com/) | Brussels Sprout | 825 |
 | [The Hill - Closter, NJ](https://www.opentable.com/r/the-hill-closter-nj-closter) | [Web](http://www.thehillcloster.com/) | Hundred Acre, "Ark" Howell Mountain, Napa Valley, California 2016 | 825 |
-| [Boulevard Five72](https://www.opentable.com/boulevard-five72) | [Web](http://www.boulevardfive72.com/) | Château Haut-Brion | Pessac-Leognan 2001 | 821 |
+| [Boulevard Five72](https://www.opentable.com/boulevard-five72) | [Web](http://www.boulevardfive72.com/) | Château Haut-Brion   Pessac-Leognan 2001 | 821 |
 | [Bar Milano by Eataly](https://www.opentable.com/r/bar-milano-by-eataly-new-york) | [Web](https://www.eataly.com/us_en/stores/nyc-flatiron/bar-milano-by-eataly/) | Gaja, Sori Tildin 2006 | 820 |
 | [Caviar Russe](https://www.opentable.com/r/caviar-russe-new-york) | [Web](https://caviarrusse.com/pages/new-york-about) | Dom Ruinart, Rosé 2007 | 820 |
 | [San Pietro](https://www.opentable.com/r/san-pietro-new-york) | [Web](http://www.sanpietroristorantenyc.com/) | Chateau La Mission Haut Brion, Pessac-Leognan 2003 | 820 |

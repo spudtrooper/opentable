@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"strings"
 
 	"github.com/fbiville/markdown-table-formatter/pkg/markdown"
 	"github.com/spudtrooper/goutil/check"
@@ -55,9 +56,9 @@ Menu items from opentable sorted by price from [github.com/spudtrooper/opentable
 	commas := message.NewPrinter(language.AmericanEnglish)
 	for _, s := range ss {
 		row := []string{
-			fmt.Sprintf("[%s](%s)", s.RestaurantName, s.OpentableLink),
+			fmt.Sprintf("[%s](%s)", strings.ReplaceAll(s.RestaurantName, "|", " "), s.OpentableLink),
 			fmt.Sprintf("[Web](%s)", s.RestaurantWebsite),
-			s.Title,
+			strings.ReplaceAll(s.Title, "|", " "),
 			commas.Sprintf("%d", int(s.Price)),
 		}
 		rows = append(rows, row)
