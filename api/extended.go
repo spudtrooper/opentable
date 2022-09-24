@@ -186,11 +186,19 @@ func (e *Extended) SearchAll(term string, optss ...SearchAllOption) (chan PagedS
 			go func() {
 				defer wg.Done()
 				for page := range inputCh {
+					// TODO: Add --extends to genopts
 					sOpts := MakeSearchOptions(
 						SearchVerbose(opts.Verbose()),
+						SearchCovers(opts.Covers()),
+						SearchDate(opts.Date()),
+						SearchLatitude(opts.Latitude()),
+						SearchLongitude(opts.Longitude()),
+						SearchMetroID(opts.MetroID()),
+						SearchDate(opts.Date()),
 					)
 					uri := searchURI(term, sOpts)
 					uri += fmt.Sprintf("&page=%d", page)
+					log.Println(uri)
 					res := &RawSearchInfo{}
 					if err := e.rawSearchByURI(uri, res, opts.Verbose(), opts.DebugFailures()); err != nil {
 						errCh <- err
