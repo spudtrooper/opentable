@@ -175,7 +175,6 @@ func (c *Client) RawSearch(term string, optss ...SearchOption) (*RawSearchInfo, 
 	metroID := or.Int(opts.MetroID(), 8)
 	d := or.Time(opts.Date(), time.Now())
 	dateTime := d.Format("2006-01-02T15%3A00%3A00")
-	dateTime = `2022-09-16T21%3A00%3A00` // TODO
 
 	uri := request.MakeURL("https://www.opentable.com/s",
 		request.MakeParam("dateTime", dateTime),
