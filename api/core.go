@@ -163,10 +163,7 @@ func (c *Client) SearchByURI(uri string, optss ...SearchByURIOption) (*SearchInf
 	return res.Convert(), nil
 }
 
-//go:generate genopts --function Search verbose debugFailures "originalTerm:string" "date:time.Time" "intentModifiedTerm:string" "covers:int" "latitude:float32" "longitude:float32" "metroID:int"
-func (c *Client) RawSearch(term string, optss ...SearchOption) (*RawSearchInfo, error) {
-	opts := MakeSearchOptions(optss...)
-
+func searchURI(term string, opts SearchOptions) string {
 	originalTerm := or.String(opts.OriginalTerm(), term)
 	intentModifiedTerm := or.String(opts.IntentModifiedTerm(), term)
 	covers := or.Int(opts.Covers(), 2)
@@ -191,6 +188,15 @@ func (c *Client) RawSearch(term string, optss ...SearchOption) (*RawSearchInfo, 
 		request.MakeParam("metroId", metroID),
 	)
 
+	return uri
+}
+
+//go:generate genopts --function Search verbose debugFailures "originalTerm:string" "date:time.Time" "intentModifiedTerm:string" "covers:int" "latitude:float32" "longitude:float32" "metroID:int"
+func (c *Client) RawSearch(term string, optss ...SearchOption) (*RawSearchInfo, error) {
+	opts := MakeSearchOptions(optss...)
+
+	uri := searchURI(term, opts)
+
 	res := &RawSearchInfo{}
 	if err := c.rawSearchByURI(uri, res, opts.Verbose(), opts.DebugFailures()); err != nil {
 		return nil, err
@@ -199,6 +205,10 @@ func (c *Client) RawSearch(term string, optss ...SearchOption) (*RawSearchInfo, 
 }
 
 func (c *Client) Search(term string, optss ...SearchOption) (*SearchInfo, error) {
+	return c.doSearch(term, optss...)
+}
+
+func (c *Client) doSearch(term string, optss ...SearchOption) (*SearchInfo, error) {
 	res, err := c.RawSearch(term, optss...)
 	if err != nil {
 		return nil, err

@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/spudtrooper/goutil/flags"
@@ -110,6 +111,37 @@ func Main(ctx context.Context) error {
 			return err
 		}
 		fmt.Printf("Search: %s\n", mustFormatString(info))
+		fmt.Println("Restaurants")
+		for i, r := range info.Restaurants {
+			fmt.Printf("[%d] %s (%s)\n", i+1, r.Name, r.ProfileLink)
+		}
+		return nil
+	})
+
+	app.Register("SearchAll", func(context.Context) error {
+		requireStringFlag(term, "term")
+		infos, errs := client.SearchAll(*term,
+			api.SearchAllVerbose(*verbose),
+			api.SearchAllThreads(*threads),
+			api.SearchAllStartPage(*startPage),
+		)
+		parallel.WaitFor(
+			func() {
+				var i int32
+				fmt.Println("Restaurants")
+				for info := range infos {
+					for _, r := range info.SearchInfo.Restaurants {
+						n := atomic.LoadInt32(&i)
+						fmt.Printf("[%d] %s (%s)\n", n, r.Name, r.ProfileLink)
+						atomic.AddInt32(&i, 1)
+					}
+				}
+			},
+			func() {
+				for e := range errs {
+					fmt.Printf("SearchAll error: %v\n", e)
+				}
+			})
 		return nil
 	})
 

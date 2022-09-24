@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"sync"
 	"time"
@@ -154,6 +155,64 @@ func (e *Extended) FindMenuItem(term string, optss ...FindMenuItemOption) (*Find
 		res.Results = append(res.Results, item)
 	}
 	return &res, nil
+}
+
+type PagedSearchInfo struct {
+	SearchInfo
+	Page int
+}
+
+//go:generate genopts --function SearchAll verbose debugFailures "originalTerm:string" "date:time.Time" "intentModifiedTerm:string" "covers:int" "latitude:float32" "longitude:float32" "metroID:int" "threads:int" "startPage:int"
+func (e *Extended) SearchAll(term string, optss ...SearchAllOption) (chan PagedSearchInfo, chan error) {
+	opts := MakeSearchAllOptions(optss...)
+
+	startPage := or.Int(opts.StartPage(), 1)
+	threads := or.Int(opts.Threads(), 5)
+
+	inputCh := make(chan int)
+	go func() {
+		for page := startPage; ; page++ {
+			inputCh <- page
+		}
+	}()
+
+	outCh, errCh := make(chan PagedSearchInfo), make(chan error)
+
+	go func() {
+		var wg sync.WaitGroup
+		for i := 0; i < threads; i++ {
+			i := i
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				for page := range inputCh {
+					sOpts := MakeSearchOptions(
+						SearchVerbose(opts.Verbose()),
+					)
+					uri := searchURI(term, sOpts)
+					uri += fmt.Sprintf("&page=%d", page)
+					res := &RawSearchInfo{}
+					if err := e.rawSearchByURI(uri, res, opts.Verbose(), opts.DebugFailures()); err != nil {
+						errCh <- err
+					} else {
+						if len(res.MultiSearch.Restaurants) == 0 {
+							log.Printf("thread #%d done", i)
+							break
+						}
+						outCh <- PagedSearchInfo{
+							SearchInfo: *res.Convert(),
+							Page:       page,
+						}
+					}
+				}
+			}()
+		}
+		wg.Wait()
+		close(outCh)
+		close(errCh)
+	}()
+
+	return outCh, errCh
 }
 
 //go:generate genopts --function RawSearchAllByURI verbose startPage:int threads:int sync
