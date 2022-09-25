@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log"
 
@@ -9,9 +10,14 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+var (
+	mongoDBName = flag.String("mongo_db_name", "opentable", "the name of the MongoDB database to use")
+	mongoDBPort = flag.Int("mongo_db_port", 27017, "the port of the MongoDB database to use")
+)
+
 func ConnectToDB(ctx context.Context) (*mongo.Database, error) {
-	const port = 27017
-	const dbName = "opentable"
+	port := *mongoDBPort
+	dbName := *mongoDBName
 
 	uri := fmt.Sprintf("mongodb://localhost:%d", port)
 	clientOptions := options.Client().ApplyURI(uri)
