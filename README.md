@@ -30,7 +30,7 @@ If you want to ingest restaurants by URI, run:
 
 ```bash
 
-./scripts/search.sh <url-1> <url-2> ... <url-N>
+./scripts/search.sh <uri-1> <uri-2> ... <uri-N>
 ```
 
 This will require a local mongo DB, controlled by `--mongo_db_name` and `--mongo_db_port`.
