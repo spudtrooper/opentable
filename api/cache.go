@@ -30,7 +30,7 @@ type storedRestaurant struct {
 	Empty                bool
 }
 
-//go:generate genopts --function SaveRestaurant verbose
+//go:generate genopts --function SaveRestaurant verbose reallyVerbose
 func (c *Cache) SaveRestaurant(ctx context.Context, uri string, raw RawRestaurantDetails, optss ...SaveRestaurantOption) error {
 	opts := MakeSaveRestaurantOptions(optss...)
 	log := makeLog("SaveRestaurant")
@@ -56,7 +56,7 @@ func (c *Cache) SaveRestaurant(ctx context.Context, uri string, raw RawRestauran
 		return err
 	}
 
-	if opts.Verbose() {
+	if opts.ReallyVerbose() {
 		log.Printf("saved restaurant %q as %d", name, id)
 	}
 	return nil
@@ -68,8 +68,8 @@ func isEmptyResultError(err error) bool {
 
 type SaveRestaurantToSearchResult string
 
-const SaveRestaurantToSearch_RestaurantAlreadySearched SaveRestaurantToSearchResult = "restaurant already searched"
-const SaveRestaurantToSearch_RestaurantAlreadyWaiting SaveRestaurantToSearchResult = "restaurant already waiting"
+const SaveRestaurantToSearch_RestaurantAlreadySearched SaveRestaurantToSearchResult = "already searched"
+const SaveRestaurantToSearch_RestaurantAlreadyWaiting SaveRestaurantToSearchResult = "already waiting"
 const SaveRestaurantToSearch_Added SaveRestaurantToSearchResult = "added"
 const SaveRestaurantToSearch_None SaveRestaurantToSearchResult = "none"
 
@@ -81,7 +81,7 @@ func (c *Cache) SaveRestaurantToSearch(ctx context.Context, restaurantURI string
 		{Key: "uri", Value: restaurantURI},
 	}
 	if res := c.db.Collection("restaurants").FindOne(ctx, filter); res.Err() == nil {
-		if opts.Verbose() {
+		if opts.ReallyVerbose() {
 			log.Printf("restaurant already searched: %s", restaurantURI)
 		}
 		return SaveRestaurantToSearch_RestaurantAlreadySearched, nil
@@ -89,7 +89,7 @@ func (c *Cache) SaveRestaurantToSearch(ctx context.Context, restaurantURI string
 		return SaveRestaurantToSearch_None, res.Err()
 	}
 	if res := c.db.Collection("restaurantsToSearch").FindOne(ctx, filter); res.Err() == nil {
-		if opts.Verbose() {
+		if opts.ReallyVerbose() {
 			log.Printf("restaurant waiting to be searched already: %s", restaurantURI)
 		}
 		return SaveRestaurantToSearch_RestaurantAlreadyWaiting, nil
@@ -105,26 +105,18 @@ func (c *Cache) SaveRestaurantToSearch(ctx context.Context, restaurantURI string
 		return SaveRestaurantToSearch_None, err
 	}
 
-	if opts.Verbose() {
+	if opts.ReallyVerbose() {
 		log.Printf("saved restaurant %s", restaurantURI)
 	}
 	return SaveRestaurantToSearch_Added, nil
 }
 
-//go:generate genopts --function DeleteRestaurant verbose
-func (c *Cache) DeleteRestaurantToSearch(ctx context.Context, restaurantURI string, optss ...DeleteRestaurantOption) error {
-	opts := MakeDeleteRestaurantOptions(optss...)
-	log := makeLog("DeleteRestaurantToSearch")
-
+func (c *Cache) DeleteRestaurantToSearch(ctx context.Context, restaurantURI string) error {
 	filter := bson.D{
 		{Key: "uri", Value: restaurantURI},
 	}
 	if _, err := c.db.Collection("restaurantsToSearch").DeleteMany(ctx, filter); err != nil {
 		return err
-	}
-
-	if opts.Verbose() {
-		log.Printf("deleted restaurant to search %s", restaurantURI)
 	}
 	return nil
 }

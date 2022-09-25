@@ -279,9 +279,7 @@ func (e *Extended) rawSearchAllByURIAsync(baseURI string, verbose bool, startPag
 
 func (e *Extended) searchByURI(baseURI string, verbose bool, page int, outCh chan<- RawSearchByURIInfo, errCh chan<- error) (shouldBreak bool) {
 	uri := fmt.Sprintf("%s&page=%d", baseURI, page)
-	log := makeLog(fmt.Sprintf("listByURI:%d", page))
 
-	log.Printf("searching %s", uri)
 	info, err := e.RawSearchByURI(uri, SearchByURIVerbose(verbose))
 	if err != nil {
 		errCh <- err
@@ -289,7 +287,6 @@ func (e *Extended) searchByURI(baseURI string, verbose bool, page int, outCh cha
 		return
 	}
 	if len(info.Convert().Restaurants) == 0 {
-		log.Println("done")
 		shouldBreak = true
 		return
 	}
@@ -393,7 +390,6 @@ func (e *Extended) RawListAllByURI(uri string, optss ...RawListAllByURIOption) (
 
 func (e *Extended) listByURI(baseURI string, verbose bool, page int, outCh chan<- RawListByURIInfo, errCh chan<- error) (shouldBreak bool) {
 	uri := fmt.Sprintf("%s&page=%d", baseURI, page)
-	log := makeLog(fmt.Sprintf("listByURI:%d", page))
 
 	log.Printf("searching %s", uri)
 	info, err := e.RawListByURI(uri, ListByURIVerbose(verbose))
@@ -403,7 +399,6 @@ func (e *Extended) listByURI(baseURI string, verbose bool, page int, outCh chan<
 		return
 	}
 	if len(info.Convert().Restaurants) == 0 {
-		log.Println("done")
 		shouldBreak = true
 		return
 	}
@@ -572,7 +567,7 @@ func (e *Extended) AddRestaurantsToSearchByURIs(ctx context.Context, uri string,
 
 	search := func(uri string) {
 		res, err := e.cache.SaveRestaurantToSearch(ctx, uri, SaveRestaurantVerbose(opts.Verbose()))
-		e.stats.IncInt(fmt.Sprintf("AddRestaurantsToSearchByURIs:%s", res))
+		e.stats.IncInt(fmt.Sprintf("AddRestaurantsToSearchByURIs:%s", res), IncIntVerbose(opts.Verbose()))
 		if err != nil {
 			errsCh <- err
 			return
@@ -688,9 +683,7 @@ func (e *Extended) SearchEmptyRestaurants(ctx context.Context, optss ...SearchEm
 //go:generate genopts --function SearchRestaurantFromQueue verbose
 func (e *Extended) SearchRestaurantFromQueue(ctx context.Context, uri string, optss ...SearchRestaurantFromQueueOption) error {
 	opts := MakeSearchRestaurantFromQueueOptions(optss...)
-	log := makeLog("SearchRestaurantFromQueue")
 
-	log.Printf("searching %s", uri)
 	rest, err := e.RawRestaurantDetailsByURI(uri)
 	if err != nil {
 		return errors.Errorf("RawRestaurantDetailsByURI: %v", err)
@@ -698,10 +691,10 @@ func (e *Extended) SearchRestaurantFromQueue(ctx context.Context, uri string, op
 	if err := e.cache.SaveRestaurant(ctx, uri, *rest, SaveRestaurantVerbose(opts.Verbose())); err != nil {
 		return errors.Errorf("SaveRestaurant: %v", err)
 	}
-	if err := e.cache.DeleteRestaurantToSearch(ctx, uri, DeleteRestaurantVerbose(opts.Verbose())); err != nil {
+	if err := e.cache.DeleteRestaurantToSearch(ctx, uri); err != nil {
 		return errors.Errorf("DeleteRestaurantToSearch: %v", err)
 	}
-	e.stats.IncInt("SearchEmptyRestaurants:searched")
+	e.stats.IncInt("SearchEmptyRestaurants:searched", IncIntVerbose(opts.Verbose()))
 
 	return nil
 }

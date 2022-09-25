@@ -1,3 +1,3 @@
 # opentable
 
-(Currently very incomplete) go client API for http://opentable.com
+Go client API for http://opentable.com
