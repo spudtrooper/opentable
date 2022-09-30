@@ -104,16 +104,6 @@ func AllMenuItems(rd RestaurantDetails) AllMenuItemsInfo {
 	return AllMenuItemsInfo{items}
 }
 
-func allMenuItems(rd RestaurantDetails) []RestaurantDetailsMenuSectionItem {
-	var items []RestaurantDetailsMenuSectionItem
-	for _, menu := range rd.Menus {
-		for _, sec := range menu.Sections {
-			items = append(items, sec.Items...)
-		}
-	}
-	return items
-}
-
 //go:generate genopts --function FindMenuItem verbose
 func (e *Extended) FindMenuItem(term string, optss ...FindMenuItemOption) (*FindMenuItemInfo, error) {
 	opts := MakeFindMenuItemOptions(optss...)
@@ -555,7 +545,7 @@ func (e *Extended) SearchByURIAndSave(ctx context.Context, uri string, optss ...
 }
 
 //go:generate genopts --function AddRestaurantsToSearchByURIs "threads:int" verbose
-func (e *Extended) AddRestaurantsToSearchByURIs(ctx context.Context, uri string, optss ...AddRestaurantsToSearchByURIsOption) (chan string, chan error, error) {
+func (e *Extended) AddRestaurantsToSearchByURIs(ctx context.Context, uri string, optss ...AddRestaurantsToSearchByURIsOption) (chan string, chan error) {
 	opts := MakeAddRestaurantsToSearchByURIsOptions(optss...)
 	log := makeLog("AddRestaurantsToSearchByURIs")
 
@@ -634,7 +624,7 @@ func (e *Extended) AddRestaurantsToSearchByURIs(ctx context.Context, uri string,
 		}
 	}()
 
-	return addedCh, errsCh, nil
+	return addedCh, errsCh
 }
 
 //go:generate genopts --function SearchEmptyRestaurants "threads:int" verbose "sleep:time.Duration"

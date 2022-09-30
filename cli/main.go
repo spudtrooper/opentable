@@ -147,7 +147,8 @@ func Main(ctx context.Context) error {
 
 	app.Register("SearchByURI", func(context.Context) error {
 		requireStringFlag(uri, "uri")
-		info, err := client.SearchByURI(*uri, api.SearchByURIVerbose(*verbose))
+		info, err := client.SearchByURI(*uri,
+			api.SearchByURIVerbose(*verbose))
 		if err != nil {
 			return err
 		}
@@ -181,7 +182,9 @@ func Main(ctx context.Context) error {
 		if err != nil {
 			return err
 		}
-		info, err := client.RestaurantDetails(searchInfo.Restaurants[0], api.RestaurantDetailsVerbose(*verbose), api.RestaurantDetailsDebugFailures(*debugFailures))
+		info, err := client.RestaurantDetails(searchInfo.Restaurants[0],
+			api.RestaurantDetailsVerbose(*verbose),
+			api.RestaurantDetailsDebugFailures(*debugFailures))
 		if err != nil {
 			return err
 		}
@@ -191,7 +194,9 @@ func Main(ctx context.Context) error {
 
 	app.Register("RestaurantDetailsFromID", func(context.Context) error {
 		requireStringFlag(restID, "rest_id")
-		info, err := client.RestaurantDetailsFromID(*restID, api.RestaurantDetailsVerbose(*verbose), api.RestaurantDetailsDebugFailures(*debugFailures))
+		info, err := client.RestaurantDetailsFromID(*restID,
+			api.RestaurantDetailsVerbose(*verbose),
+			api.RestaurantDetailsDebugFailures(*debugFailures))
 		if err != nil {
 			return err
 		}
@@ -201,13 +206,16 @@ func Main(ctx context.Context) error {
 
 	app.Register("SaveRawRestaurantDetailsFromID", func(context.Context) error {
 		requireStringFlag(restID, "rest_id")
-		info, err := client.RawRestaurantDetailsFromID(*restID, api.RestaurantDetailsVerbose(*verbose), api.RestaurantDetailsDebugFailures(*debugFailures))
+		info, err := client.RawRestaurantDetailsFromID(*restID,
+			api.RestaurantDetailsVerbose(*verbose),
+			api.RestaurantDetailsDebugFailures(*debugFailures))
 		if err != nil {
 			return err
 		}
 		fmt.Printf("SaveRawRestaurantDetailsFromID: %s\n", mustFormatString(info))
 		uri := fmt.Sprintf("https://www.opentable.com/r/%s", *restID)
-		if err := cache.SaveRestaurant(ctx, uri, *info, api.SaveRestaurantVerbose(*verbose)); err != nil {
+		if err := cache.SaveRestaurant(ctx, uri, *info,
+			api.SaveRestaurantVerbose(*verbose)); err != nil {
 			return err
 		}
 		return nil
@@ -232,7 +240,9 @@ func Main(ctx context.Context) error {
 	app.Register("FindMatchingMenuItems", func(context.Context) error {
 		requireStringFlag(term, "term")
 		requireStringFlag(restID, "rest_id")
-		info, err := client.RestaurantDetailsFromID(*restID, api.RestaurantDetailsVerbose(*verbose), api.RestaurantDetailsDebugFailures(*debugFailures))
+		info, err := client.RestaurantDetailsFromID(*restID,
+			api.RestaurantDetailsVerbose(*verbose),
+			api.RestaurantDetailsDebugFailures(*debugFailures))
 		if err != nil {
 			return err
 		}
@@ -243,7 +253,9 @@ func Main(ctx context.Context) error {
 
 	app.Register("AllMenuItems", func(context.Context) error {
 		requireStringFlag(restID, "rest_id")
-		info, err := client.RestaurantDetailsFromID(*restID, api.RestaurantDetailsVerbose(*verbose), api.RestaurantDetailsDebugFailures(*debugFailures))
+		info, err := client.RestaurantDetailsFromID(*restID,
+			api.RestaurantDetailsVerbose(*verbose),
+			api.RestaurantDetailsDebugFailures(*debugFailures))
 		if err != nil {
 			return err
 		}
@@ -254,7 +266,8 @@ func Main(ctx context.Context) error {
 
 	app.Register("FindMenuItem", func(context.Context) error {
 		requireStringFlag(term, "term")
-		info, err := client.FindMenuItem(*term, api.FindMenuItemVerbose(*verbose))
+		info, err := client.FindMenuItem(*term,
+			api.FindMenuItemVerbose(*verbose))
 		if err != nil {
 			return err
 		}
@@ -266,12 +279,9 @@ func Main(ctx context.Context) error {
 		requireStringFlag(uri, "uri")
 		uris := slice.NonEmptyStrings(slice.Strings(*uri, ","))
 		for _, uri := range uris {
-			toSearch, errs, err := client.AddRestaurantsToSearchByURIs(ctx, uri,
+			toSearch, errs := client.AddRestaurantsToSearchByURIs(ctx, uri,
 				api.AddRestaurantsToSearchByURIsThreads(*threads),
 				api.AddRestaurantsToSearchByURIsVerbose(*verbose))
-			if err != nil {
-				return err
-			}
 			parallel.WaitFor(
 				func() {
 					threads := or.Int(*threads, 20)
@@ -282,9 +292,7 @@ func Main(ctx context.Context) error {
 						go func() {
 							defer wg.Done()
 							for r := range toSearch {
-								if err := client.SearchRestaurantFromQueue(ctx, r,
-									api.SearchRestaurantFromQueueVerbose(*verbose),
-								); err != nil {
+								if err := client.SearchRestaurantFromQueue(ctx, r, api.SearchRestaurantFromQueueVerbose(*verbose)); err != nil {
 									fmt.Printf("SearchRestaurantFromQueue: %v\n", err)
 								}
 								if sleep > 0 {
