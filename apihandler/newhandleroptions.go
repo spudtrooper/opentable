@@ -6,6 +6,8 @@ type NewHandlerOption func(*newHandlerOptionImpl)
 type NewHandlerOptions interface {
 	RequiredFlagNames() []string
 	HasRequiredFlagNames() bool
+	CliOnly() bool
+	HasCliOnly() bool
 }
 
 func NewHandlerRequiredFlagNames(requiredFlagNames []string) NewHandlerOption {
@@ -24,13 +26,33 @@ func NewHandlerRequiredFlagNamesFlag(requiredFlagNames *[]string) NewHandlerOpti
 	}
 }
 
+func NewHandlerCliOnly(cliOnly bool) NewHandlerOption {
+	return func(opts *newHandlerOptionImpl) {
+		opts.has_cliOnly = true
+		opts.cliOnly = cliOnly
+	}
+}
+func NewHandlerCliOnlyFlag(cliOnly *bool) NewHandlerOption {
+	return func(opts *newHandlerOptionImpl) {
+		if cliOnly == nil {
+			return
+		}
+		opts.has_cliOnly = true
+		opts.cliOnly = *cliOnly
+	}
+}
+
 type newHandlerOptionImpl struct {
 	requiredFlagNames     []string
 	has_requiredFlagNames bool
+	cliOnly               bool
+	has_cliOnly           bool
 }
 
 func (n *newHandlerOptionImpl) RequiredFlagNames() []string { return n.requiredFlagNames }
 func (n *newHandlerOptionImpl) HasRequiredFlagNames() bool  { return n.has_requiredFlagNames }
+func (n *newHandlerOptionImpl) CliOnly() bool               { return n.cliOnly }
+func (n *newHandlerOptionImpl) HasCliOnly() bool            { return n.has_cliOnly }
 
 func makeNewHandlerOptionImpl(opts ...NewHandlerOption) *newHandlerOptionImpl {
 	res := &newHandlerOptionImpl{}

@@ -145,7 +145,7 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 				return info, nil
 			}),
 
-		apihandler.NewHandler("RestaurantDetails",
+		apihandler.NewHandler("RestaurantDetailsByID",
 			func(ctx apihandler.EvalContext) (interface{}, error) {
 				restID, ok := ctx.MustString("rest_id")
 				if !ok {
@@ -160,7 +160,6 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 				return info, nil
 			}),
 
-		// TODO: Don't want this on the server
 		apihandler.NewHandler("SaveRawRestaurantDetailsFromID",
 			func(ctx apihandler.EvalContext) (interface{}, error) {
 				restID, ok := ctx.MustString("rest_id")
@@ -179,9 +178,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 					return nil, err
 				}
 				return info, nil
-			}),
+			}, apihandler.NewHandlerCliOnly(true)),
 
-		// TODO: Don't want this on the server
 		apihandler.NewHandler("SearchAndSave",
 			func(ctx apihandler.EvalContext) (interface{}, error) {
 				term, ok := ctx.MustString("term")
@@ -192,9 +190,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 					return nil, err
 				}
 				return nil, nil
-			}),
+			}, apihandler.NewHandlerCliOnly(true)),
 
-		// TODO: Don't want this on the server
 		apihandler.NewHandler("SearchByURIAndSave",
 			func(ctx apihandler.EvalContext) (interface{}, error) {
 				term, ok := ctx.MustString("term")
@@ -205,7 +202,7 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 					return nil, err
 				}
 				return nil, nil
-			}),
+			}, apihandler.NewHandlerCliOnly(true)),
 
 		apihandler.NewHandler("FindMatchingMenuItems",
 			func(ctx apihandler.EvalContext) (interface{}, error) {
@@ -255,7 +252,6 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 				return info, nil
 			}),
 
-		// TODO: Don't want this on the server
 		apihandler.NewHandler("AddRestaurantsToSearchByURIs",
 			func(ctx apihandler.EvalContext) (interface{}, error) {
 				uri, ok := ctx.MustString("uri")
@@ -295,9 +291,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 						})
 				}
 				return nil, nil
-			}),
+			}, apihandler.NewHandlerCliOnly(true)),
 
-		// TODO: Don't want this on the server
 		apihandler.NewHandler("SearchEmptyRestaurants",
 			func(ctx apihandler.EvalContext) (interface{}, error) {
 				if err := client.SearchEmptyRestaurants(ctx.Context(),
@@ -307,7 +302,7 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 					return nil, err
 				}
 				return nil, nil
-			}),
+			}, apihandler.NewHandlerCliOnly(true)),
 
 		apihandler.NewHandler("RawListAllByURI",
 			func(ctx apihandler.EvalContext) (interface{}, error) {

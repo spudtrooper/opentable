@@ -26,6 +26,9 @@ func CreateHandler(ctx context.Context, staticDir string, hostPort string, hs ..
 
 	for _, h := range hs {
 		h := h.(*handler)
+		if h.cliOnly {
+			continue
+		}
 		route := fmt.Sprintf("/api/%s", strings.ToLower(h.name))
 		handleFunc(route, func(w http.ResponseWriter, req *http.Request) {
 			evalCtx := &serverEvalContext{
