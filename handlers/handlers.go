@@ -27,7 +27,14 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					return nil, err
 				}
 				return info, nil
-			}),
+			}, handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name: "term",
+						Type: handler.HandlerMetadataParamTypeString,
+					},
+				},
+			})),
 
 		// TODO: Doesn't work
 		handler.NewHandler("LocationPicker",
