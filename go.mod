@@ -10,6 +10,7 @@ require (
 	github.com/bluele/gcache v0.0.2
 	github.com/fatih/color v1.13.0
 	github.com/fbiville/markdown-table-formatter v0.3.0
+	github.com/gorilla/handlers v1.5.1
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/pkg/errors v0.9.1
 	github.com/spudtrooper/goutil v0.1.87
@@ -20,6 +21,7 @@ require (
 
 require (
 	github.com/TylerBrock/colorjson v0.0.0-20200706003622-8a50f05110d2 // indirect
+	github.com/felixge/httpsnoop v1.0.1 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect

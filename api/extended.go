@@ -13,6 +13,23 @@ import (
 	"github.com/spudtrooper/goutil/or"
 )
 
+func MakeExtendedFromFlags(ctx context.Context) (*Extended, error) {
+	core, err := NewClientFromFlags()
+	if err != nil {
+		return nil, err
+	}
+
+	db, err := ConnectToDB(ctx)
+	if err != nil {
+		return nil, err
+	}
+	cache := MakeDBCache(db)
+
+	client := FromClient(core, cache)
+
+	return client, nil
+}
+
 type Extended struct {
 	*Client
 	cache *Cache
