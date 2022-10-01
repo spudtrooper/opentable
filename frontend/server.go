@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	apihandler "github.com/spudtrooper/minimalcli/apihandler"
+	"github.com/spudtrooper/minimalcli/handler"
 	"github.com/spudtrooper/opentable/api"
 	"github.com/spudtrooper/opentable/handlers"
 )
@@ -24,7 +24,7 @@ func ListenAndServe(ctx context.Context, port int, host string, staticDir string
 		return err
 	}
 	handlers := handlers.CreateHandlers(client)
-	handler := apihandler.CreateHandler(ctx, staticDir, hostPort, handlers...)
+	handler := handler.CreateHandler(ctx, staticDir, hostPort, handlers...)
 
 	log.Printf("listening on %s", hostPort)
 

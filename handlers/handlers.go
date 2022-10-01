@@ -9,15 +9,15 @@ import (
 	"github.com/spudtrooper/goutil/or"
 	"github.com/spudtrooper/goutil/parallel"
 	"github.com/spudtrooper/goutil/slice"
-	apihandler "github.com/spudtrooper/minimalcli/apihandler"
+	"github.com/spudtrooper/minimalcli/handler"
 	"github.com/spudtrooper/opentable/api"
 )
 
-func CreateHandlers(client *api.Extended) []apihandler.Handler {
-	return []apihandler.Handler{
+func CreateHandlers(client *api.Extended) []handler.Handler {
+	return []handler.Handler{
 
-		apihandler.NewHandler("Search",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("Search",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				term, ok := ctx.MustString("term")
 				if !ok {
 					return nil, nil
@@ -30,8 +30,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 			}),
 
 		// TODO: Doesn't work
-		apihandler.NewHandler("LocationPicker",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("LocationPicker",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				info, err := client.LocationPicker(api.LocationPickerVerbose(ctx.Bool("verbose")))
 				if err != nil {
 					return nil, err
@@ -39,8 +39,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 				return info, nil
 			}),
 
-		apihandler.NewHandler("RestaurantsAvailability",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("RestaurantsAvailability",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				info, err := client.RestaurantsAvailability(api.RestaurantsAvailabilityVerbose(ctx.Bool("verbose")))
 				if err != nil {
 					return nil, err
@@ -48,8 +48,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 				return info, nil
 			}),
 
-		apihandler.NewHandler("SearchAll",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("SearchAll",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				term, ok := ctx.MustString("term")
 				if !ok {
 					return nil, nil
@@ -87,8 +87,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 				return res, nil
 			}),
 
-		apihandler.NewHandler("SearchByURI",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("SearchByURI",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				uri, ok := ctx.MustString("uri")
 				if !ok {
 					return nil, nil
@@ -100,8 +100,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 				return info, nil
 			}),
 
-		apihandler.NewHandler("RawListByURI",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("RawListByURI",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				uri, ok := ctx.MustString("uri")
 				if !ok {
 					return nil, nil
@@ -113,8 +113,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 				return info, nil
 			}),
 
-		apihandler.NewHandler("ListByURI",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("ListByURI",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				uri, ok := ctx.MustString("uri")
 				if !ok {
 					return nil, nil
@@ -126,8 +126,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 				return info, nil
 			}),
 
-		apihandler.NewHandler("RestaurantDetails",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("RestaurantDetails",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				term, ok := ctx.MustString("term")
 				if !ok {
 					return nil, nil
@@ -145,8 +145,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 				return info, nil
 			}),
 
-		apihandler.NewHandler("RestaurantDetailsByID",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("RestaurantDetailsByID",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				restID, ok := ctx.MustString("rest_id")
 				if !ok {
 					return nil, nil
@@ -160,8 +160,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 				return info, nil
 			}),
 
-		apihandler.NewHandler("SaveRawRestaurantDetailsFromID",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("SaveRawRestaurantDetailsFromID",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				restID, ok := ctx.MustString("rest_id")
 				if !ok {
 					return nil, nil
@@ -178,10 +178,10 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 					return nil, err
 				}
 				return info, nil
-			}, apihandler.NewHandlerCliOnly(true)),
+			}, handler.NewHandlerCliOnly(true)),
 
-		apihandler.NewHandler("SearchAndSave",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("SearchAndSave",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				term, ok := ctx.MustString("term")
 				if !ok {
 					return nil, nil
@@ -190,10 +190,10 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 					return nil, err
 				}
 				return nil, nil
-			}, apihandler.NewHandlerCliOnly(true)),
+			}, handler.NewHandlerCliOnly(true)),
 
-		apihandler.NewHandler("SearchByURIAndSave",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("SearchByURIAndSave",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				term, ok := ctx.MustString("term")
 				if !ok {
 					return nil, nil
@@ -202,10 +202,10 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 					return nil, err
 				}
 				return nil, nil
-			}, apihandler.NewHandlerCliOnly(true)),
+			}, handler.NewHandlerCliOnly(true)),
 
-		apihandler.NewHandler("FindMatchingMenuItems",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("FindMatchingMenuItems",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				term, ok := ctx.MustString("term")
 				if !ok {
 					return nil, nil
@@ -224,8 +224,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 				return items, nil
 			}),
 
-		apihandler.NewHandler("AllMenuItems",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("AllMenuItems",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				restID, ok := ctx.MustString("rest_id")
 				if !ok {
 					return nil, nil
@@ -239,8 +239,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 				return info, nil
 			}),
 
-		apihandler.NewHandler("FindMenuItem",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("FindMenuItem",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				term, ok := ctx.MustString("term")
 				if !ok {
 					return nil, nil
@@ -252,8 +252,8 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 				return info, nil
 			}),
 
-		apihandler.NewHandler("AddRestaurantsToSearchByURIs",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("AddRestaurantsToSearchByURIs",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				uri, ok := ctx.MustString("uri")
 				if !ok {
 					return nil, nil
@@ -291,10 +291,10 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 						})
 				}
 				return nil, nil
-			}, apihandler.NewHandlerCliOnly(true)),
+			}, handler.NewHandlerCliOnly(true)),
 
-		apihandler.NewHandler("SearchEmptyRestaurants",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("SearchEmptyRestaurants",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				if err := client.SearchEmptyRestaurants(ctx.Context(),
 					api.SearchEmptyRestaurantsThreads(ctx.Int("threads")),
 					api.SearchEmptyRestaurantsVerbose(ctx.Bool("verbose")),
@@ -302,10 +302,10 @@ func CreateHandlers(client *api.Extended) []apihandler.Handler {
 					return nil, err
 				}
 				return nil, nil
-			}, apihandler.NewHandlerCliOnly(true)),
+			}, handler.NewHandlerCliOnly(true)),
 
-		apihandler.NewHandler("RawListAllByURI",
-			func(ctx apihandler.EvalContext) (interface{}, error) {
+		handler.NewHandler("RawListAllByURI",
+			func(ctx handler.EvalContext) (interface{}, error) {
 				uri, ok := ctx.MustString("uri")
 				if !ok {
 					return nil, nil

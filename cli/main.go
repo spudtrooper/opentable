@@ -7,7 +7,7 @@ import (
 	"log"
 
 	"github.com/spudtrooper/goutil/flags"
-	apihandler "github.com/spudtrooper/minimalcli/apihandler"
+	"github.com/spudtrooper/minimalcli/handler"
 	"github.com/spudtrooper/opentable/api"
 	"github.com/spudtrooper/opentable/handlers"
 )
@@ -25,7 +25,7 @@ var (
 )
 
 func Main(ctx context.Context) error {
-	adp := apihandler.NewCLIAdapter()
+	adp := handler.NewCLIAdapter()
 	adp.BindStringFlag("term", term)
 	adp.BindStringFlag("uri", uri)
 	adp.BindBoolFlag("verbose", verbose)
@@ -41,7 +41,7 @@ func Main(ctx context.Context) error {
 	}
 
 	handlers := handlers.CreateHandlers(client)
-	app := apihandler.CreateApp(adp, handlers...)
+	app := handler.CreateApp(adp, handlers...)
 
 	app.Register("TestFailedJSON", func(context.Context) error {
 		requireStringFlag(failureJSON, "failure_json")
