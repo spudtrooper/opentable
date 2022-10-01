@@ -14,12 +14,12 @@ var (
 	verbose       = flags.Bool("verbose", "global verbose")
 	term          = flags.String("term", "global term")
 	uri           = flags.String("uri", "global uri")
-	debugFailures = flags.Bool("debug_failures", "global debug_failres")
-	failureJSON   = flags.String("failure_json", "file to test parsing")
 	restID        = flags.String("rest_id", `restaurant id, e.g. "kumi-japanese-restaurant-and-bar-nyc-new-york"`)
 	startPage     = flags.Int("start_page", "global start page")
 	threads       = flags.Int("threads", "global threads")
 	sleep         = flags.Duration("sleep", "global sleep")
+	debugFailures = flags.Bool("debug_failures", "global debug_failres")
+	failureJSON   = flags.String("failure_json", "file to test parsing")
 )
 
 func Main(ctx context.Context) error {
@@ -27,6 +27,11 @@ func Main(ctx context.Context) error {
 	adp.BindStringFlag("term", term)
 	adp.BindStringFlag("uri", uri)
 	adp.BindBoolFlag("verbose", verbose)
+	adp.BindBoolFlag("debug_failures", debugFailures)
+	adp.BindIntFlag("start_page", startPage)
+	adp.BindIntFlag("threads", threads)
+	adp.BindStringFlag("rest_id", restID)
+	adp.BindDurationFlag("sleep", sleep)
 	// TODO: more
 
 	client, err := api.MakeExtendedFromFlags(ctx)
