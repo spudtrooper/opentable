@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
+	gorillahandlers "github.com/gorilla/handlers"
 	"github.com/spudtrooper/minimalcli/handler"
 	"github.com/spudtrooper/opentable/api"
 	"github.com/spudtrooper/opentable/handlers"
@@ -24,7 +26,10 @@ func ListenAndServe(ctx context.Context, port int, host string, staticDir string
 		return err
 	}
 	handlers := handlers.CreateHandlers(client)
-	handler := handler.CreateHandler(ctx, staticDir, hostPort, handlers...)
+	handler := handler.CreateHandler(ctx, handlers, handler.CreateHandlerIndexTitle("opentable.com API"))
+	if staticDir != "" {
+		handler.Handle("/", gorillahandlers.CombinedLoggingHandler(os.Stdout, http.FileServer(http.Dir(staticDir))))
+	}
 
 	log.Printf("listening on %s", hostPort)
 

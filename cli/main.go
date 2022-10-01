@@ -41,7 +41,7 @@ func Main(ctx context.Context) error {
 	}
 
 	handlers := handlers.CreateHandlers(client)
-	app := handler.CreateApp(adp, handlers...)
+	app := handler.CreateCLI(adp, handlers...)
 
 	app.Register("TestFailedJSON", func(context.Context) error {
 		requireStringFlag(failureJSON, "failure_json")
