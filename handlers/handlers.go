@@ -9,8 +9,8 @@ import (
 	"github.com/spudtrooper/goutil/or"
 	"github.com/spudtrooper/goutil/parallel"
 	"github.com/spudtrooper/goutil/slice"
+	apihandler "github.com/spudtrooper/minimalcli/apihandler"
 	"github.com/spudtrooper/opentable/api"
-	"github.com/spudtrooper/opentable/apihandler"
 )
 
 func CreateHandlers(client *api.Extended) []apihandler.Handler {

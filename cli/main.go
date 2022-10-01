@@ -7,8 +7,8 @@ import (
 	"log"
 
 	"github.com/spudtrooper/goutil/flags"
+	apihandler "github.com/spudtrooper/minimalcli/apihandler"
 	"github.com/spudtrooper/opentable/api"
-	"github.com/spudtrooper/opentable/apihandler"
 	"github.com/spudtrooper/opentable/handlers"
 )
 
