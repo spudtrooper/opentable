@@ -32,7 +32,6 @@ func Main(ctx context.Context) error {
 	adp.BindIntFlag("threads", threads)
 	adp.BindStringFlag("rest_id", restID)
 	adp.BindDurationFlag("sleep", sleep)
-	// TODO: more
 
 	client, err := api.MakeExtendedFromFlags(ctx)
 	if err != nil {

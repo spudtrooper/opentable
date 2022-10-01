@@ -36,6 +36,9 @@ type Extended struct {
 	stats *stats
 }
 
+// TODO: Have everyone pass this in instead of returning it.
+func (e *Extended) Cache() *Cache { return e.cache }
+
 func FromClient(c *Client, cache *Cache) *Extended {
 	return &Extended{
 		Client: c,
