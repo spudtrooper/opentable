@@ -36,6 +36,18 @@ type Extended struct {
 	stats *stats
 }
 
+// WithAuthCke return a cloned Extended with `authCke` overwritten to the new value.
+func (e *Extended) WithAuthCke(authCke string) *Extended {
+	return &Extended{
+		Client: &Client{
+			authCke:  authCke,
+			urlCache: e.urlCache,
+		},
+		cache: e.cache,
+		stats: e.stats,
+	}
+}
+
 // TODO: Have everyone pass this in instead of returning it.
 func (e *Extended) Cache() *Cache { return e.cache }
 

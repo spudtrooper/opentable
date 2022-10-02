@@ -18,8 +18,9 @@ import (
 )
 
 var (
-	token     = flags.String("token", "auth token")
-	userCreds = flag.String("user_creds", ".user_creds.json", "file with user credentials")
+	token       = flags.String("token", "auth token")
+	userCreds   = flag.String("user_creds", ".user_creds.json", "file with user credentials")
+	noUserCreds = flag.Bool("no_user_creds", false, "Don't use user creds event if it exists")
 )
 
 // Client is a client for opentable.com
@@ -32,6 +33,10 @@ type Client struct {
 func NewClientFromFlags() (*Client, error) {
 	if *token != "" {
 		client := NewClient(*token)
+		return client, nil
+	}
+	if *noUserCreds {
+		client := NewClient("")
 		return client, nil
 	}
 	if *userCreds != "" {

@@ -22,7 +22,11 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				if !ok {
 					return nil, nil
 				}
-				info, err := client.Search(term, api.SearchVerbose(ctx.Bool("verbose")))
+				info, err := client.Search(term,
+					api.SearchVerbose(ctx.Bool("verbose")),
+					api.SearchLatitude(ctx.Float32("latitude")),
+					api.SearchLongitude(ctx.Float32("longitude")),
+				)
 				if err != nil {
 					return nil, err
 				}
@@ -31,17 +35,34 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 			handler.Params().
 				RequiredString("term").
 				Bool("verbose").
+				Float32("latitude").
+				Float32("longitude").
 				BuildOption()),
 
-		// TODO: Doesn't work
 		handler.NewHandler("LocationPicker",
 			func(ctx handler.EvalContext) (interface{}, error) {
-				info, err := client.LocationPicker(api.LocationPickerVerbose(ctx.Bool("verbose")))
+				if authCke := ctx.String("authCke"); authCke != "" {
+					client = client.WithAuthCke(authCke)
+				}
+				info, err := client.LocationPicker(
+					api.LocationPickerVerbose(ctx.Bool("verbose")),
+					api.LocationPickerTld(ctx.String("tld")),
+					api.LocationPickerMetroID(ctx.Int("metro_id")),
+					api.LocationPickerDomainID(ctx.Int("domain_id")),
+				)
 				if err != nil {
 					return nil, err
 				}
 				return info, nil
-			}),
+			},
+			handler.Params().
+				String("authCke").
+				String("tld").
+				Int("metro_id").
+				Int("domain_id").
+				String("tld").
+				Bool("verbose").
+				BuildOption()),
 
 		handler.NewHandler("RestaurantsAvailability",
 			func(ctx handler.EvalContext) (interface{}, error) {
