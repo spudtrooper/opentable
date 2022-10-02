@@ -17,8 +17,9 @@ fi
 
 function clean() {
   rm -rf tools
-  rm -f main.go usetoken.go book.go book_main.go
+  rm -f main.go usetoken.go
   rm -rf vendor 
+  rm -rf .*.json
 }
 
 function deploy() {
