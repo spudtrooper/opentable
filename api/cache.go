@@ -8,6 +8,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+func EmptyCache() *Cache {
+	return &Cache{}
+}
+
 type Cache struct {
 	db *mongo.Database
 }

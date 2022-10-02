@@ -13,7 +13,7 @@ import (
 	"github.com/spudtrooper/opentable/handlers"
 )
 
-func ListenAndServe(ctx context.Context, port int, host string, staticDir string) error {
+func ListenAndServe(ctx context.Context, client *api.Extended, port int, host string, staticDir string) error {
 	var hostPort string
 	if host == "localhost" {
 		hostPort = fmt.Sprintf("http://localhost:%d", port)
@@ -21,10 +21,6 @@ func ListenAndServe(ctx context.Context, port int, host string, staticDir string
 		hostPort = fmt.Sprintf("https://%s", host)
 	}
 
-	client, err := api.MakeExtendedFromFlags(ctx)
-	if err != nil {
-		return err
-	}
 	handlers := handlers.CreateHandlers(client)
 	handler := handler.CreateHandler(ctx, handlers, handler.CreateHandlerIndexTitle("opentable.com API"))
 	if staticDir != "" {

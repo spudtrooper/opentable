@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/spudtrooper/goutil/check"
+	"github.com/spudtrooper/opentable/api"
 	"github.com/spudtrooper/opentable/frontend"
 )
 
@@ -34,5 +35,8 @@ func main() {
 	if *host == "" {
 		log.Fatalf("host is required")
 	}
-	check.Err(frontend.ListenAndServe(context.Background(), port, *host, ""))
+	ctx := context.Background()
+
+	client := api.FromClient(api.NewClient(""), api.EmptyCache())
+	check.Err(frontend.ListenAndServe(ctx, client, port, *host, ""))
 }

@@ -12,6 +12,7 @@ import (
 	"strings"
 	"sync"
 
+	goutilio "github.com/spudtrooper/goutil/io"
 	goutiljson "github.com/spudtrooper/goutil/json"
 	"github.com/spudtrooper/goutil/request"
 )
@@ -36,6 +37,10 @@ func (p *ProxyConfig) MaybeRead(infile string) error {
 	defer p.readLock.Unlock()
 
 	if p.storedProxyConfig != nil {
+		return nil
+	}
+
+	if !goutilio.FileExists(infile) {
 		return nil
 	}
 

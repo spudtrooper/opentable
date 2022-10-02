@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"log"
 	"strings"
@@ -14,30 +13,19 @@ import (
 	"github.com/spudtrooper/goutil/or"
 )
 
-var (
-	noCache = flag.Bool("no_cache", false, "Don't use cache")
-)
-
 func MakeExtendedFromFlags(ctx context.Context) (*Extended, error) {
 	core, err := NewClientFromFlags()
 	if err != nil {
 		return nil, err
 	}
 
-	var cache *Cache
-	if *noCache {
-		log.Printf("skipping cache")
-	} else {
-		log.Printf("using cache")
-		db, err := ConnectToDB(ctx)
-		if err != nil {
-			return nil, err
-		}
-		cache = MakeDBCache(db)
+	db, err := ConnectToDB(ctx)
+	if err != nil {
+		return nil, err
 	}
+	cache := MakeDBCache(db)
 
 	client := FromClient(core, cache)
-
 	return client, nil
 }
 
