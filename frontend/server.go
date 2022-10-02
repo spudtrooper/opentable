@@ -22,7 +22,7 @@ func ListenAndServe(ctx context.Context, client *api.Extended, port int, host st
 	handlers := handlers.CreateHandlers(client)
 	mux := handler.CreateHandler(ctx, handlers,
 		handler.CreateHandlerPrefix("api"),
-		handler.CreateHandlerIndexTitle("opentable.com API"))
+		handler.CreateHandlerIndexTitle("very unofficial opentable.com API"))
 	mux.Handle("/", http.RedirectHandler("/api", http.StatusSeeOther))
 
 	log.Printf("listening on %s", hostPort)
