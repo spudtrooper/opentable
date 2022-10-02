@@ -38,5 +38,5 @@ func main() {
 	ctx := context.Background()
 
 	client := api.FromClient(api.NewClient(""), api.EmptyCache())
-	check.Err(frontend.ListenAndServe(ctx, client, port, *host, ""))
+	check.Err(frontend.ListenAndServe(ctx, client, port, *host))
 }

@@ -8,22 +8,47 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func EmptyCache() *Cache {
-	return &Cache{}
+type Cache interface {
+	SaveRestaurant(ctx context.Context, uri string, raw RawRestaurantDetails, optss ...SaveRestaurantOption) error
+	SaveRestaurantToSearch(ctx context.Context, restaurantURI string, optss ...SaveRestaurantOption) (SaveRestaurantToSearchResult, error)
+	DeleteRestaurantToSearch(ctx context.Context, restaurantURI string) error
+	RestaurantsToSearch(ctx context.Context) ([]RestaurantToSearch, error)
 }
 
-type Cache struct {
+func (*emptyCache) SaveRestaurant(ctx context.Context, uri string, raw RawRestaurantDetails, optss ...SaveRestaurantOption) error {
+	return nil
+}
+func (*emptyCache) SaveRestaurantToSearch(ctx context.Context, restaurantURI string, optss ...SaveRestaurantOption) (SaveRestaurantToSearchResult, error) {
+	return SaveRestaurantToSearch_None, nil
+}
+func (*emptyCache) DeleteRestaurantToSearch(ctx context.Context, restaurantURI string) error {
+	return nil
+}
+func (*emptyCache) RestaurantsToSearch(ctx context.Context) ([]RestaurantToSearch, error) {
+	return nil, nil
+}
+
+type emptyCache struct{}
+
+func EmptyCache() Cache {
+	return &emptyCache{}
+}
+
+type dbCache struct {
 	db *mongo.Database
 }
 
-func MakeDBCache(db *mongo.Database) *Cache {
+func MakeDBCache(db *mongo.Database) Cache {
+	if db == nil {
+		panic("nil db")
+	}
 	return makeDBCache(db)
 }
 
-func makeDBCache(db *mongo.Database) *Cache {
+func makeDBCache(db *mongo.Database) *dbCache {
 	db.Collection("restaurants")
 	db.Collection("restaurantsToSearch")
-	return &Cache{db: db}
+	return &dbCache{db: db}
 }
 
 type storedRestaurant struct {
@@ -35,7 +60,7 @@ type storedRestaurant struct {
 }
 
 //go:generate genopts --function SaveRestaurant verbose reallyVerbose
-func (c *Cache) SaveRestaurant(ctx context.Context, uri string, raw RawRestaurantDetails, optss ...SaveRestaurantOption) error {
+func (c *dbCache) SaveRestaurant(ctx context.Context, uri string, raw RawRestaurantDetails, optss ...SaveRestaurantOption) error {
 	opts := MakeSaveRestaurantOptions(optss...)
 	log := makeLog("SaveRestaurant")
 
@@ -77,7 +102,7 @@ const SaveRestaurantToSearch_RestaurantAlreadyWaiting SaveRestaurantToSearchResu
 const SaveRestaurantToSearch_Added SaveRestaurantToSearchResult = "added"
 const SaveRestaurantToSearch_None SaveRestaurantToSearchResult = "none"
 
-func (c *Cache) SaveRestaurantToSearch(ctx context.Context, restaurantURI string, optss ...SaveRestaurantOption) (SaveRestaurantToSearchResult, error) {
+func (c *dbCache) SaveRestaurantToSearch(ctx context.Context, restaurantURI string, optss ...SaveRestaurantOption) (SaveRestaurantToSearchResult, error) {
 	opts := MakeSaveRestaurantOptions(optss...)
 	log := makeLog("SaveRestaurantToSearch")
 
@@ -115,7 +140,7 @@ func (c *Cache) SaveRestaurantToSearch(ctx context.Context, restaurantURI string
 	return SaveRestaurantToSearch_Added, nil
 }
 
-func (c *Cache) DeleteRestaurantToSearch(ctx context.Context, restaurantURI string) error {
+func (c *dbCache) DeleteRestaurantToSearch(ctx context.Context, restaurantURI string) error {
 	filter := bson.D{
 		{Key: "uri", Value: restaurantURI},
 	}
@@ -129,7 +154,7 @@ type RestaurantToSearch struct {
 	URI string
 }
 
-func (c *Cache) RestaurantsToSearch(ctx context.Context) ([]RestaurantToSearch, error) {
+func (c *dbCache) RestaurantsToSearch(ctx context.Context) ([]RestaurantToSearch, error) {
 	cur, err := c.db.Collection("restaurantsToSearch").Find(ctx, bson.D{})
 	if err != nil {
 		return nil, err

@@ -31,7 +31,7 @@ func MakeExtendedFromFlags(ctx context.Context) (*Extended, error) {
 
 type Extended struct {
 	*Client
-	cache *Cache
+	cache Cache
 	stats *stats
 }
 
@@ -48,9 +48,9 @@ func (e *Extended) WithAuthCke(authCke string) *Extended {
 }
 
 // TODO: Have everyone pass this in instead of returning it.
-func (e *Extended) Cache() *Cache { return e.cache }
+func (e *Extended) Cache() Cache { return e.cache }
 
-func FromClient(c *Client, cache *Cache) *Extended {
+func FromClient(c *Client, cache Cache) *Extended {
 	return &Extended{
 		Client: c,
 		cache:  cache,

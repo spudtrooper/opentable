@@ -5,15 +5,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
-	gorillahandlers "github.com/gorilla/handlers"
 	"github.com/spudtrooper/minimalcli/handler"
 	"github.com/spudtrooper/opentable/api"
 	"github.com/spudtrooper/opentable/handlers"
 )
 
-func ListenAndServe(ctx context.Context, client *api.Extended, port int, host string, staticDir string) error {
+func ListenAndServe(ctx context.Context, client *api.Extended, port int, host string) error {
 	var hostPort string
 	if host == "localhost" {
 		hostPort = fmt.Sprintf("http://localhost:%d", port)
@@ -22,14 +20,14 @@ func ListenAndServe(ctx context.Context, client *api.Extended, port int, host st
 	}
 
 	handlers := handlers.CreateHandlers(client)
-	handler := handler.CreateHandler(ctx, handlers, handler.CreateHandlerIndexTitle("opentable.com API"))
-	if staticDir != "" {
-		handler.Handle("/", gorillahandlers.CombinedLoggingHandler(os.Stdout, http.FileServer(http.Dir(staticDir))))
-	}
+	mux := handler.CreateHandler(ctx, handlers,
+		handler.CreateHandlerPrefix("api"),
+		handler.CreateHandlerIndexTitle("opentable.com API"))
+	mux.Handle("/", http.RedirectHandler("/api", http.StatusSeeOther))
 
 	log.Printf("listening on %s", hostPort)
 
-	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), handler); err != nil {
+	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), mux); err != nil {
 		return err
 	}
 
