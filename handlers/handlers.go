@@ -22,15 +22,11 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				if !ok {
 					return nil, nil
 				}
-				info, err := client.Search(term,
+				return client.Search(term,
 					api.SearchVerbose(ctx.Bool("verbose")),
 					api.SearchLatitude(ctx.Float32("latitude")),
 					api.SearchLongitude(ctx.Float32("longitude")),
 				)
-				if err != nil {
-					return nil, err
-				}
-				return info, nil
 			},
 			handler.Params().
 				RequiredString("term").
@@ -44,16 +40,12 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				if authCke := ctx.String("authCke"); authCke != "" {
 					client = client.WithAuthCke(authCke)
 				}
-				info, err := client.LocationPicker(
+				return client.LocationPicker(
 					api.LocationPickerVerbose(ctx.Bool("verbose")),
 					api.LocationPickerTld(ctx.String("tld")),
 					api.LocationPickerMetroID(ctx.Int("metro_id")),
 					api.LocationPickerDomainID(ctx.Int("domain_id")),
 				)
-				if err != nil {
-					return nil, err
-				}
-				return info, nil
 			},
 			handler.Params().
 				String("authCke").
@@ -66,11 +58,8 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 
 		handler.NewHandler("RestaurantsAvailability",
 			func(ctx handler.EvalContext) (interface{}, error) {
-				info, err := client.RestaurantsAvailability(api.RestaurantsAvailabilityVerbose(ctx.Bool("verbose")))
-				if err != nil {
-					return nil, err
-				}
-				return info, nil
+				return client.RestaurantsAvailability(
+					api.RestaurantsAvailabilityVerbose(ctx.Bool("verbose")))
 			},
 			handler.Params().
 				Bool("verbose").
@@ -133,11 +122,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				if !ok {
 					return nil, nil
 				}
-				info, err := client.SearchByURI(uri, api.SearchByURIVerbose(ctx.Bool("verbose")))
-				if err != nil {
-					return nil, err
-				}
-				return info, nil
+				return client.SearchByURI(uri, api.SearchByURIVerbose(ctx.Bool("verbose")))
 			},
 			handler.Params().
 				RequiredString("uri").
@@ -150,11 +135,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				if !ok {
 					return nil, nil
 				}
-				info, err := client.RawListByURI(uri, api.ListByURIVerbose(ctx.Bool("verbose")))
-				if err != nil {
-					return nil, err
-				}
-				return info, nil
+				return client.RawListByURI(uri, api.ListByURIVerbose(ctx.Bool("verbose")))
 			},
 			handler.Params().
 				RequiredString("uri").
@@ -167,11 +148,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				if !ok {
 					return nil, nil
 				}
-				info, err := client.ListByURI(uri, api.ListByURIVerbose(ctx.Bool("verbose")))
-				if err != nil {
-					return nil, err
-				}
-				return info, nil
+				return client.ListByURI(uri, api.ListByURIVerbose(ctx.Bool("verbose")))
 			},
 			handler.Params().
 				RequiredString("uri").
@@ -188,13 +165,9 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				if err != nil {
 					return nil, err
 				}
-				info, err := client.RestaurantDetails(searchInfo.Restaurants[0],
+				return client.RestaurantDetails(searchInfo.Restaurants[0],
 					api.RestaurantDetailsVerbose(ctx.Bool("verbose")),
 					api.RestaurantDetailsDebugFailures(ctx.Bool("debug_failures")))
-				if err != nil {
-					return nil, err
-				}
-				return info, nil
 			},
 			handler.Params().
 				RequiredString("term").
@@ -208,13 +181,9 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				if !ok {
 					return nil, nil
 				}
-				info, err := client.RestaurantDetailsFromID(restID,
+				return client.RestaurantDetailsFromID(restID,
 					api.RestaurantDetailsVerbose(ctx.Bool("verbose")),
 					api.RestaurantDetailsDebugFailures(ctx.Bool("debug_failures")))
-				if err != nil {
-					return nil, err
-				}
-				return info, nil
 			},
 			handler.Params().
 				RequiredString("rest_id").
@@ -314,13 +283,9 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				if !ok {
 					return nil, nil
 				}
-				info, err := client.RestaurantDetailsFromID(restID,
+				return client.RestaurantDetailsFromID(restID,
 					api.RestaurantDetailsVerbose(ctx.Bool("verbose")),
 					api.RestaurantDetailsDebugFailures(ctx.Bool("debug_failures")))
-				if err != nil {
-					return nil, err
-				}
-				return info, nil
 			},
 			handler.Params().
 				RequiredString("rest_id").
@@ -334,16 +299,12 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				if !ok {
 					return nil, nil
 				}
-				info, err := client.FindMenuItem(term,
+				return client.FindMenuItem(term,
 					api.FindMenuItemVerbose(ctx.Bool("verbose")),
 					api.FindMenuItemLongitude(ctx.Float32("longitude")),
 					api.FindMenuItemLatitude(ctx.Float32("latitude")),
 					api.FindMenuItemMetroID(ctx.Int("metro_id")),
 				)
-				if err != nil {
-					return nil, err
-				}
-				return info, nil
 			},
 			handler.Params().
 				RequiredString("term").
