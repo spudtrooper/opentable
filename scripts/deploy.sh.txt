@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# Deploys opentable to heroku
+#
+set -e
+
+DIR=$(basename $(pwd))
+if [[ $DIR == "opentable" ]]; then
+  echo "You must run this script from the deploy directory"
+  exit 1
+fi
+
+msg="$@"
+if [[ -z "$msg" ]]; then
+	msg="update $(date)"
+fi
+
+function clean() {
+  rm -rf tools
+  rm -f main.go usetoken.go book.go book_main.go
+  rm -rf vendor 
+}
+
+function deploy() {
+  mv frontend_main.go main.go
+  go mod tidy
+  go mod vendor
+  git add .
+  git commit -am "$msg"
+  git push heroku master
+}
+
+rm -rf *.go vendor
+
+cp -r ../opentable/* .
+
+clean
+deploy

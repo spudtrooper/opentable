@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log"
 	"strings"
@@ -13,17 +14,27 @@ import (
 	"github.com/spudtrooper/goutil/or"
 )
 
+var (
+	noCache = flag.Bool("no_cache", false, "Don't use cache")
+)
+
 func MakeExtendedFromFlags(ctx context.Context) (*Extended, error) {
 	core, err := NewClientFromFlags()
 	if err != nil {
 		return nil, err
 	}
 
-	db, err := ConnectToDB(ctx)
-	if err != nil {
-		return nil, err
+	var cache *Cache
+	if *noCache {
+		log.Printf("skipping cache")
+	} else {
+		log.Printf("using cache")
+		db, err := ConnectToDB(ctx)
+		if err != nil {
+			return nil, err
+		}
+		cache = MakeDBCache(db)
 	}
-	cache := MakeDBCache(db)
 
 	client := FromClient(core, cache)
 
@@ -136,11 +147,16 @@ func AllMenuItems(rd RestaurantDetails) AllMenuItemsInfo {
 	return AllMenuItemsInfo{items}
 }
 
-//go:generate genopts --function FindMenuItem verbose
+//go:generate genopts --function FindMenuItem verbose latitude:float32 longitude:float32 metroID:int
 func (e *Extended) FindMenuItem(term string, optss ...FindMenuItemOption) (*FindMenuItemInfo, error) {
 	opts := MakeFindMenuItemOptions(optss...)
 
-	searchInfo, err := e.Search(term, SearchVerbose(opts.Verbose()))
+	searchInfo, err := e.Search(term,
+		SearchVerbose(opts.Verbose()),
+		SearchLatitude(opts.Latitude()),
+		SearchLatitude(opts.Longitude()),
+		SearchMetroID(opts.MetroID()),
+	)
 	if err != nil {
 		return nil, err
 	}

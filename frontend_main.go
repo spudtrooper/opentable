@@ -13,8 +13,7 @@ import (
 
 var (
 	portForTesting = flag.Int("port_for_testing", 0, "port to listen on")
-	staticDir      = flag.String("static_dir", "frontend/static", "static dir")
-	host           = flag.String("host", "canyouturtle.herokuapp.com", "host name")
+	host           = flag.String("host", "unofficial-opentable-api.herokuapp.com", "host name")
 )
 
 func main() {
@@ -35,5 +34,5 @@ func main() {
 	if *host == "" {
 		log.Fatalf("host is required")
 	}
-	check.Err(frontend.ListenAndServe(context.Background(), port, *host, *staticDir))
+	check.Err(frontend.ListenAndServe(context.Background(), port, *host, ""))
 }

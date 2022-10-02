@@ -86,6 +86,9 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					api.SearchAllVerbose(ctx.Bool("verbose")),
 					api.SearchAllThreads(ctx.Int("threads")),
 					api.SearchAllStartPage(ctx.Int("start_page")),
+					api.SearchAllLongitude(ctx.Float32("longitude")),
+					api.SearchAllLatitude(ctx.Float32("latitude")),
+					api.SearchAllMetroID(ctx.Int("metro_id")),
 				)
 				type rest struct {
 					Name, ProfileLink string
@@ -119,6 +122,9 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				Bool("verbose").
 				Int("threads").
 				Int("start_page").
+				Float32("latitude").
+				Float32("longitude").
+				Int("metro_id").
 				BuildOption()),
 
 		handler.NewHandler("SearchByURI",
@@ -328,7 +334,12 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				if !ok {
 					return nil, nil
 				}
-				info, err := client.FindMenuItem(term, api.FindMenuItemVerbose(ctx.Bool("verbose")))
+				info, err := client.FindMenuItem(term,
+					api.FindMenuItemVerbose(ctx.Bool("verbose")),
+					api.FindMenuItemLongitude(ctx.Float32("longitude")),
+					api.FindMenuItemLatitude(ctx.Float32("latitude")),
+					api.FindMenuItemMetroID(ctx.Int("metro_id")),
+				)
 				if err != nil {
 					return nil, err
 				}
@@ -337,6 +348,9 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 			handler.Params().
 				RequiredString("term").
 				Bool("verbose").
+				Float32("latitude").
+				Float32("longitude").
+				Int("metro_id").
 				BuildOption()),
 
 		handler.NewHandler("AddRestaurantsToSearchByURIs",
