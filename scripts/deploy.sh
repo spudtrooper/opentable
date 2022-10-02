@@ -6,8 +6,6 @@ set -e
 
 SCRIPTS=$(dirname $0)
 
-$SCRIPTS/commit.sh "$@"
-
 DEPLOY_DIR=../opentable-deploy
 mkdir -p $DEPLOY_DIR
 mkdir -p $DEPLOY_DIR/scripts
