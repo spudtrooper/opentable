@@ -28,10 +28,10 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				return info, nil
 			},
-			handler.NewHandlerMetadata(handler.Params().
+			handler.Params().
 				RequiredString("term").
 				Bool("verbose").
-				Build())),
+				BuildOption()),
 
 		// TODO: Doesn't work
 		handler.NewHandler("LocationPicker",
@@ -51,9 +51,9 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				return info, nil
 			},
-			handler.NewHandlerMetadata(handler.Params().
+			handler.Params().
 				Bool("verbose").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("SearchAll",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -93,12 +93,12 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 
 				return res, nil
 			},
-			handler.NewHandlerMetadata(handler.Params().
+			handler.Params().
 				RequiredString("term").
 				Bool("verbose").
 				Int("threads").
 				Int("start_page").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("SearchByURI",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -112,10 +112,10 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				return info, nil
 			},
-			handler.NewHandlerMetadata(handler.Params().
+			handler.Params().
 				RequiredString("uri").
 				Bool("verbose").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("RawListByURI",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -129,10 +129,10 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				return info, nil
 			},
-			handler.NewHandlerMetadata(handler.Params().
+			handler.Params().
 				RequiredString("uri").
 				Bool("verbose").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("ListByURI",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -146,10 +146,10 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				return info, nil
 			},
-			handler.NewHandlerMetadata(handler.Params().
+			handler.Params().
 				RequiredString("uri").
 				Bool("verbose").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("RestaurantDetails",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -169,11 +169,11 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				return info, nil
 			},
-			handler.NewHandlerMetadata(handler.Params().
+			handler.Params().
 				RequiredString("term").
 				Bool("verbose").
 				Bool("debug_failures").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("RestaurantDetailsByID",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -189,11 +189,11 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				return info, nil
 			},
-			handler.NewHandlerMetadata(handler.Params().
+			handler.Params().
 				RequiredString("rest_id").
 				Bool("verbose").
 				Bool("debug_failures").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("SaveRawRestaurantDetailsFromID",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -214,12 +214,12 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				return info, nil
 			},
-			handler.NewHandlerCliOnly(true),
-			handler.NewHandlerMetadata(handler.Params().
+			handler.NewHandlerMethod("POST"),
+			handler.Params().
 				RequiredString("rest_id").
 				Bool("verbose").
 				Bool("debug_failures").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("SearchAndSave",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -232,11 +232,11 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				return nil, nil
 			},
-			handler.NewHandlerCliOnly(true),
-			handler.NewHandlerMetadata(handler.Params().
+			handler.NewHandlerMethod("POST"),
+			handler.Params().
 				RequiredString("term").
 				Bool("verbose").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("SearchByURIAndSave",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -249,11 +249,11 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				return nil, nil
 			},
-			handler.NewHandlerCliOnly(true),
-			handler.NewHandlerMetadata(handler.Params().
+			handler.NewHandlerMethod("POST"),
+			handler.Params().
 				RequiredString("term").
 				Bool("verbose").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("FindMatchingMenuItems",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -274,12 +274,12 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				items := api.FindMatchingMenuItems(info.RestaurantDetails, term)
 				return items, nil
 			},
-			handler.NewHandlerMetadata(handler.Params().
+			handler.Params().
 				RequiredString("term").
 				RequiredString("rest_id").
 				Bool("verbose").
 				Bool("debug_failures").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("AllMenuItems",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -295,11 +295,11 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				return info, nil
 			},
-			handler.NewHandlerMetadata(handler.Params().
+			handler.Params().
 				RequiredString("rest_id").
 				Bool("verbose").
 				Bool("debug_failures").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("FindMenuItem",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -313,10 +313,10 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				return info, nil
 			},
-			handler.NewHandlerMetadata(handler.Params().
+			handler.Params().
 				RequiredString("term").
 				Bool("verbose").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("AddRestaurantsToSearchByURIs",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -358,13 +358,13 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				return nil, nil
 			},
-			handler.NewHandlerCliOnly(true),
-			handler.NewHandlerMetadata(handler.Params().
+			handler.NewHandlerMethod("POST"),
+			handler.Params().
 				RequiredString("uri").
 				Bool("verbose").
 				Int("threads").
 				Duration("sleep").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("SearchEmptyRestaurants",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -376,12 +376,12 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				return nil, nil
 			},
-			handler.NewHandlerCliOnly(true),
-			handler.NewHandlerMetadata(handler.Params().
+			handler.NewHandlerMethod("POST"),
+			handler.Params().
 				Bool("verbose").
 				Int("threads").
 				Duration("sleep").
-				Build())),
+				BuildOption()),
 
 		handler.NewHandler("RawListAllByURI",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -409,9 +409,9 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				return ress, nil
 
 			},
-			handler.NewHandlerMetadata(handler.Params().
+			handler.Params().
 				RequiredString("uri").
 				Bool("verbose").
-				Build())),
+				BuildOption()),
 	}
 }
