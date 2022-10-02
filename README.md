@@ -4,6 +4,16 @@ Go client API for http://opentable.com
 
 ## Usage
 
+### Deployed frontend
+
+https://unofficial-opentable-api.herokuapp.com/
+
+### Running local front end
+
+```
+./scripts/frontend_local.sh
+```
+
 ### Running the CLI
 
 Install the CLI:
