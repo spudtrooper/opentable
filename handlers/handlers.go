@@ -30,8 +30,9 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 			}, handler.NewHandlerMetadata(handler.HandlerMetadata{
 				Params: []handler.HandlerMetadataParam{
 					{
-						Name: "term",
-						Type: handler.HandlerMetadataParamTypeString,
+						Name:     "term",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
 					},
 				},
 			})),
@@ -92,7 +93,27 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					})
 
 				return res, nil
-			}),
+			}, handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name:     "term",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+					{
+						Name: "threads",
+						Type: handler.HandlerMetadataParamTypeInt,
+					},
+					{
+						Name: "start_page",
+						Type: handler.HandlerMetadataParamTypeInt,
+					},
+				},
+			})),
 
 		handler.NewHandler("SearchByURI",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -105,7 +126,19 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					return nil, err
 				}
 				return info, nil
-			}),
+			}, handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name:     "uri",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+				},
+			})),
 
 		handler.NewHandler("RawListByURI",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -118,7 +151,19 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					return nil, err
 				}
 				return info, nil
-			}),
+			}, handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name:     "uri",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+				},
+			})),
 
 		handler.NewHandler("ListByURI",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -131,7 +176,19 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					return nil, err
 				}
 				return info, nil
-			}),
+			}, handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name:     "uri",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+				},
+			})),
 
 		handler.NewHandler("RestaurantDetails",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -150,7 +207,23 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					return nil, err
 				}
 				return info, nil
-			}),
+			}, handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name:     "term",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+					{
+						Name: "debug_failures",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+				},
+			})),
 
 		handler.NewHandler("RestaurantDetailsByID",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -165,7 +238,23 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					return nil, err
 				}
 				return info, nil
-			}),
+			}, handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name:     "rest_id",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+					{
+						Name: "debug_failures",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+				},
+			})),
 
 		handler.NewHandler("SaveRawRestaurantDetailsFromID",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -185,7 +274,25 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					return nil, err
 				}
 				return info, nil
-			}, handler.NewHandlerCliOnly(true)),
+			},
+			handler.NewHandlerCliOnly(true),
+			handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name:     "rest_id",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+					{
+						Name: "debug_failures",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+				},
+			})),
 
 		handler.NewHandler("SearchAndSave",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -197,7 +304,21 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					return nil, err
 				}
 				return nil, nil
-			}, handler.NewHandlerCliOnly(true)),
+			},
+			handler.NewHandlerCliOnly(true),
+			handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name:     "term",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+				},
+			})),
 
 		handler.NewHandler("SearchByURIAndSave",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -209,7 +330,21 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					return nil, err
 				}
 				return nil, nil
-			}, handler.NewHandlerCliOnly(true)),
+			},
+			handler.NewHandlerCliOnly(true),
+			handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name:     "term",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+				},
+			})),
 
 		handler.NewHandler("FindMatchingMenuItems",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -229,7 +364,29 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 				}
 				items := api.FindMatchingMenuItems(info.RestaurantDetails, term)
 				return items, nil
-			}),
+			},
+			handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name:     "term",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name:     "rest_id",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+					{
+						Name: "debug_failures",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+				},
+			})),
 
 		handler.NewHandler("AllMenuItems",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -244,7 +401,24 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					return nil, err
 				}
 				return info, nil
-			}),
+			},
+			handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name:     "rest_id",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+					{
+						Name: "debug_failures",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+				},
+			})),
 
 		handler.NewHandler("FindMenuItem",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -257,7 +431,20 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					return nil, err
 				}
 				return info, nil
-			}),
+			},
+			handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name:     "term",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+				},
+			})),
 
 		handler.NewHandler("AddRestaurantsToSearchByURIs",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -298,7 +485,29 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 						})
 				}
 				return nil, nil
-			}, handler.NewHandlerCliOnly(true)),
+			},
+			handler.NewHandlerCliOnly(true),
+			handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name:     "uri",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+					{
+						Name: "threads",
+						Type: handler.HandlerMetadataParamTypeInt,
+					},
+					{
+						Name: "sleep",
+						Type: handler.HandlerMetadataParamTypeDuration,
+					},
+				},
+			})),
 
 		handler.NewHandler("SearchEmptyRestaurants",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -309,7 +518,24 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					return nil, err
 				}
 				return nil, nil
-			}, handler.NewHandlerCliOnly(true)),
+			},
+			handler.NewHandlerCliOnly(true),
+			handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+					{
+						Name: "threads",
+						Type: handler.HandlerMetadataParamTypeInt,
+					},
+					{
+						Name: "sleep",
+						Type: handler.HandlerMetadataParamTypeDuration,
+					},
+				},
+			})),
 
 		handler.NewHandler("RawListAllByURI",
 			func(ctx handler.EvalContext) (interface{}, error) {
@@ -336,8 +562,19 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					})
 				return ress, nil
 
-			}),
-
-		// space at the bottom
+			},
+			handler.NewHandlerMetadata(handler.HandlerMetadata{
+				Params: []handler.HandlerMetadataParam{
+					{
+						Name:     "uri",
+						Type:     handler.HandlerMetadataParamTypeString,
+						Required: true,
+					},
+					{
+						Name: "verbose",
+						Type: handler.HandlerMetadataParamTypeBool,
+					},
+				},
+			})),
 	}
 }
