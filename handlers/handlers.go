@@ -13,27 +13,27 @@ import (
 	"github.com/spudtrooper/opentable/api"
 )
 
+type searchHandler struct {
+	client    *api.Extended
+	Verbose   bool
+	Term      string
+	Latitude  float32
+	Longitude float32
+}
+
+func (h searchHandler) Handle() (interface{}, error) {
+	return h.client.Search(h.Term,
+		api.SearchVerbose(h.Verbose),
+		api.SearchLatitude(h.Latitude),
+		api.SearchLongitude(h.Longitude),
+	)
+}
+
 func CreateHandlers(client *api.Extended) []handler.Handler {
 	return []handler.Handler{
 
-		handler.NewHandler("Search",
-			func(ctx handler.EvalContext) (interface{}, error) {
-				term, ok := ctx.MustString("term")
-				if !ok {
-					return nil, nil
-				}
-				return client.Search(term,
-					api.SearchVerbose(ctx.Bool("verbose")),
-					api.SearchLatitude(ctx.Float32("latitude")),
-					api.SearchLongitude(ctx.Float32("longitude")),
-				)
-			},
-			handler.Params().
-				RequiredString("term").
-				Bool("verbose").
-				Float32("latitude").
-				Float32("longitude").
-				BuildOption()),
+		handler.NewHandlerFromStruct("Search",
+			func() interface{} { return searchHandler{client: client} }),
 
 		handler.NewHandler("LocationPicker",
 			func(ctx handler.EvalContext) (interface{}, error) {
