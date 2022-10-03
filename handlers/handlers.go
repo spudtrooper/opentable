@@ -13,7 +13,7 @@ import (
 	"github.com/spudtrooper/opentable/api"
 )
 
-type searchHandler struct {
+type search struct {
 	client    *api.Extended
 	Term      string
 	Verbose   bool
@@ -21,7 +21,7 @@ type searchHandler struct {
 	Longitude float32
 }
 
-func (h searchHandler) Handle() (interface{}, error) {
+func (h search) Handle() (interface{}, error) {
 	return h.client.Search(h.Term,
 		api.SearchVerbose(h.Verbose),
 		api.SearchLatitude(h.Latitude),
@@ -29,32 +29,36 @@ func (h searchHandler) Handle() (interface{}, error) {
 	)
 }
 
+type locationPicker struct {
+	client   *api.Extended
+	AuthCke  string
+	Verbose  bool
+	TLD      string `json:"tld"`
+	MetroID  int    `json:"metro_id"`
+	DomainID int    `json:"domain_id"`
+}
+
+func (l locationPicker) Handle() (interface{}, error) {
+	client := l.client
+	if l.AuthCke != "" {
+		client = client.WithAuthCke(l.AuthCke)
+	}
+	return client.LocationPicker(
+		api.LocationPickerVerbose(l.Verbose),
+		api.LocationPickerTld(l.TLD),
+		api.LocationPickerMetroID(l.MetroID),
+		api.LocationPickerDomainID(l.DomainID),
+	)
+}
+
 func CreateHandlers(client *api.Extended) []handler.Handler {
 	return []handler.Handler{
 
 		handler.NewHandlerFromStruct("Search",
-			func() interface{} { return searchHandler{client: client} }),
+			func() interface{} { return search{client: client} }),
 
-		handler.NewHandler("LocationPicker",
-			func(ctx handler.EvalContext) (interface{}, error) {
-				if authCke := ctx.String("authCke"); authCke != "" {
-					client = client.WithAuthCke(authCke)
-				}
-				return client.LocationPicker(
-					api.LocationPickerVerbose(ctx.Bool("verbose")),
-					api.LocationPickerTld(ctx.String("tld")),
-					api.LocationPickerMetroID(ctx.Int("metro_id")),
-					api.LocationPickerDomainID(ctx.Int("domain_id")),
-				)
-			},
-			handler.Params().
-				String("authCke").
-				String("tld").
-				Int("metro_id").
-				Int("domain_id").
-				String("tld").
-				Bool("verbose").
-				BuildOption()),
+		handler.NewHandlerFromStruct("LocationPicker",
+			func() interface{} { return locationPicker{client: client} }),
 
 		handler.NewHandler("RestaurantsAvailability",
 			func(ctx handler.EvalContext) (interface{}, error) {
