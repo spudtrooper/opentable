@@ -14,7 +14,7 @@ import (
 	"github.com/spudtrooper/goutil/request"
 )
 
-//go:generate genopts --function LocationPicker tld:string metroID:int domainID:int verbose:bool
+//go:generate genopts --function LocationPicker --params tld:string metroID:int domainID:int verbose:bool
 func (c *Client) LocationPicker(optss ...LocationPickerOption) (*LocationPickerInfo, error) {
 	opts := MakeLocationPickerOptions(optss...)
 
@@ -191,7 +191,7 @@ func searchURI(term string, opts SearchOptions) string {
 	return uri
 }
 
-//go:generate genopts --function Search verbose debugFailures "originalTerm:string" "date:time.Time" "intentModifiedTerm:string" "covers:int" "latitude:float32" "longitude:float32" "metroID:int"
+//go:generate genopts --function Search --params --required "term string" verbose debugFailures "originalTerm:string" "date:time.Time" "intentModifiedTerm:string" "covers:int" "latitude:float32" "longitude:float32" "metroID:int"
 func (c *Client) RawSearch(term string, optss ...SearchOption) (*RawSearchInfo, error) {
 	opts := MakeSearchOptions(optss...)
 

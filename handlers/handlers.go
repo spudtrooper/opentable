@@ -13,52 +13,44 @@ import (
 	"github.com/spudtrooper/opentable/api"
 )
 
-type search struct {
-	client    *api.Extended
-	Term      string
-	Verbose   bool
-	Latitude  float32
-	Longitude float32
-}
-
-func (h search) Handle() (interface{}, error) {
-	return h.client.Search(h.Term,
-		api.SearchVerbose(h.Verbose),
-		api.SearchLatitude(h.Latitude),
-		api.SearchLongitude(h.Longitude),
-	)
-}
-
-type locationPicker struct {
-	client   *api.Extended
-	AuthCke  string
-	Verbose  bool
-	TLD      string `json:"tld"`
+type LocationPickerParams struct {
+	AuthCke  string `json:"auth_cke"`
+	Tld      string `json:"tld"`
 	MetroID  int    `json:"metro_id"`
 	DomainID int    `json:"domain_id"`
-}
-
-func (l locationPicker) Handle() (interface{}, error) {
-	client := l.client
-	if l.AuthCke != "" {
-		client = client.WithAuthCke(l.AuthCke)
-	}
-	return client.LocationPicker(
-		api.LocationPickerVerbose(l.Verbose),
-		api.LocationPickerTld(l.TLD),
-		api.LocationPickerMetroID(l.MetroID),
-		api.LocationPickerDomainID(l.DomainID),
-	)
+	Verbose  bool   `json:"verbose"`
 }
 
 func CreateHandlers(client *api.Extended) []handler.Handler {
 	return []handler.Handler{
 
-		handler.NewHandlerFromStruct("Search",
-			func() interface{} { return search{client: client} }),
+		handler.NewHandlerFromParams("Search",
+			func(ip any) (any, error) {
+				p := ip.(api.SearchParams)
+				return client.Search(p.Term,
+					api.SearchVerbose(p.Verbose),
+					api.SearchLatitude(p.Latitude),
+					api.SearchLongitude(p.Longitude),
+				)
+			},
+			func() interface{} { return api.SearchParams{} },
+		),
 
-		handler.NewHandlerFromStruct("LocationPicker",
-			func() interface{} { return locationPicker{client: client} }),
+		handler.NewHandlerFromParams("LocationPicker",
+			func(ip any) (any, error) {
+				p := ip.(LocationPickerParams)
+				if p.AuthCke != "" {
+					client = client.WithAuthCke(p.AuthCke)
+				}
+				return client.LocationPicker(
+					api.LocationPickerVerbose(p.Verbose),
+					api.LocationPickerTld(p.Tld),
+					api.LocationPickerMetroID(p.MetroID),
+					api.LocationPickerDomainID(p.DomainID),
+				)
+			},
+			func() interface{} { return LocationPickerParams{} },
+		),
 
 		handler.NewHandler("RestaurantsAvailability",
 			func(ctx handler.EvalContext) (interface{}, error) {

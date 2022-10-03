@@ -210,6 +210,19 @@ func (s *searchOptionImpl) HasLongitude() bool          { return s.has_longitude
 func (s *searchOptionImpl) MetroID() int                { return s.metroID }
 func (s *searchOptionImpl) HasMetroID() bool            { return s.has_metroID }
 
+type SearchParams struct {
+	Term               string    `json:"term" required:"true"`
+	Verbose            bool      `json:"verbose"`
+	DebugFailures      bool      `json:"debug_failures"`
+	OriginalTerm       string    `json:"original_term"`
+	Date               time.Time `json:"date"`
+	IntentModifiedTerm string    `json:"intent_modified_term"`
+	Covers             int       `json:"covers"`
+	Latitude           float32   `json:"latitude"`
+	Longitude          float32   `json:"longitude"`
+	MetroID            int       `json:"metro_id"`
+}
+
 func makeSearchOptionImpl(opts ...SearchOption) *searchOptionImpl {
 	res := &searchOptionImpl{}
 	for _, opt := range opts {

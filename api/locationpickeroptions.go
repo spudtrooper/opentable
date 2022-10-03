@@ -98,6 +98,13 @@ func (l *locationPickerOptionImpl) HasDomainID() bool { return l.has_domainID }
 func (l *locationPickerOptionImpl) Verbose() bool     { return l.verbose }
 func (l *locationPickerOptionImpl) HasVerbose() bool  { return l.has_verbose }
 
+type LocationPickerParams struct {
+	Tld      string `json:"tld"`
+	MetroID  int    `json:"metro_id"`
+	DomainID int    `json:"domain_id"`
+	Verbose  bool   `json:"verbose"`
+}
+
 func makeLocationPickerOptionImpl(opts ...LocationPickerOption) *locationPickerOptionImpl {
 	res := &locationPickerOptionImpl{}
 	for _, opt := range opts {
