@@ -15,8 +15,8 @@ import (
 
 type searchHandler struct {
 	client    *api.Extended
-	Verbose   bool
 	Term      string
+	Verbose   bool
 	Latitude  float32
 	Longitude float32
 }
