@@ -254,6 +254,21 @@ func (s *searchAllOptionImpl) HasThreads() bool            { return s.has_thread
 func (s *searchAllOptionImpl) StartPage() int              { return s.startPage }
 func (s *searchAllOptionImpl) HasStartPage() bool          { return s.has_startPage }
 
+type SearchAllParams struct {
+	Term               string    `json:"term" required:"true"`
+	Verbose            bool      `json:"verbose"`
+	DebugFailures      bool      `json:"debug_failures"`
+	OriginalTerm       string    `json:"original_term"`
+	Date               time.Time `json:"date"`
+	IntentModifiedTerm string    `json:"intent_modified_term"`
+	Covers             int       `json:"covers"`
+	Latitude           float32   `json:"latitude"`
+	Longitude          float32   `json:"longitude"`
+	MetroID            int       `json:"metro_id"`
+	Threads            int       `json:"threads"`
+	StartPage          int       `json:"start_page"`
+}
+
 func makeSearchAllOptionImpl(opts ...SearchAllOption) *searchAllOptionImpl {
 	res := &searchAllOptionImpl{}
 	for _, opt := range opts {

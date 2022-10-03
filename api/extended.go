@@ -188,7 +188,7 @@ type PagedSearchInfo struct {
 	Page int
 }
 
-//go:generate genopts --function SearchAll verbose debugFailures "originalTerm:string" "date:time.Time" "intentModifiedTerm:string" "covers:int" "latitude:float32" "longitude:float32" "metroID:int" "threads:int" "startPage:int"
+//go:generate genopts --function SearchAll --required "term string" --params verbose debugFailures "originalTerm:string" "date:time.Time" "intentModifiedTerm:string" "covers:int" "latitude:float32" "longitude:float32" "metroID:int" "threads:int" "startPage:int"
 func (e *Extended) SearchAll(term string, optss ...SearchAllOption) (chan PagedSearchInfo, chan error) {
 	opts := MakeSearchAllOptions(optss...)
 

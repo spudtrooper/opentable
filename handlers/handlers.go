@@ -36,44 +36,16 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 			func() interface{} { return api.SearchParams{} },
 		),
 
-		handler.NewHandlerFromParams("LocationPicker",
+		handler.NewHandlerFromParams("SearchAll",
 			func(ip any) (any, error) {
-				p := ip.(LocationPickerParams)
-				if p.AuthCke != "" {
-					client = client.WithAuthCke(p.AuthCke)
-				}
-				return client.LocationPicker(
-					api.LocationPickerVerbose(p.Verbose),
-					api.LocationPickerTld(p.Tld),
-					api.LocationPickerMetroID(p.MetroID),
-					api.LocationPickerDomainID(p.DomainID),
-				)
-			},
-			func() interface{} { return LocationPickerParams{} },
-		),
-
-		handler.NewHandler("RestaurantsAvailability",
-			func(ctx handler.EvalContext) (interface{}, error) {
-				return client.RestaurantsAvailability(
-					api.RestaurantsAvailabilityVerbose(ctx.Bool("verbose")))
-			},
-			handler.Params().
-				Bool("verbose").
-				BuildOption()),
-
-		handler.NewHandler("SearchAll",
-			func(ctx handler.EvalContext) (interface{}, error) {
-				term, ok := ctx.MustString("term")
-				if !ok {
-					return nil, nil
-				}
-				infos, errs := client.SearchAll(term,
-					api.SearchAllVerbose(ctx.Bool("verbose")),
-					api.SearchAllThreads(ctx.Int("threads")),
-					api.SearchAllStartPage(ctx.Int("start_page")),
-					api.SearchAllLongitude(ctx.Float32("longitude")),
-					api.SearchAllLatitude(ctx.Float32("latitude")),
-					api.SearchAllMetroID(ctx.Int("metro_id")),
+				p := ip.(api.SearchAllParams)
+				infos, errs := client.SearchAll(p.Term,
+					api.SearchAllVerbose(p.Verbose),
+					api.SearchAllThreads(p.Threads),
+					api.SearchAllStartPage(p.StartPage),
+					api.SearchAllLongitude(p.Longitude),
+					api.SearchAllLatitude(p.Latitude),
+					api.SearchAllMetroID(p.MetroID),
 				)
 				type rest struct {
 					Name, ProfileLink string
@@ -102,14 +74,32 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 
 				return res, nil
 			},
+			func() interface{} { return api.SearchAllParams{} },
+		),
+
+		handler.NewHandlerFromParams("LocationPicker",
+			func(ip any) (any, error) {
+				p := ip.(LocationPickerParams)
+				if p.AuthCke != "" {
+					client = client.WithAuthCke(p.AuthCke)
+				}
+				return client.LocationPicker(
+					api.LocationPickerVerbose(p.Verbose),
+					api.LocationPickerTld(p.Tld),
+					api.LocationPickerMetroID(p.MetroID),
+					api.LocationPickerDomainID(p.DomainID),
+				)
+			},
+			func() interface{} { return LocationPickerParams{} },
+		),
+
+		handler.NewHandler("RestaurantsAvailability",
+			func(ctx handler.EvalContext) (interface{}, error) {
+				return client.RestaurantsAvailability(
+					api.RestaurantsAvailabilityVerbose(ctx.Bool("verbose")))
+			},
 			handler.Params().
-				RequiredString("term").
 				Bool("verbose").
-				Int("threads").
-				Int("start_page").
-				Float32("latitude").
-				Float32("longitude").
-				Int("metro_id").
 				BuildOption()),
 
 		handler.NewHandler("SearchByURI",
