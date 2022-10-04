@@ -98,6 +98,23 @@ func (r *rawSearchAllByURIOptionImpl) HasThreads() bool   { return r.has_threads
 func (r *rawSearchAllByURIOptionImpl) Sync() bool         { return r.sync }
 func (r *rawSearchAllByURIOptionImpl) HasSync() bool      { return r.has_sync }
 
+type RawSearchAllByURIParams struct {
+	Uri       string `json:"uri" required:"true"`
+	Verbose   bool   `json:"verbose"`
+	StartPage int    `json:"start_page"`
+	Threads   int    `json:"threads"`
+	Sync      bool   `json:"sync"`
+}
+
+func (o RawSearchAllByURIParams) Options() []RawSearchAllByURIOption {
+	return []RawSearchAllByURIOption{
+		RawSearchAllByURIVerbose(o.Verbose),
+		RawSearchAllByURIStartPage(o.StartPage),
+		RawSearchAllByURIThreads(o.Threads),
+		RawSearchAllByURISync(o.Sync),
+	}
+}
+
 func makeRawSearchAllByURIOptionImpl(opts ...RawSearchAllByURIOption) *rawSearchAllByURIOptionImpl {
 	res := &rawSearchAllByURIOptionImpl{}
 	for _, opt := range opts {

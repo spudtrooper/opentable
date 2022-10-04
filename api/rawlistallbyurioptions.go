@@ -98,6 +98,23 @@ func (r *rawListAllByURIOptionImpl) HasThreads() bool   { return r.has_threads }
 func (r *rawListAllByURIOptionImpl) Sync() bool         { return r.sync }
 func (r *rawListAllByURIOptionImpl) HasSync() bool      { return r.has_sync }
 
+type RawListAllByURIParams struct {
+	Uri       string `json:"uri" required:"true"`
+	Verbose   bool   `json:"verbose"`
+	StartPage int    `json:"start_page"`
+	Threads   int    `json:"threads"`
+	Sync      bool   `json:"sync"`
+}
+
+func (o RawListAllByURIParams) Options() []RawListAllByURIOption {
+	return []RawListAllByURIOption{
+		RawListAllByURIVerbose(o.Verbose),
+		RawListAllByURIStartPage(o.StartPage),
+		RawListAllByURIThreads(o.Threads),
+		RawListAllByURISync(o.Sync),
+	}
+}
+
 func makeRawListAllByURIOptionImpl(opts ...RawListAllByURIOption) *rawListAllByURIOptionImpl {
 	res := &rawListAllByURIOptionImpl{}
 	for _, opt := range opts {

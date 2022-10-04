@@ -214,6 +214,32 @@ func (r *restaurantsAvailabilityOptionImpl) HasDatabaseRegion() bool { return r.
 func (r *restaurantsAvailabilityOptionImpl) Date() time.Time         { return r.date }
 func (r *restaurantsAvailabilityOptionImpl) HasDate() bool           { return r.has_date }
 
+type RestaurantsAvailabilityParams struct {
+	Verbose                bool      `json:"verbose"`
+	RestaurantIDs          []int     `json:"restaurant_i_ds"`
+	OnlyPop                bool      `json:"only_pop"`
+	RequestNewAvailability bool      `json:"request_new_availability"`
+	ForwardDays            int       `json:"forward_days"`
+	RequireTimes           bool      `json:"require_times"`
+	PartySize              int       `json:"party_size"`
+	DatabaseRegion         string    `json:"database_region"`
+	Date                   time.Time `json:"date"`
+}
+
+func (o RestaurantsAvailabilityParams) Options() []RestaurantsAvailabilityOption {
+	return []RestaurantsAvailabilityOption{
+		RestaurantsAvailabilityVerbose(o.Verbose),
+		RestaurantsAvailabilityRestaurantIDs(o.RestaurantIDs),
+		RestaurantsAvailabilityOnlyPop(o.OnlyPop),
+		RestaurantsAvailabilityRequestNewAvailability(o.RequestNewAvailability),
+		RestaurantsAvailabilityForwardDays(o.ForwardDays),
+		RestaurantsAvailabilityRequireTimes(o.RequireTimes),
+		RestaurantsAvailabilityPartySize(o.PartySize),
+		RestaurantsAvailabilityDatabaseRegion(o.DatabaseRegion),
+		RestaurantsAvailabilityDate(o.Date),
+	}
+}
+
 func makeRestaurantsAvailabilityOptionImpl(opts ...RestaurantsAvailabilityOption) *restaurantsAvailabilityOptionImpl {
 	res := &restaurantsAvailabilityOptionImpl{}
 	for _, opt := range opts {

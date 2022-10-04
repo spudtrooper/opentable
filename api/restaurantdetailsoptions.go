@@ -54,6 +54,18 @@ func (r *restaurantDetailsOptionImpl) HasVerbose() bool       { return r.has_ver
 func (r *restaurantDetailsOptionImpl) DebugFailures() bool    { return r.debugFailures }
 func (r *restaurantDetailsOptionImpl) HasDebugFailures() bool { return r.has_debugFailures }
 
+type RestaurantDetailsParams struct {
+	Verbose       bool `json:"verbose"`
+	DebugFailures bool `json:"debug_failures"`
+}
+
+func (o RestaurantDetailsParams) Options() []RestaurantDetailsOption {
+	return []RestaurantDetailsOption{
+		RestaurantDetailsVerbose(o.Verbose),
+		RestaurantDetailsDebugFailures(o.DebugFailures),
+	}
+}
+
 func makeRestaurantDetailsOptionImpl(opts ...RestaurantDetailsOption) *restaurantDetailsOptionImpl {
 	res := &restaurantDetailsOptionImpl{}
 	for _, opt := range opts {

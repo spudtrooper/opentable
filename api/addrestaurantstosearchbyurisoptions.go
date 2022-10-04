@@ -54,6 +54,18 @@ func (a *addRestaurantsToSearchByURIsOptionImpl) HasThreads() bool { return a.ha
 func (a *addRestaurantsToSearchByURIsOptionImpl) Verbose() bool    { return a.verbose }
 func (a *addRestaurantsToSearchByURIsOptionImpl) HasVerbose() bool { return a.has_verbose }
 
+type AddRestaurantsToSearchByURIsParams struct {
+	Threads int  `json:"threads"`
+	Verbose bool `json:"verbose"`
+}
+
+func (o AddRestaurantsToSearchByURIsParams) Options() []AddRestaurantsToSearchByURIsOption {
+	return []AddRestaurantsToSearchByURIsOption{
+		AddRestaurantsToSearchByURIsThreads(o.Threads),
+		AddRestaurantsToSearchByURIsVerbose(o.Verbose),
+	}
+}
+
 func makeAddRestaurantsToSearchByURIsOptionImpl(opts ...AddRestaurantsToSearchByURIsOption) *addRestaurantsToSearchByURIsOptionImpl {
 	res := &addRestaurantsToSearchByURIsOptionImpl{}
 	for _, opt := range opts {

@@ -269,6 +269,22 @@ type SearchAllParams struct {
 	StartPage          int       `json:"start_page"`
 }
 
+func (o SearchAllParams) Options() []SearchAllOption {
+	return []SearchAllOption{
+		SearchAllVerbose(o.Verbose),
+		SearchAllDebugFailures(o.DebugFailures),
+		SearchAllOriginalTerm(o.OriginalTerm),
+		SearchAllDate(o.Date),
+		SearchAllIntentModifiedTerm(o.IntentModifiedTerm),
+		SearchAllCovers(o.Covers),
+		SearchAllLatitude(o.Latitude),
+		SearchAllLongitude(o.Longitude),
+		SearchAllMetroID(o.MetroID),
+		SearchAllThreads(o.Threads),
+		SearchAllStartPage(o.StartPage),
+	}
+}
+
 func makeSearchAllOptionImpl(opts ...SearchAllOption) *searchAllOptionImpl {
 	res := &searchAllOptionImpl{}
 	for _, opt := range opts {

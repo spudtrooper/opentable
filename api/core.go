@@ -42,7 +42,7 @@ func (c *Client) LocationPicker(optss ...LocationPickerOption) (*LocationPickerI
 	return payload.Convert(), nil
 }
 
-//go:generate genopts --function HeaderUserProfile tld:string verbose
+//go:generate genopts --function HeaderUserProfile --params tld:string verbose
 func (c *Client) HeaderUserProfile(optss ...HeaderUserProfileOption) (*HeaderUserProfileInfo, error) {
 	opts := MakeHeaderUserProfileOptions(optss...)
 
@@ -69,7 +69,7 @@ type IsMandatoryBySeating struct {
 	IsMandatory   bool
 }
 
-//go:generate genopts --function RestaurantsAvailability verbose "restaurantIDs:[]int" onlyPop requestNewAvailability "forwardDays:int" requireTimes  "partySize:int" "databaseRegion:string" "date:time.Time"
+//go:generate genopts --function RestaurantsAvailability --params verbose "restaurantIDs:[]int" onlyPop requestNewAvailability "forwardDays:int" requireTimes  "partySize:int" "databaseRegion:string" "date:time.Time"
 func (c *Client) RestaurantsAvailability(optss ...RestaurantsAvailabilityOption) (*RestaurantsAvailabilityInfo, error) {
 	opts := MakeRestaurantsAvailabilityOptions(optss...)
 
@@ -121,7 +121,7 @@ func (c *Client) RestaurantsAvailability(optss ...RestaurantsAvailabilityOption)
 	return payload.Convert(), nil
 }
 
-//go:generate genopts --function ListByURI verbose debugFailures
+//go:generate genopts --function ListByURI --params verbose debugFailures
 func (c *Client) RawListByURI(uri string, optss ...ListByURIOption) (*RawListByURIInfo, error) {
 	opts := MakeListByURIOptions(optss...)
 
@@ -142,7 +142,7 @@ func (c *Client) ListByURI(uri string, optss ...ListByURIOption) (*SearchInfo, e
 	return res.Convert(), nil
 }
 
-//go:generate genopts --function SearchByURI verbose debugFailures
+//go:generate genopts --function SearchByURI --required "uri string" --params verbose debugFailures
 func (c *Client) RawSearchByURI(uri string, optss ...SearchByURIOption) (*RawSearchByURIInfo, error) {
 	opts := MakeSearchByURIOptions(optss...)
 
@@ -268,7 +268,7 @@ func (c *Client) rawSearchByURI(uri string, res interface{}, verbose, debugFailu
 	return nil
 }
 
-//go:generate genopts --function RestaurantDetails verbose debugFailures
+//go:generate genopts --function RestaurantDetails --params verbose debugFailures
 func (c *Client) RestaurantDetails(rest Restaurant, optss ...RestaurantDetailsOption) (*RestaurantDetailsInfo, error) {
 	uri := request.MakeURL(rest.ProfileLink,
 		request.MakeParam("avt", rest.RestaurantAvailabilityToken),

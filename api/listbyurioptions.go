@@ -54,6 +54,18 @@ func (l *listByURIOptionImpl) HasVerbose() bool       { return l.has_verbose }
 func (l *listByURIOptionImpl) DebugFailures() bool    { return l.debugFailures }
 func (l *listByURIOptionImpl) HasDebugFailures() bool { return l.has_debugFailures }
 
+type ListByURIParams struct {
+	Verbose       bool `json:"verbose"`
+	DebugFailures bool `json:"debug_failures"`
+}
+
+func (o ListByURIParams) Options() []ListByURIOption {
+	return []ListByURIOption{
+		ListByURIVerbose(o.Verbose),
+		ListByURIDebugFailures(o.DebugFailures),
+	}
+}
+
 func makeListByURIOptionImpl(opts ...ListByURIOption) *listByURIOptionImpl {
 	res := &listByURIOptionImpl{}
 	for _, opt := range opts {

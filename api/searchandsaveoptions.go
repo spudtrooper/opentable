@@ -32,6 +32,16 @@ type searchAndSaveOptionImpl struct {
 func (s *searchAndSaveOptionImpl) Verbose() bool    { return s.verbose }
 func (s *searchAndSaveOptionImpl) HasVerbose() bool { return s.has_verbose }
 
+type SearchAndSaveParams struct {
+	Verbose bool `json:"verbose"`
+}
+
+func (o SearchAndSaveParams) Options() []SearchAndSaveOption {
+	return []SearchAndSaveOption{
+		SearchAndSaveVerbose(o.Verbose),
+	}
+}
+
 func makeSearchAndSaveOptionImpl(opts ...SearchAndSaveOption) *searchAndSaveOptionImpl {
 	res := &searchAndSaveOptionImpl{}
 	for _, opt := range opts {

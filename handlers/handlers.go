@@ -27,26 +27,15 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		handler.NewHandlerFromParams("Search",
 			func(ip any) (any, error) {
 				p := ip.(api.SearchParams)
-				return client.Search(p.Term,
-					api.SearchVerbose(p.Verbose),
-					api.SearchLatitude(p.Latitude),
-					api.SearchLongitude(p.Longitude),
-				)
+				return client.Search(p.Term, p.Options()...)
 			},
-			func() interface{} { return api.SearchParams{} },
+			func() any { return api.SearchParams{} },
 		),
 
 		handler.NewHandlerFromParams("SearchAll",
 			func(ip any) (any, error) {
 				p := ip.(api.SearchAllParams)
-				infos, errs := client.SearchAll(p.Term,
-					api.SearchAllVerbose(p.Verbose),
-					api.SearchAllThreads(p.Threads),
-					api.SearchAllStartPage(p.StartPage),
-					api.SearchAllLongitude(p.Longitude),
-					api.SearchAllLatitude(p.Latitude),
-					api.SearchAllMetroID(p.MetroID),
-				)
+				infos, errs := client.SearchAll(p.Term, p.Options()...)
 				type rest struct {
 					Name, ProfileLink string
 				}
@@ -74,7 +63,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 
 				return res, nil
 			},
-			func() interface{} { return api.SearchAllParams{} },
+			func() any { return api.SearchAllParams{} },
 		),
 
 		handler.NewHandlerFromParams("LocationPicker",
@@ -90,30 +79,24 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 					api.LocationPickerDomainID(p.DomainID),
 				)
 			},
-			func() interface{} { return LocationPickerParams{} },
+			func() any { return LocationPickerParams{} },
 		),
 
-		handler.NewHandler("RestaurantsAvailability",
-			func(ctx handler.EvalContext) (interface{}, error) {
-				return client.RestaurantsAvailability(
-					api.RestaurantsAvailabilityVerbose(ctx.Bool("verbose")))
+		handler.NewHandlerFromParams("RestaurantsAvailability",
+			func(ip any) (any, error) {
+				p := ip.(api.RestaurantsAvailabilityParams)
+				return client.RestaurantsAvailability(p.Options()...)
 			},
-			handler.Params().
-				Bool("verbose").
-				BuildOption()),
+			func() any { return api.RestaurantsAvailabilityParams{} },
+		),
 
-		handler.NewHandler("SearchByURI",
-			func(ctx handler.EvalContext) (interface{}, error) {
-				uri, ok := ctx.MustString("uri")
-				if !ok {
-					return nil, nil
-				}
-				return client.SearchByURI(uri, api.SearchByURIVerbose(ctx.Bool("verbose")))
+		handler.NewHandlerFromParams("SearchByURI",
+			func(ip any) (any, error) {
+				p := ip.(api.SearchByURIParams)
+				return client.SearchByURI(p.Uri, p.Options()...)
 			},
-			handler.Params().
-				RequiredString("uri").
-				Bool("verbose").
-				BuildOption()),
+			func() any { return api.SearchByURIParams{} },
+		),
 
 		handler.NewHandler("RawListByURI",
 			func(ctx handler.EvalContext) (interface{}, error) {

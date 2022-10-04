@@ -54,6 +54,19 @@ func (s *searchByURIOptionImpl) HasVerbose() bool       { return s.has_verbose }
 func (s *searchByURIOptionImpl) DebugFailures() bool    { return s.debugFailures }
 func (s *searchByURIOptionImpl) HasDebugFailures() bool { return s.has_debugFailures }
 
+type SearchByURIParams struct {
+	Uri           string `json:"uri" required:"true"`
+	Verbose       bool   `json:"verbose"`
+	DebugFailures bool   `json:"debug_failures"`
+}
+
+func (o SearchByURIParams) Options() []SearchByURIOption {
+	return []SearchByURIOption{
+		SearchByURIVerbose(o.Verbose),
+		SearchByURIDebugFailures(o.DebugFailures),
+	}
+}
+
 func makeSearchByURIOptionImpl(opts ...SearchByURIOption) *searchByURIOptionImpl {
 	res := &searchByURIOptionImpl{}
 	for _, opt := range opts {

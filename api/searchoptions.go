@@ -223,6 +223,20 @@ type SearchParams struct {
 	MetroID            int       `json:"metro_id"`
 }
 
+func (o SearchParams) Options() []SearchOption {
+	return []SearchOption{
+		SearchVerbose(o.Verbose),
+		SearchDebugFailures(o.DebugFailures),
+		SearchOriginalTerm(o.OriginalTerm),
+		SearchDate(o.Date),
+		SearchIntentModifiedTerm(o.IntentModifiedTerm),
+		SearchCovers(o.Covers),
+		SearchLatitude(o.Latitude),
+		SearchLongitude(o.Longitude),
+		SearchMetroID(o.MetroID),
+	}
+}
+
 func makeSearchOptionImpl(opts ...SearchOption) *searchOptionImpl {
 	res := &searchOptionImpl{}
 	for _, opt := range opts {

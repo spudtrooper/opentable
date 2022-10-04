@@ -105,6 +105,15 @@ type LocationPickerParams struct {
 	Verbose  bool   `json:"verbose"`
 }
 
+func (o LocationPickerParams) Options() []LocationPickerOption {
+	return []LocationPickerOption{
+		LocationPickerTld(o.Tld),
+		LocationPickerMetroID(o.MetroID),
+		LocationPickerDomainID(o.DomainID),
+		LocationPickerVerbose(o.Verbose),
+	}
+}
+
 func makeLocationPickerOptionImpl(opts ...LocationPickerOption) *locationPickerOptionImpl {
 	res := &locationPickerOptionImpl{}
 	for _, opt := range opts {

@@ -76,6 +76,21 @@ func (l *lolzViewAllByURIOptionImpl) HasStartPage() bool { return l.has_startPag
 func (l *lolzViewAllByURIOptionImpl) Threads() int       { return l.threads }
 func (l *lolzViewAllByURIOptionImpl) HasThreads() bool   { return l.has_threads }
 
+type LolzViewAllByURIParams struct {
+	Uri       string `json:"uri" required:"true"`
+	Verbose   bool   `json:"verbose"`
+	StartPage int    `json:"start_page"`
+	Threads   int    `json:"threads"`
+}
+
+func (o LolzViewAllByURIParams) Options() []LolzViewAllByURIOption {
+	return []LolzViewAllByURIOption{
+		LolzViewAllByURIVerbose(o.Verbose),
+		LolzViewAllByURIStartPage(o.StartPage),
+		LolzViewAllByURIThreads(o.Threads),
+	}
+}
+
 func makeLolzViewAllByURIOptionImpl(opts ...LolzViewAllByURIOption) *lolzViewAllByURIOptionImpl {
 	res := &lolzViewAllByURIOptionImpl{}
 	for _, opt := range opts {

@@ -32,6 +32,16 @@ type searchRestaurantFromQueueOptionImpl struct {
 func (s *searchRestaurantFromQueueOptionImpl) Verbose() bool    { return s.verbose }
 func (s *searchRestaurantFromQueueOptionImpl) HasVerbose() bool { return s.has_verbose }
 
+type SearchRestaurantFromQueueParams struct {
+	Verbose bool `json:"verbose"`
+}
+
+func (o SearchRestaurantFromQueueParams) Options() []SearchRestaurantFromQueueOption {
+	return []SearchRestaurantFromQueueOption{
+		SearchRestaurantFromQueueVerbose(o.Verbose),
+	}
+}
+
 func makeSearchRestaurantFromQueueOptionImpl(opts ...SearchRestaurantFromQueueOption) *searchRestaurantFromQueueOptionImpl {
 	res := &searchRestaurantFromQueueOptionImpl{}
 	for _, opt := range opts {

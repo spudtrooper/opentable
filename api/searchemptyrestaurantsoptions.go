@@ -78,6 +78,20 @@ func (s *searchEmptyRestaurantsOptionImpl) HasVerbose() bool     { return s.has_
 func (s *searchEmptyRestaurantsOptionImpl) Sleep() time.Duration { return s.sleep }
 func (s *searchEmptyRestaurantsOptionImpl) HasSleep() bool       { return s.has_sleep }
 
+type SearchEmptyRestaurantsParams struct {
+	Threads int           `json:"threads"`
+	Verbose bool          `json:"verbose"`
+	Sleep   time.Duration `json:"sleep"`
+}
+
+func (o SearchEmptyRestaurantsParams) Options() []SearchEmptyRestaurantsOption {
+	return []SearchEmptyRestaurantsOption{
+		SearchEmptyRestaurantsThreads(o.Threads),
+		SearchEmptyRestaurantsVerbose(o.Verbose),
+		SearchEmptyRestaurantsSleep(o.Sleep),
+	}
+}
+
 func makeSearchEmptyRestaurantsOptionImpl(opts ...SearchEmptyRestaurantsOption) *searchEmptyRestaurantsOptionImpl {
 	res := &searchEmptyRestaurantsOptionImpl{}
 	for _, opt := range opts {

@@ -249,7 +249,7 @@ func (e *Extended) SearchAll(term string, optss ...SearchAllOption) (chan PagedS
 	return outCh, errCh
 }
 
-//go:generate genopts --function RawSearchAllByURI verbose startPage:int threads:int sync
+//go:generate genopts --function RawSearchAllByURI --params --required "uri string" verbose startPage:int threads:int sync
 func (e *Extended) RawSearchAllByURI(uri string, optss ...RawSearchAllByURIOption) (chan RawSearchByURIInfo, chan error) {
 	opts := MakeRawSearchAllByURIOptions(optss...)
 
@@ -340,7 +340,7 @@ func (e *Extended) rawSearchAllByURISync(baseURI string, verbose bool, startPage
 	return outCh, errCh
 }
 
-//go:generate genopts --function LolzViewAllByURI verbose "startPage:int" "threads:int"
+//go:generate genopts --function LolzViewAllByURI --required "uri string" --params verbose "startPage:int" "threads:int"
 func (e *Extended) LolzViewAllByURI(uri string, optss ...LolzViewAllByURIOption) (chan LolzViewAllLinksInfo, chan error) {
 	opts := MakeLolzViewAllByURIOptions(optss...)
 	log := makeLog("LolzViewAllLinks")
@@ -395,7 +395,7 @@ func (e *Extended) LolzViewAllByURI(uri string, optss ...LolzViewAllByURIOption)
 	return outCh, errCh
 }
 
-//go:generate genopts --function RawListAllByURI verbose "startPage:int" "threads:int" "sync:bool"
+//go:generate genopts --function RawListAllByURI --required "uri string" --params verbose "startPage:int" "threads:int" "sync:bool"
 func (e *Extended) RawListAllByURI(uri string, optss ...RawListAllByURIOption) (chan RawListByURIInfo, chan error) {
 	opts := MakeRawListAllByURIOptions(optss...)
 
@@ -487,7 +487,7 @@ func (e *Extended) rawListAllByURIAsync(baseURI string, verbose bool, startPage,
 	return outCh, errCh
 }
 
-//go:generate genopts --function SearchAndSave verbose
+//go:generate genopts --function SearchAndSave --params verbose
 func (e *Extended) SearchAndSave(ctx context.Context, term string, optss ...SearchAndSaveOption) error {
 	opts := MakeSearchAndSaveOptions(optss...)
 
@@ -533,7 +533,7 @@ func (e *Extended) SearchAndSave(ctx context.Context, term string, optss ...Sear
 
 }
 
-//go:generate genopts --function SearchByURIAndSave verbose
+//go:generate genopts --function SearchByURIAndSave --params verbose
 func (e *Extended) SearchByURIAndSave(ctx context.Context, uri string, optss ...SearchByURIAndSaveOption) error {
 	opts := MakeSearchByURIAndSaveOptions(optss...)
 	log := makeLog("SearchByURIAndSave")
@@ -580,7 +580,7 @@ func (e *Extended) SearchByURIAndSave(ctx context.Context, uri string, optss ...
 	return nil
 }
 
-//go:generate genopts --function AddRestaurantsToSearchByURIs "threads:int" verbose
+//go:generate genopts --function AddRestaurantsToSearchByURIs --params "threads:int" verbose
 func (e *Extended) AddRestaurantsToSearchByURIs(ctx context.Context, uri string, optss ...AddRestaurantsToSearchByURIsOption) (chan string, chan error) {
 	opts := MakeAddRestaurantsToSearchByURIsOptions(optss...)
 	log := makeLog("AddRestaurantsToSearchByURIs")
@@ -663,7 +663,7 @@ func (e *Extended) AddRestaurantsToSearchByURIs(ctx context.Context, uri string,
 	return addedCh, errsCh
 }
 
-//go:generate genopts --function SearchEmptyRestaurants "threads:int" verbose "sleep:time.Duration"
+//go:generate genopts --function SearchEmptyRestaurants --params "threads:int" verbose "sleep:time.Duration"
 func (e *Extended) SearchEmptyRestaurants(ctx context.Context, optss ...SearchEmptyRestaurantsOption) error {
 	opts := MakeSearchEmptyRestaurantsOptions(optss...)
 	log := makeLog("SearchEmptyRestaurants")
@@ -706,7 +706,7 @@ func (e *Extended) SearchEmptyRestaurants(ctx context.Context, optss ...SearchEm
 	return nil
 }
 
-//go:generate genopts --function SearchRestaurantFromQueue verbose
+//go:generate genopts --function SearchRestaurantFromQueue --params verbose
 func (e *Extended) SearchRestaurantFromQueue(ctx context.Context, uri string, optss ...SearchRestaurantFromQueueOption) error {
 	opts := MakeSearchRestaurantFromQueueOptions(optss...)
 

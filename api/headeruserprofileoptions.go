@@ -54,6 +54,18 @@ func (h *headerUserProfileOptionImpl) HasTld() bool     { return h.has_tld }
 func (h *headerUserProfileOptionImpl) Verbose() bool    { return h.verbose }
 func (h *headerUserProfileOptionImpl) HasVerbose() bool { return h.has_verbose }
 
+type HeaderUserProfileParams struct {
+	Tld     string `json:"tld"`
+	Verbose bool   `json:"verbose"`
+}
+
+func (o HeaderUserProfileParams) Options() []HeaderUserProfileOption {
+	return []HeaderUserProfileOption{
+		HeaderUserProfileTld(o.Tld),
+		HeaderUserProfileVerbose(o.Verbose),
+	}
+}
+
 func makeHeaderUserProfileOptionImpl(opts ...HeaderUserProfileOption) *headerUserProfileOptionImpl {
 	res := &headerUserProfileOptionImpl{}
 	for _, opt := range opts {
