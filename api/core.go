@@ -121,7 +121,7 @@ func (c *Client) RestaurantsAvailability(optss ...RestaurantsAvailabilityOption)
 	return payload.Convert(), nil
 }
 
-//go:generate genopts --function ListByURI --params verbose debugFailures
+//go:generate genopts --function ListByURI --required "uri string" --params verbose debugFailures
 func (c *Client) RawListByURI(uri string, optss ...ListByURIOption) (*RawListByURIInfo, error) {
 	opts := MakeListByURIOptions(optss...)
 
