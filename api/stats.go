@@ -1,72 +1,45 @@
+// DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-import (
-	"bytes"
-	"fmt"
-	"log"
-	"sort"
-	"strings"
-	"sync/atomic"
+type IncIntOption func(*incIntOptionImpl)
 
-	"github.com/fatih/color"
-
-	"github.com/olekukonko/tablewriter"
-)
-
-type stats struct {
-	intValues map[string]*int32
+type IncIntOptions interface {
+	Verbose() bool
+	HasVerbose() bool
 }
 
-func newStats() *stats {
-	return &stats{
-		intValues: make(map[string]*int32, 0),
+func IncIntVerbose(verbose bool) IncIntOption {
+	return func(opts *incIntOptionImpl) {
+		opts.has_verbose = true
+		opts.verbose = verbose
 	}
 }
-
-func (s *stats) AddInt(key string, value int32) {
-	if _, ok := s.intValues[key]; !ok {
-		s.intValues[key] = new(int32)
-	}
-	atomic.AddInt32(s.intValues[key], value)
-}
-
-//go:generate genopts --function IncInt verbose
-func (s *stats) IncInt(key string, optss ...IncIntOption) {
-	opts := MakeIncIntOptions(optss...)
-	s.AddInt(key, 1)
-	if opts.Verbose() {
-		var keys []string
-		for key := range s.intValues {
-			keys = append(keys, key)
+func IncIntVerboseFlag(verbose *bool) IncIntOption {
+	return func(opts *incIntOptionImpl) {
+		if verbose == nil {
+			return
 		}
-		sort.Strings(keys)
-		var strs []string
-		var total int32
-		for _, key := range keys {
-			val := atomic.LoadInt32(s.intValues[key])
-			total += val
-			parts := strings.Split(key, ":")
-			abbrev := parts[len(parts)-1]
-			strs = append(strs, fmt.Sprintf("%s: %s ", abbrev, color.CyanString(fmt.Sprintf("%5d", val))))
-		}
-		strs = append(strs, fmt.Sprintf("%s: %s ", "total", color.CyanString(fmt.Sprintf("%5d", total))))
-		log.Println(strings.Join(strs, " "))
+		opts.has_verbose = true
+		opts.verbose = *verbose
 	}
 }
 
-func (s *stats) Build() string {
-	var buf bytes.Buffer
-	table := tablewriter.NewWriter(&buf)
-	table.SetHeader([]string{"Key", "Value"})
-	var keys []string
-	for key := range s.intValues {
-		keys = append(keys, key)
+type incIntOptionImpl struct {
+	verbose     bool
+	has_verbose bool
+}
+
+func (i *incIntOptionImpl) Verbose() bool    { return i.verbose }
+func (i *incIntOptionImpl) HasVerbose() bool { return i.has_verbose }
+
+func makeIncIntOptionImpl(opts ...IncIntOption) *incIntOptionImpl {
+	res := &incIntOptionImpl{}
+	for _, opt := range opts {
+		opt(res)
 	}
-	sort.Strings(keys)
-	for _, key := range keys {
-		val := atomic.LoadInt32(s.intValues[key])
-		table.Append([]string{key, fmt.Sprintf("%d", val)})
-	}
-	table.Render()
-	return buf.String()
+	return res
+}
+
+func MakeIncIntOptions(opts ...IncIntOption) IncIntOptions {
+	return makeIncIntOptionImpl(opts...)
 }
