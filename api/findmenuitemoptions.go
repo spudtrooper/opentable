@@ -98,6 +98,23 @@ func (f *findMenuItemOptionImpl) HasLongitude() bool { return f.has_longitude }
 func (f *findMenuItemOptionImpl) MetroID() int       { return f.metroID }
 func (f *findMenuItemOptionImpl) HasMetroID() bool   { return f.has_metroID }
 
+type FindMenuItemParams struct {
+	Term      string  `json:"term" required:"true"`
+	Verbose   bool    `json:"verbose"`
+	Latitude  float32 `json:"latitude"`
+	Longitude float32 `json:"longitude"`
+	MetroID   int     `json:"metro_id"`
+}
+
+func (o FindMenuItemParams) Options() []FindMenuItemOption {
+	return []FindMenuItemOption{
+		FindMenuItemVerbose(o.Verbose),
+		FindMenuItemLatitude(o.Latitude),
+		FindMenuItemLongitude(o.Longitude),
+		FindMenuItemMetroID(o.MetroID),
+	}
+}
+
 func makeFindMenuItemOptionImpl(opts ...FindMenuItemOption) *findMenuItemOptionImpl {
 	res := &findMenuItemOptionImpl{}
 	for _, opt := range opts {

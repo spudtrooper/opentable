@@ -33,7 +33,8 @@ func (s *searchByURIAndSaveOptionImpl) Verbose() bool    { return s.verbose }
 func (s *searchByURIAndSaveOptionImpl) HasVerbose() bool { return s.has_verbose }
 
 type SearchByURIAndSaveParams struct {
-	Verbose bool `json:"verbose"`
+	Uri     string `json:"uri" required:"true"`
+	Verbose bool   `json:"verbose"`
 }
 
 func (o SearchByURIAndSaveParams) Options() []SearchByURIAndSaveOption {

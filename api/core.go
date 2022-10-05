@@ -270,25 +270,40 @@ func (c *Client) rawSearchByURI(uri string, res interface{}, verbose, debugFailu
 
 //go:generate genopts --function RestaurantDetails --params verbose debugFailures
 func (c *Client) RestaurantDetails(rest Restaurant, optss ...RestaurantDetailsOption) (*RestaurantDetailsInfo, error) {
+	opts := MakeRestaurantDetailsOptions(optss...)
 	uri := request.MakeURL(rest.ProfileLink,
 		request.MakeParam("avt", rest.RestaurantAvailabilityToken),
 	)
-	return c.RestaurantDetailsByURI(uri, optss...)
-
+	return c.RestaurantDetailsByURI(uri,
+		RestaurantDetailsByURIVerbose(opts.Verbose()),
+		RestaurantDetailsByURIDebugFailures(opts.DebugFailures()))
 }
 
-func (c *Client) RestaurantDetailsFromID(id string, optss ...RestaurantDetailsOption) (*RestaurantDetailsInfo, error) {
+//go:generate genopts --function RestaurantDetailsFromID --required "id string" --params verbose debugFailures
+func (c *Client) RestaurantDetailsFromID(id string, optss ...RestaurantDetailsFromIDOption) (*RestaurantDetailsInfo, error) {
+	opts := MakeRestaurantDetailsFromIDOptions(optss...)
 	uri := fmt.Sprintf("https://www.opentable.com/r/%s", id)
-	return c.RestaurantDetailsByURI(uri, optss...)
+	return c.RestaurantDetailsByURI(uri,
+		RestaurantDetailsByURIVerbose(opts.Verbose()),
+		RestaurantDetailsByURIDebugFailures(opts.DebugFailures()))
+
 }
 
-func (c *Client) RawRestaurantDetailsFromID(id string, optss ...RestaurantDetailsOption) (*RawRestaurantDetails, error) {
+//go:generate genopts --function RawRestaurantDetailsFromID --required "id string" --params verbose debugFailures
+func (c *Client) RawRestaurantDetailsFromID(id string, optss ...RawRestaurantDetailsFromIDOption) (*RawRestaurantDetails, error) {
+	opts := MakeRawRestaurantDetailsFromIDOptions(optss...)
 	uri := fmt.Sprintf("https://www.opentable.com/r/%s", id)
-	return c.RawRestaurantDetailsByURI(uri, optss...)
+	return c.RawRestaurantDetailsByURI(uri,
+		RawRestaurantDetailsByURIVerbose(opts.Verbose()),
+		RawRestaurantDetailsByURIDebugFailures(opts.DebugFailures()))
 }
 
-func (c *Client) RestaurantDetailsByURI(uri string, optss ...RestaurantDetailsOption) (*RestaurantDetailsInfo, error) {
-	s, err := c.RawRestaurantDetailsByURI(uri, optss...)
+//go:generate genopts --function RestaurantDetailsByURI --required "uri string" --params verbose debugFailures
+func (c *Client) RestaurantDetailsByURI(uri string, optss ...RestaurantDetailsByURIOption) (*RestaurantDetailsInfo, error) {
+	opts := MakeRestaurantDetailsByURIOptions(optss...)
+	s, err := c.RawRestaurantDetailsByURI(uri,
+		RawRestaurantDetailsByURIVerbose(opts.Verbose()),
+		RawRestaurantDetailsByURIDebugFailures(opts.DebugFailures()))
 	if err != nil {
 		return nil, err
 	}
@@ -299,8 +314,9 @@ func (c *Client) RestaurantDetailsByURI(uri string, optss ...RestaurantDetailsOp
 	return res, nil
 }
 
-func (c *Client) RawRestaurantDetailsByURI(uri string, optss ...RestaurantDetailsOption) (*RawRestaurantDetails, error) {
-	opts := MakeRestaurantDetailsOptions(optss...)
+//go:generate genopts --function RawRestaurantDetailsByURI --required "uri string" --params verbose debugFailures
+func (c *Client) RawRestaurantDetailsByURI(uri string, optss ...RawRestaurantDetailsByURIOption) (*RawRestaurantDetails, error) {
+	opts := MakeRawRestaurantDetailsByURIOptions(optss...)
 
 	convert := func(data []byte) (*RawRestaurantDetails, error) {
 		re := regexp.MustCompile(`(?m)\s*window.__INITIAL_STATE__=({.*});\s*`)

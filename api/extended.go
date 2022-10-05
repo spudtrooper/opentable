@@ -135,7 +135,7 @@ func AllMenuItems(rd RestaurantDetails) AllMenuItemsInfo {
 	return AllMenuItemsInfo{items}
 }
 
-//go:generate genopts --function FindMenuItem verbose latitude:float32 longitude:float32 metroID:int
+//go:generate genopts --function FindMenuItem --params --required "term string" verbose latitude:float32 longitude:float32 metroID:int
 func (e *Extended) FindMenuItem(term string, optss ...FindMenuItemOption) (*FindMenuItemInfo, error) {
 	opts := MakeFindMenuItemOptions(optss...)
 
@@ -487,7 +487,7 @@ func (e *Extended) rawListAllByURIAsync(baseURI string, verbose bool, startPage,
 	return outCh, errCh
 }
 
-//go:generate genopts --function SearchAndSave --params verbose
+//go:generate genopts --function SearchAndSave --params --required "term string" verbose
 func (e *Extended) SearchAndSave(ctx context.Context, term string, optss ...SearchAndSaveOption) error {
 	opts := MakeSearchAndSaveOptions(optss...)
 
@@ -533,7 +533,7 @@ func (e *Extended) SearchAndSave(ctx context.Context, term string, optss ...Sear
 
 }
 
-//go:generate genopts --function SearchByURIAndSave --params verbose
+//go:generate genopts --function SearchByURIAndSave --params --required "uri string" verbose
 func (e *Extended) SearchByURIAndSave(ctx context.Context, uri string, optss ...SearchByURIAndSaveOption) error {
 	opts := MakeSearchByURIAndSaveOptions(optss...)
 	log := makeLog("SearchByURIAndSave")

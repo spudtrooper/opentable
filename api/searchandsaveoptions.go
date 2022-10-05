@@ -33,7 +33,8 @@ func (s *searchAndSaveOptionImpl) Verbose() bool    { return s.verbose }
 func (s *searchAndSaveOptionImpl) HasVerbose() bool { return s.has_verbose }
 
 type SearchAndSaveParams struct {
-	Verbose bool `json:"verbose"`
+	Term    string `json:"term" required:"true"`
+	Verbose bool   `json:"verbose"`
 }
 
 func (o SearchAndSaveParams) Options() []SearchAndSaveOption {
