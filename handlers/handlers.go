@@ -155,31 +155,13 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		func() any { return api.SearchByURIAndSaveParams{} },
 	)
 
-	b.NewHandler("FindMatchingMenuItems",
-		func(ctx handler.EvalContext) (interface{}, error) {
-			term, ok := ctx.MustString("term")
-			if !ok {
-				return nil, nil
-			}
-			restID, ok := ctx.MustString("rest_id")
-			if !ok {
-				return nil, nil
-			}
-			info, err := client.RestaurantDetailsFromID(restID,
-				api.RestaurantDetailsFromIDVerbose(ctx.Bool("verbose")),
-				api.RestaurantDetailsFromIDDebugFailures(ctx.Bool("debug_failures")))
-			if err != nil {
-				return nil, err
-			}
-			items := api.FindMatchingMenuItems(info.RestaurantDetails, term)
-			return items, nil
+	b.NewHandlerFromParams("FindMatchingMenuItemsFromRestaurantID",
+		func(ctx context.Context, ip any) (any, error) {
+			p := ip.(api.FindMatchingMenuItemsFromRestaurantIDParams)
+			return client.FindMatchingMenuItemsFromRestaurantID(p.RestID, p.Term, p.Options()...)
 		},
-		handler.Params().
-			RequiredString("term").
-			RequiredString("rest_id").
-			Bool("verbose").
-			Bool("debug_failures").
-			BuildOption())
+		func() any { return api.FindMatchingMenuItemsFromRestaurantIDParams{} },
+	)
 
 	b.NewHandlerFromParams("RestaurantDetailsFromID",
 		func(ctx context.Context, ip any) (any, error) {
