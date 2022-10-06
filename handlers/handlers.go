@@ -115,25 +115,13 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		func() any { return api.ListByURIParams{} },
 	)
 
-	b.NewHandler("RestaurantDetails",
-		func(ctx handler.EvalContext) (interface{}, error) {
-			term, ok := ctx.MustString("term")
-			if !ok {
-				return nil, nil
-			}
-			searchInfo, err := client.Search(term, api.SearchVerbose(ctx.Bool("verbose")))
-			if err != nil {
-				return nil, err
-			}
-			return client.RestaurantDetails(searchInfo.Restaurants[0],
-				api.RestaurantDetailsVerbose(ctx.Bool("verbose")),
-				api.RestaurantDetailsDebugFailures(ctx.Bool("debug_failures")))
+	b.NewHandlerFromParams("RestaurantDetailsFromSearch",
+		func(ctx context.Context, ip any) (any, error) {
+			p := ip.(api.RestaurantDetailsFromSearchParams)
+			return client.RestaurantDetailsFromSearch(p.Term, p.Options()...)
 		},
-		handler.Params().
-			RequiredString("term").
-			Bool("verbose").
-			Bool("debug_failures").
-			BuildOption())
+		func() any { return api.RestaurantDetailsFromSearchParams{} },
+	)
 
 	b.NewHandlerFromParams("RestaurantDetailsByID",
 		func(ctx context.Context, ip any) (any, error) {
