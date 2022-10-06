@@ -131,31 +131,13 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		func() any { return api.RestaurantDetailsFromIDParams{} },
 	)
 
-	b.NewHandler("SaveRawRestaurantDetailsFromID",
-		func(ctx handler.EvalContext) (interface{}, error) {
-			restID, ok := ctx.MustString("rest_id")
-			if !ok {
-				return nil, nil
-			}
-			info, err := client.RawRestaurantDetailsFromID(restID,
-				api.RawRestaurantDetailsFromIDVerbose(ctx.Bool("verbose")),
-				api.RawRestaurantDetailsFromIDDebugFailures(ctx.Bool("debug_failures")))
-			if err != nil {
-				return nil, err
-			}
-			uri := fmt.Sprintf("https://www.opentable.com/r/%s", restID)
-			if err := client.Cache().SaveRestaurant(ctx.Context(), uri, *info,
-				api.SaveRestaurantVerbose(ctx.Bool("verbose"))); err != nil {
-				return nil, err
-			}
-			return info, nil
+	b.NewHandlerFromParams("SaveRawRestaurantDetailsFromID",
+		func(ctx context.Context, ip any) (any, error) {
+			p := ip.(api.SaveRawRestaurantDetailsFromIDParams)
+			return client.SaveRawRestaurantDetailsFromID(ctx, p.RestID, p.Options()...)
 		},
-		handler.NewHandlerMethod("POST"),
-		handler.Params().
-			RequiredString("rest_id").
-			Bool("verbose").
-			Bool("debug_failures").
-			BuildOption())
+		func() any { return api.SaveRawRestaurantDetailsFromIDParams{} },
+	)
 
 	b.NewHandlerFromParams("SearchAndSave",
 		func(ctx context.Context, ip any) (any, error) {
