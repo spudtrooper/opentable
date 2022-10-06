@@ -14,14 +14,6 @@ import (
 	"github.com/spudtrooper/opentable/api"
 )
 
-type LocationPickerParams struct {
-	AuthCke  string `json:"auth_cke"`
-	Tld      string `json:"tld"`
-	MetroID  int    `json:"metro_id"`
-	DomainID int    `json:"domain_id"`
-	Verbose  bool   `json:"verbose"`
-}
-
 func CreateHandlers(client *api.Extended) []handler.Handler {
 	b := handler.NewHandlerBuilder()
 
@@ -69,18 +61,13 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 
 	b.NewHandlerFromParams("LocationPicker",
 		func(ctx context.Context, ip any) (any, error) {
-			p := ip.(LocationPickerParams)
+			p := ip.(api.LocationPickerParams)
 			if p.AuthCke != "" {
 				client = client.WithAuthCke(p.AuthCke)
 			}
-			return client.LocationPicker(
-				api.LocationPickerVerbose(p.Verbose),
-				api.LocationPickerTld(p.Tld),
-				api.LocationPickerMetroID(p.MetroID),
-				api.LocationPickerDomainID(p.DomainID),
-			)
+			return client.LocationPicker(p.Options()...)
 		},
-		func() any { return LocationPickerParams{} },
+		func() any { return api.RestaurantsAvailabilityParams{} },
 	)
 
 	b.NewHandlerFromParams("RestaurantsAvailability",

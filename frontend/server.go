@@ -20,11 +20,17 @@ func ListenAndServe(ctx context.Context, client *api.Extended, port int, host st
 	}
 
 	handlers := handlers.CreateHandlers(client)
-	mux := handler.CreateHandler(ctx, handlers,
+	mux, err := handler.CreateHandler(ctx, handlers,
 		handler.CreateHandlerPrefix("api"),
 		handler.CreateHandlerIndexTitle("very unofficial opentable.com API"),
 		handler.CreateHandlerFooterHTML(`Details: <a target="_" href="https://github.com/spudtrooper/opentable">github.com/spudtrooper/opentable</a>`),
+		handler.CreateHandlerSourceLinks(true),
+		handler.CreateHandlerHandlersFiles([]string{"handlers/handlers.go"}),
+		handler.CreateHandlerSourceLinkURIRoot("https://github.com/spudtrooper/opentable/blob/main"),
 	)
+	if err != nil {
+		return err
+	}
 	mux.Handle("/", http.RedirectHandler("/api", http.StatusSeeOther))
 
 	log.Printf("listening on %s", hostPort)

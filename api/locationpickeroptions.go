@@ -12,6 +12,8 @@ type LocationPickerOptions interface {
 	HasDomainID() bool
 	Verbose() bool
 	HasVerbose() bool
+	AuthCke() string
+	HasAuthCke() bool
 }
 
 func LocationPickerTld(tld string) LocationPickerOption {
@@ -78,6 +80,22 @@ func LocationPickerVerboseFlag(verbose *bool) LocationPickerOption {
 	}
 }
 
+func LocationPickerAuthCke(authCke string) LocationPickerOption {
+	return func(opts *locationPickerOptionImpl) {
+		opts.has_authCke = true
+		opts.authCke = authCke
+	}
+}
+func LocationPickerAuthCkeFlag(authCke *string) LocationPickerOption {
+	return func(opts *locationPickerOptionImpl) {
+		if authCke == nil {
+			return
+		}
+		opts.has_authCke = true
+		opts.authCke = *authCke
+	}
+}
+
 type locationPickerOptionImpl struct {
 	tld          string
 	has_tld      bool
@@ -87,6 +105,8 @@ type locationPickerOptionImpl struct {
 	has_domainID bool
 	verbose      bool
 	has_verbose  bool
+	authCke      string
+	has_authCke  bool
 }
 
 func (l *locationPickerOptionImpl) Tld() string       { return l.tld }
@@ -97,12 +117,15 @@ func (l *locationPickerOptionImpl) DomainID() int     { return l.domainID }
 func (l *locationPickerOptionImpl) HasDomainID() bool { return l.has_domainID }
 func (l *locationPickerOptionImpl) Verbose() bool     { return l.verbose }
 func (l *locationPickerOptionImpl) HasVerbose() bool  { return l.has_verbose }
+func (l *locationPickerOptionImpl) AuthCke() string   { return l.authCke }
+func (l *locationPickerOptionImpl) HasAuthCke() bool  { return l.has_authCke }
 
 type LocationPickerParams struct {
 	Tld      string `json:"tld"`
 	MetroID  int    `json:"metro_id"`
 	DomainID int    `json:"domain_id"`
 	Verbose  bool   `json:"verbose"`
+	AuthCke  string `json:"auth_cke"`
 }
 
 func (o LocationPickerParams) Options() []LocationPickerOption {
@@ -111,6 +134,7 @@ func (o LocationPickerParams) Options() []LocationPickerOption {
 		LocationPickerMetroID(o.MetroID),
 		LocationPickerDomainID(o.DomainID),
 		LocationPickerVerbose(o.Verbose),
+		LocationPickerAuthCke(o.AuthCke),
 	}
 }
 

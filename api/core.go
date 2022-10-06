@@ -14,7 +14,7 @@ import (
 	"github.com/spudtrooper/goutil/request"
 )
 
-//go:generate genopts --function LocationPicker --params tld:string metroID:int domainID:int verbose:bool
+//go:generate genopts --function LocationPicker --params tld:string metroID:int domainID:int verbose:bool authCke:string
 func (c *Client) LocationPicker(optss ...LocationPickerOption) (*LocationPickerInfo, error) {
 	opts := MakeLocationPickerOptions(optss...)
 
