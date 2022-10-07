@@ -17,7 +17,7 @@ import (
 func CreateHandlers(client *api.Extended) []handler.Handler {
 	b := handler.NewHandlerBuilder()
 
-	b.NewHandlerFromParams("Search",
+	b.NewHandler("Search",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.SearchParams)
 			return client.Search(p.Term, p.Options()...)
@@ -25,7 +25,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		api.SearchParams{},
 	)
 
-	b.NewHandlerFromParams("SearchAll",
+	b.NewHandler("SearchAll",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.SearchAllParams)
 			infos, errs := client.SearchAll(p.Term, p.Options()...)
@@ -59,7 +59,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		api.SearchAllParams{},
 	)
 
-	b.NewHandlerFromParams("LocationPicker",
+	b.NewHandler("LocationPicker",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.LocationPickerParams)
 			if p.AuthCke != "" {
@@ -70,7 +70,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		api.RestaurantsAvailabilityParams{},
 	)
 
-	b.NewHandlerFromParams("RestaurantsAvailability",
+	b.NewHandler("RestaurantsAvailability",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.RestaurantsAvailabilityParams)
 			return client.RestaurantsAvailability(p.Options()...)
@@ -78,7 +78,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		api.RestaurantsAvailabilityParams{},
 	)
 
-	b.NewHandlerFromParams("SearchByURI",
+	b.NewHandler("SearchByURI",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.SearchByURIParams)
 			return client.SearchByURI(p.Uri, p.Options()...)
@@ -86,7 +86,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		api.SearchByURIParams{},
 	)
 
-	b.NewHandlerFromParams("RawListByURI",
+	b.NewHandler("RawListByURI",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.ListByURIParams)
 			return client.RawListByURI(p.Uri, p.Options()...)
@@ -94,7 +94,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		api.ListByURIParams{},
 	)
 
-	b.NewHandlerFromParams("ListByURI",
+	b.NewHandler("ListByURI",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.ListByURIParams)
 			return client.ListByURI(p.Uri, p.Options()...)
@@ -102,7 +102,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		api.ListByURIParams{},
 	)
 
-	b.NewHandlerFromParams("RestaurantDetailsFromSearch",
+	b.NewHandler("RestaurantDetailsFromSearch",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.RestaurantDetailsFromSearchParams)
 			return client.RestaurantDetailsFromSearch(p.Term, p.Options()...)
@@ -110,7 +110,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		api.RestaurantDetailsFromSearchParams{},
 	)
 
-	b.NewHandlerFromParams("RestaurantDetailsByID",
+	b.NewHandler("RestaurantDetailsByID",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.RestaurantDetailsFromIDParams)
 			return client.RestaurantDetailsFromID(p.Id, p.Options()...)
@@ -118,7 +118,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		api.RestaurantDetailsFromIDParams{},
 	)
 
-	b.NewHandlerFromParams("SaveRawRestaurantDetailsFromID",
+	b.NewHandler("SaveRawRestaurantDetailsFromID",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.SaveRawRestaurantDetailsFromIDParams)
 			return client.SaveRawRestaurantDetailsFromID(ctx, p.RestID, p.Options()...)
@@ -127,7 +127,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		handler.NewHandlerMethod("POST"),
 	)
 
-	b.NewHandlerFromParams("SearchAndSave",
+	b.NewHandler("SearchAndSave",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.SearchAndSaveParams)
 			return nil, client.SearchAndSave(ctx, p.Term, p.Options()...)
@@ -136,7 +136,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		handler.NewHandlerMethod("POST"),
 	)
 
-	b.NewHandlerFromParams("SearchByURIAndSave",
+	b.NewHandler("SearchByURIAndSave",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.SearchByURIAndSaveParams)
 			return nil, client.SearchByURIAndSave(ctx, p.Uri, p.Options()...)
@@ -144,7 +144,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		api.SearchByURIAndSaveParams{},
 	)
 
-	b.NewHandlerFromParams("FindMatchingMenuItemsFromRestaurantID",
+	b.NewHandler("FindMatchingMenuItemsFromRestaurantID",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.FindMatchingMenuItemsFromRestaurantIDParams)
 			return client.FindMatchingMenuItemsFromRestaurantID(p.RestID, p.Term, p.Options()...)
@@ -152,7 +152,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		api.FindMatchingMenuItemsFromRestaurantIDParams{},
 	)
 
-	b.NewHandlerFromParams("RestaurantDetailsFromID",
+	b.NewHandler("RestaurantDetailsFromID",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.RestaurantDetailsFromIDParams)
 			return client.RestaurantDetailsFromID(p.Id, p.Options()...)
@@ -160,7 +160,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		api.RestaurantDetailsFromIDParams{},
 	)
 
-	b.NewHandlerFromParams("FindMenuItem",
+	b.NewHandler("FindMenuItem",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.FindMenuItemParams)
 			return client.FindMenuItem(p.Term, p.Options()...)
@@ -168,7 +168,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		api.FindMenuItemParams{},
 	)
 
-	b.NewHandler("AddRestaurantsToSearchByURIs",
+	b.NewHandlerFromHandlerFn("AddRestaurantsToSearchByURIs",
 		func(ctx handler.EvalContext) (interface{}, error) {
 			uri, ok := ctx.MustString("uri")
 			if !ok {
@@ -216,7 +216,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 			Duration("sleep").
 			BuildOption())
 
-	b.NewHandlerFromParams("SearchEmptyRestaurants",
+	b.NewHandler("SearchEmptyRestaurants",
 		func(ctx context.Context, ip any) (any, error) {
 			p := ip.(api.SearchEmptyRestaurantsParams)
 			return nil, client.SearchEmptyRestaurants(ctx, p.Options()...)
@@ -224,7 +224,7 @@ func CreateHandlers(client *api.Extended) []handler.Handler {
 		api.SearchEmptyRestaurantsParams{},
 	)
 
-	b.NewHandler("RawListAllByURI",
+	b.NewHandlerFromHandlerFn("RawListAllByURI",
 		func(ctx handler.EvalContext) (interface{}, error) {
 			uri, ok := ctx.MustString("uri")
 			if !ok {
