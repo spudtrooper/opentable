@@ -13,7 +13,7 @@ require (
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/pkg/errors v0.9.1
 	github.com/spudtrooper/goutil v0.1.87
-	github.com/spudtrooper/minimalcli v0.0.17
+	github.com/spudtrooper/minimalcli v0.0.19
 	go.mongodb.org/mongo-driver v1.8.4
 	golang.org/x/text v0.3.6
 )
