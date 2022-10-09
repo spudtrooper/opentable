@@ -19,6 +19,7 @@ func ListenAndServe(ctx context.Context, client *api.Extended, port int, host st
 		hostPort = fmt.Sprintf("https://%s", host)
 	}
 
+	locs := handlers.SourceLocations
 	handlers := handlers.CreateHandlers(client)
 	mux := http.NewServeMux()
 	if err := handler.AddHandlers(ctx, mux, handlers,
@@ -26,8 +27,7 @@ func ListenAndServe(ctx context.Context, client *api.Extended, port int, host st
 		handler.AddHandlersIndexTitle("unofficial opentable API"),
 		handler.AddHandlersFooterHTML(`Details: <a target="_" href="//github.com/spudtrooper/opentable">github.com/spudtrooper/opentable</a>`),
 		handler.AddHandlersSourceLinks(true),
-		handler.AddHandlersHandlersFiles([]string{"handlers/handlers.go"}),
-		handler.AddHandlersSourceLinkURIRoot("github.com/spudtrooper/opentable/blob/main"),
+		handler.AddHandlersSerializedSourceLocations(locs),
 	); err != nil {
 		return err
 	}

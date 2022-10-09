@@ -3,6 +3,7 @@ package handlers
 
 import (
 	"context"
+	_ "embed"
 	"fmt"
 	"sync"
 	"time"
@@ -13,6 +14,10 @@ import (
 	"github.com/spudtrooper/minimalcli/handler"
 	"github.com/spudtrooper/opentable/api"
 )
+
+//go:generate minimalcli gsl --input handlers.go --uri_root "github.com/spudtrooper/opentable/blob/main/handlers" --output handlers.go.json
+//go:embed handlers.go.json
+var SourceLocations []byte
 
 func CreateHandlers(client *api.Extended) []handler.Handler {
 	b := handler.NewHandlerBuilder()
