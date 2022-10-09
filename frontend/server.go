@@ -24,10 +24,10 @@ func ListenAndServe(ctx context.Context, client *api.Extended, port int, host st
 	if err := handler.AddHandlers(ctx, mux, handlers,
 		handler.AddHandlersPrefix("api"),
 		handler.AddHandlersIndexTitle("unofficial opentable API"),
-		handler.AddHandlersFooterHTML(`Details: <a target="_" href="https://github.com/spudtrooper/opentable">github.com/spudtrooper/opentable</a>`),
+		handler.AddHandlersFooterHTML(`Details: <a target="_" href="//github.com/spudtrooper/opentable">github.com/spudtrooper/opentable</a>`),
 		handler.AddHandlersSourceLinks(true),
 		handler.AddHandlersHandlersFiles([]string{"handlers/handlers.go"}),
-		handler.AddHandlersSourceLinkURIRoot("https://github.com/spudtrooper/opentable/blob/main"),
+		handler.AddHandlersSourceLinkURIRoot("github.com/spudtrooper/opentable/blob/main"),
 	); err != nil {
 		return err
 	}
