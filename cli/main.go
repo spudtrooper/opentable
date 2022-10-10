@@ -8,32 +8,27 @@ import (
 
 	"github.com/spudtrooper/goutil/flags"
 	"github.com/spudtrooper/minimalcli/handler"
+	flag "github.com/spudtrooper/minimalcli/handler"
 	"github.com/spudtrooper/opentable/api"
 	"github.com/spudtrooper/opentable/handlers"
 )
 
 var (
-	verbose       = flags.Bool("verbose", "global verbose")
-	term          = flags.String("term", "global term")
-	uri           = flags.String("uri", "global uri")
-	restID        = flags.String("rest_id", `restaurant id, e.g. "kumi-japanese-restaurant-and-bar-nyc-new-york"`)
-	startPage     = flags.Int("start_page", "global start page")
-	threads       = flags.Int("threads", "global threads")
-	sleep         = flags.Duration("sleep", "global sleep")
-	debugFailures = flags.Bool("debug_failures", "global debug_failres")
-	failureJSON   = flags.String("failure_json", "file to test parsing")
+	failureJSON = flags.String("failure_json", "file to test parsing")
 )
 
 func Main(ctx context.Context) error {
+	flag.Bool("verbose", false, "global verbose")
+	flag.String("term", "", "global term")
+	flag.String("uri", "", "global uri")
+	flag.String("rest_id", "", `restaurant id, e.g. "kumi-japanese-restaurant-and-bar-nyc-new-york"`)
+	flag.Int("start_page", 0, "global start page")
+	flag.Int("threads", 0, "global threads")
+	flag.Duration("sleep", 0, "global sleep")
+	flag.Bool("debug_failures", false, "global debug_failres")
+
 	adp := handler.NewCLIAdapter()
-	adp.BindStringFlag("term", term)
-	adp.BindStringFlag("uri", uri)
-	adp.BindBoolFlag("verbose", verbose)
-	adp.BindBoolFlag("debug_failures", debugFailures)
-	adp.BindIntFlag("start_page", startPage)
-	adp.BindIntFlag("threads", threads)
-	adp.BindStringFlag("rest_id", restID)
-	adp.BindDurationFlag("sleep", sleep)
+	adp.BindToGlobalFlags()
 
 	client, err := api.MakeExtendedFromFlags(ctx)
 	if err != nil {

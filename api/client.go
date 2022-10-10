@@ -18,9 +18,9 @@ import (
 )
 
 var (
-	token       = flags.String("token", "auth token")
-	userCreds   = flag.String("user_creds", ".user_creds.json", "file with user credentials")
-	noUserCreds = flag.Bool("no_user_creds", false, "Don't use user creds event if it exists")
+	token       = flags.String("opentable_token", "auth token")
+	userCreds   = flag.String("opentable_user_creds", ".user_creds.json", "file with user credentials")
+	noUserCreds = flag.Bool("opentable_no_user_creds", false, "Don't use user creds event if it exists")
 )
 
 // Client is a client for opentable.com
