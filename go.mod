@@ -12,7 +12,7 @@ require (
 	github.com/fbiville/markdown-table-formatter v0.3.0
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/pkg/errors v0.9.1
-	github.com/spudtrooper/goutil v0.1.106
+	github.com/spudtrooper/goutil v0.1.109
 	github.com/spudtrooper/minimalcli v0.0.24
 	go.mongodb.org/mongo-driver v1.8.4
 	golang.org/x/text v0.3.7
