@@ -3,7 +3,7 @@ package proxy
 
 import "time"
 
-//go:generate genopts --prefix=Request --outfile=proxy/requestoptions.go "timeout:time.Duration" "timeouts:[]time.Duration"
+//go:generate genopts --prefix=Request --outfile=requestoptions.go "timeout:time.Duration" "timeouts:[]time.Duration"
 
 type RequestOption func(*requestOptionImpl)
 
