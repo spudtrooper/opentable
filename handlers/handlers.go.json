@@ -1,5 +1,75 @@
 [
   {
+    "Handler": "RawListAllByURI",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
+      "line": 232
+    }
+  },
+  {
+    "Handler": "RestaurantsAvailability",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
+      "line": 78
+    }
+  },
+  {
+    "Handler": "SearchByURI",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
+      "line": 86
+    }
+  },
+  {
+    "Handler": "SearchByURIAndSave",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
+      "line": 144
+    }
+  },
+  {
+    "Handler": "SearchEmptyRestaurants",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
+      "line": 224
+    }
+  },
+  {
+    "Handler": "AddRestaurantsToSearchByURIs",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
+      "line": 176
+    }
+  },
+  {
+    "Handler": "SearchAll",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
+      "line": 33
+    }
+  },
+  {
+    "Handler": "ListByURI",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
+      "line": 102
+    }
+  },
+  {
+    "Handler": "FindMatchingMenuItemsFromRestaurantID",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
+      "line": 152
+    }
+  },
+  {
+    "Handler": "RestaurantDetailsFromID",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
+      "line": 160
+    }
+  },
+  {
     "Handler": "LocationPicker",
     "Loc": {
       "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
@@ -14,38 +84,10 @@
     }
   },
   {
-    "Handler": "SearchEmptyRestaurants",
+    "Handler": "SearchAndSave",
     "Loc": {
       "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
-      "line": 224
-    }
-  },
-  {
-    "Handler": "Search",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
-      "line": 25
-    }
-  },
-  {
-    "Handler": "SearchByURI",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
-      "line": 86
-    }
-  },
-  {
-    "Handler": "ListByURI",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
-      "line": 102
-    }
-  },
-  {
-    "Handler": "RestaurantDetailsByID",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
-      "line": 118
+      "line": 135
     }
   },
   {
@@ -56,17 +98,10 @@
     }
   },
   {
-    "Handler": "RawListAllByURI",
+    "Handler": "Search",
     "Loc": {
       "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
-      "line": 232
-    }
-  },
-  {
-    "Handler": "SearchAll",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
-      "line": 33
+      "line": 25
     }
   },
   {
@@ -77,27 +112,6 @@
     }
   },
   {
-    "Handler": "SearchAndSave",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
-      "line": 135
-    }
-  },
-  {
-    "Handler": "RestaurantDetailsFromID",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
-      "line": 160
-    }
-  },
-  {
-    "Handler": "RestaurantsAvailability",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
-      "line": 78
-    }
-  },
-  {
     "Handler": "RestaurantDetailsFromSearch",
     "Loc": {
       "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
@@ -105,24 +119,10 @@
     }
   },
   {
-    "Handler": "SearchByURIAndSave",
+    "Handler": "RestaurantDetailsByID",
     "Loc": {
       "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
-      "line": 144
-    }
-  },
-  {
-    "Handler": "FindMatchingMenuItemsFromRestaurantID",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
-      "line": 152
-    }
-  },
-  {
-    "Handler": "AddRestaurantsToSearchByURIs",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opentable/blob/main/handlers/handlers.go",
-      "line": 176
+      "line": 118
     }
   }
 ]
