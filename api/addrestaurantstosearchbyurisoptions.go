@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type AddRestaurantsToSearchByURIsOption func(*addRestaurantsToSearchByURIsOptionImpl)
+import "fmt"
+
+type AddRestaurantsToSearchByURIsOption struct {
+	f func(*addRestaurantsToSearchByURIsOptionImpl)
+	s string
+}
+
+func (o AddRestaurantsToSearchByURIsOption) String() string { return o.s }
 
 type AddRestaurantsToSearchByURIsOptions interface {
 	Threads() int
@@ -11,35 +18,35 @@ type AddRestaurantsToSearchByURIsOptions interface {
 }
 
 func AddRestaurantsToSearchByURIsThreads(threads int) AddRestaurantsToSearchByURIsOption {
-	return func(opts *addRestaurantsToSearchByURIsOptionImpl) {
+	return AddRestaurantsToSearchByURIsOption{func(opts *addRestaurantsToSearchByURIsOptionImpl) {
 		opts.has_threads = true
 		opts.threads = threads
-	}
+	}, fmt.Sprintf("api.AddRestaurantsToSearchByURIsThreads(int %+v)}", threads)}
 }
 func AddRestaurantsToSearchByURIsThreadsFlag(threads *int) AddRestaurantsToSearchByURIsOption {
-	return func(opts *addRestaurantsToSearchByURIsOptionImpl) {
+	return AddRestaurantsToSearchByURIsOption{func(opts *addRestaurantsToSearchByURIsOptionImpl) {
 		if threads == nil {
 			return
 		}
 		opts.has_threads = true
 		opts.threads = *threads
-	}
+	}, fmt.Sprintf("api.AddRestaurantsToSearchByURIsThreads(int %+v)}", threads)}
 }
 
 func AddRestaurantsToSearchByURIsVerbose(verbose bool) AddRestaurantsToSearchByURIsOption {
-	return func(opts *addRestaurantsToSearchByURIsOptionImpl) {
+	return AddRestaurantsToSearchByURIsOption{func(opts *addRestaurantsToSearchByURIsOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.AddRestaurantsToSearchByURIsVerbose(bool %+v)}", verbose)}
 }
 func AddRestaurantsToSearchByURIsVerboseFlag(verbose *bool) AddRestaurantsToSearchByURIsOption {
-	return func(opts *addRestaurantsToSearchByURIsOptionImpl) {
+	return AddRestaurantsToSearchByURIsOption{func(opts *addRestaurantsToSearchByURIsOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.AddRestaurantsToSearchByURIsVerbose(bool %+v)}", verbose)}
 }
 
 type addRestaurantsToSearchByURIsOptionImpl struct {
@@ -69,7 +76,7 @@ func (o AddRestaurantsToSearchByURIsParams) Options() []AddRestaurantsToSearchBy
 func makeAddRestaurantsToSearchByURIsOptionImpl(opts ...AddRestaurantsToSearchByURIsOption) *addRestaurantsToSearchByURIsOptionImpl {
 	res := &addRestaurantsToSearchByURIsOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

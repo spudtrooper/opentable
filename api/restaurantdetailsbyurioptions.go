@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type RestaurantDetailsByURIOption func(*restaurantDetailsByURIOptionImpl)
+import "fmt"
+
+type RestaurantDetailsByURIOption struct {
+	f func(*restaurantDetailsByURIOptionImpl)
+	s string
+}
+
+func (o RestaurantDetailsByURIOption) String() string { return o.s }
 
 type RestaurantDetailsByURIOptions interface {
 	Verbose() bool
@@ -11,35 +18,35 @@ type RestaurantDetailsByURIOptions interface {
 }
 
 func RestaurantDetailsByURIVerbose(verbose bool) RestaurantDetailsByURIOption {
-	return func(opts *restaurantDetailsByURIOptionImpl) {
+	return RestaurantDetailsByURIOption{func(opts *restaurantDetailsByURIOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.RestaurantDetailsByURIVerbose(bool %+v)}", verbose)}
 }
 func RestaurantDetailsByURIVerboseFlag(verbose *bool) RestaurantDetailsByURIOption {
-	return func(opts *restaurantDetailsByURIOptionImpl) {
+	return RestaurantDetailsByURIOption{func(opts *restaurantDetailsByURIOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.RestaurantDetailsByURIVerbose(bool %+v)}", verbose)}
 }
 
 func RestaurantDetailsByURIDebugFailures(debugFailures bool) RestaurantDetailsByURIOption {
-	return func(opts *restaurantDetailsByURIOptionImpl) {
+	return RestaurantDetailsByURIOption{func(opts *restaurantDetailsByURIOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}
+	}, fmt.Sprintf("api.RestaurantDetailsByURIDebugFailures(bool %+v)}", debugFailures)}
 }
 func RestaurantDetailsByURIDebugFailuresFlag(debugFailures *bool) RestaurantDetailsByURIOption {
-	return func(opts *restaurantDetailsByURIOptionImpl) {
+	return RestaurantDetailsByURIOption{func(opts *restaurantDetailsByURIOptionImpl) {
 		if debugFailures == nil {
 			return
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}
+	}, fmt.Sprintf("api.RestaurantDetailsByURIDebugFailures(bool %+v)}", debugFailures)}
 }
 
 type restaurantDetailsByURIOptionImpl struct {
@@ -70,7 +77,7 @@ func (o RestaurantDetailsByURIParams) Options() []RestaurantDetailsByURIOption {
 func makeRestaurantDetailsByURIOptionImpl(opts ...RestaurantDetailsByURIOption) *restaurantDetailsByURIOptionImpl {
 	res := &restaurantDetailsByURIOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

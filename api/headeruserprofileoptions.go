@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type HeaderUserProfileOption func(*headerUserProfileOptionImpl)
+import "fmt"
+
+type HeaderUserProfileOption struct {
+	f func(*headerUserProfileOptionImpl)
+	s string
+}
+
+func (o HeaderUserProfileOption) String() string { return o.s }
 
 type HeaderUserProfileOptions interface {
 	Tld() string
@@ -11,35 +18,35 @@ type HeaderUserProfileOptions interface {
 }
 
 func HeaderUserProfileTld(tld string) HeaderUserProfileOption {
-	return func(opts *headerUserProfileOptionImpl) {
+	return HeaderUserProfileOption{func(opts *headerUserProfileOptionImpl) {
 		opts.has_tld = true
 		opts.tld = tld
-	}
+	}, fmt.Sprintf("api.HeaderUserProfileTld(string %+v)}", tld)}
 }
 func HeaderUserProfileTldFlag(tld *string) HeaderUserProfileOption {
-	return func(opts *headerUserProfileOptionImpl) {
+	return HeaderUserProfileOption{func(opts *headerUserProfileOptionImpl) {
 		if tld == nil {
 			return
 		}
 		opts.has_tld = true
 		opts.tld = *tld
-	}
+	}, fmt.Sprintf("api.HeaderUserProfileTld(string %+v)}", tld)}
 }
 
 func HeaderUserProfileVerbose(verbose bool) HeaderUserProfileOption {
-	return func(opts *headerUserProfileOptionImpl) {
+	return HeaderUserProfileOption{func(opts *headerUserProfileOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.HeaderUserProfileVerbose(bool %+v)}", verbose)}
 }
 func HeaderUserProfileVerboseFlag(verbose *bool) HeaderUserProfileOption {
-	return func(opts *headerUserProfileOptionImpl) {
+	return HeaderUserProfileOption{func(opts *headerUserProfileOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.HeaderUserProfileVerbose(bool %+v)}", verbose)}
 }
 
 type headerUserProfileOptionImpl struct {
@@ -69,7 +76,7 @@ func (o HeaderUserProfileParams) Options() []HeaderUserProfileOption {
 func makeHeaderUserProfileOptionImpl(opts ...HeaderUserProfileOption) *headerUserProfileOptionImpl {
 	res := &headerUserProfileOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

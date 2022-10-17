@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type FindMatchingMenuItemsFromRestaurantIDOption func(*findMatchingMenuItemsFromRestaurantIDOptionImpl)
+import "fmt"
+
+type FindMatchingMenuItemsFromRestaurantIDOption struct {
+	f func(*findMatchingMenuItemsFromRestaurantIDOptionImpl)
+	s string
+}
+
+func (o FindMatchingMenuItemsFromRestaurantIDOption) String() string { return o.s }
 
 type FindMatchingMenuItemsFromRestaurantIDOptions interface {
 	Verbose() bool
@@ -12,35 +19,35 @@ type FindMatchingMenuItemsFromRestaurantIDOptions interface {
 }
 
 func FindMatchingMenuItemsFromRestaurantIDVerbose(verbose bool) FindMatchingMenuItemsFromRestaurantIDOption {
-	return func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
+	return FindMatchingMenuItemsFromRestaurantIDOption{func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDVerbose(bool %+v)}", verbose)}
 }
 func FindMatchingMenuItemsFromRestaurantIDVerboseFlag(verbose *bool) FindMatchingMenuItemsFromRestaurantIDOption {
-	return func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
+	return FindMatchingMenuItemsFromRestaurantIDOption{func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDVerbose(bool %+v)}", verbose)}
 }
 
 func FindMatchingMenuItemsFromRestaurantIDDebugFailures(debugFailures bool) FindMatchingMenuItemsFromRestaurantIDOption {
-	return func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
+	return FindMatchingMenuItemsFromRestaurantIDOption{func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}
+	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDDebugFailures(bool %+v)}", debugFailures)}
 }
 func FindMatchingMenuItemsFromRestaurantIDDebugFailuresFlag(debugFailures *bool) FindMatchingMenuItemsFromRestaurantIDOption {
-	return func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
+	return FindMatchingMenuItemsFromRestaurantIDOption{func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
 		if debugFailures == nil {
 			return
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}
+	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDDebugFailures(bool %+v)}", debugFailures)}
 }
 
 type findMatchingMenuItemsFromRestaurantIDOptionImpl struct {
@@ -84,7 +91,7 @@ func (o *findMatchingMenuItemsFromRestaurantIDOptionImpl) ToRestaurantDetailsFro
 func makeFindMatchingMenuItemsFromRestaurantIDOptionImpl(opts ...FindMatchingMenuItemsFromRestaurantIDOption) *findMatchingMenuItemsFromRestaurantIDOptionImpl {
 	res := &findMatchingMenuItemsFromRestaurantIDOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type RestaurantDetailsOption func(*restaurantDetailsOptionImpl)
+import "fmt"
+
+type RestaurantDetailsOption struct {
+	f func(*restaurantDetailsOptionImpl)
+	s string
+}
+
+func (o RestaurantDetailsOption) String() string { return o.s }
 
 type RestaurantDetailsOptions interface {
 	Verbose() bool
@@ -11,35 +18,35 @@ type RestaurantDetailsOptions interface {
 }
 
 func RestaurantDetailsVerbose(verbose bool) RestaurantDetailsOption {
-	return func(opts *restaurantDetailsOptionImpl) {
+	return RestaurantDetailsOption{func(opts *restaurantDetailsOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.RestaurantDetailsVerbose(bool %+v)}", verbose)}
 }
 func RestaurantDetailsVerboseFlag(verbose *bool) RestaurantDetailsOption {
-	return func(opts *restaurantDetailsOptionImpl) {
+	return RestaurantDetailsOption{func(opts *restaurantDetailsOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.RestaurantDetailsVerbose(bool %+v)}", verbose)}
 }
 
 func RestaurantDetailsDebugFailures(debugFailures bool) RestaurantDetailsOption {
-	return func(opts *restaurantDetailsOptionImpl) {
+	return RestaurantDetailsOption{func(opts *restaurantDetailsOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}
+	}, fmt.Sprintf("api.RestaurantDetailsDebugFailures(bool %+v)}", debugFailures)}
 }
 func RestaurantDetailsDebugFailuresFlag(debugFailures *bool) RestaurantDetailsOption {
-	return func(opts *restaurantDetailsOptionImpl) {
+	return RestaurantDetailsOption{func(opts *restaurantDetailsOptionImpl) {
 		if debugFailures == nil {
 			return
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}
+	}, fmt.Sprintf("api.RestaurantDetailsDebugFailures(bool %+v)}", debugFailures)}
 }
 
 type restaurantDetailsOptionImpl struct {
@@ -69,7 +76,7 @@ func (o RestaurantDetailsParams) Options() []RestaurantDetailsOption {
 func makeRestaurantDetailsOptionImpl(opts ...RestaurantDetailsOption) *restaurantDetailsOptionImpl {
 	res := &restaurantDetailsOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

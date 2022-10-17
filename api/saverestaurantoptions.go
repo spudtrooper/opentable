@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type SaveRestaurantOption func(*saveRestaurantOptionImpl)
+import "fmt"
+
+type SaveRestaurantOption struct {
+	f func(*saveRestaurantOptionImpl)
+	s string
+}
+
+func (o SaveRestaurantOption) String() string { return o.s }
 
 type SaveRestaurantOptions interface {
 	Verbose() bool
@@ -11,35 +18,35 @@ type SaveRestaurantOptions interface {
 }
 
 func SaveRestaurantVerbose(verbose bool) SaveRestaurantOption {
-	return func(opts *saveRestaurantOptionImpl) {
+	return SaveRestaurantOption{func(opts *saveRestaurantOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.SaveRestaurantVerbose(bool %+v)}", verbose)}
 }
 func SaveRestaurantVerboseFlag(verbose *bool) SaveRestaurantOption {
-	return func(opts *saveRestaurantOptionImpl) {
+	return SaveRestaurantOption{func(opts *saveRestaurantOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.SaveRestaurantVerbose(bool %+v)}", verbose)}
 }
 
 func SaveRestaurantReallyVerbose(reallyVerbose bool) SaveRestaurantOption {
-	return func(opts *saveRestaurantOptionImpl) {
+	return SaveRestaurantOption{func(opts *saveRestaurantOptionImpl) {
 		opts.has_reallyVerbose = true
 		opts.reallyVerbose = reallyVerbose
-	}
+	}, fmt.Sprintf("api.SaveRestaurantReallyVerbose(bool %+v)}", reallyVerbose)}
 }
 func SaveRestaurantReallyVerboseFlag(reallyVerbose *bool) SaveRestaurantOption {
-	return func(opts *saveRestaurantOptionImpl) {
+	return SaveRestaurantOption{func(opts *saveRestaurantOptionImpl) {
 		if reallyVerbose == nil {
 			return
 		}
 		opts.has_reallyVerbose = true
 		opts.reallyVerbose = *reallyVerbose
-	}
+	}, fmt.Sprintf("api.SaveRestaurantReallyVerbose(bool %+v)}", reallyVerbose)}
 }
 
 type saveRestaurantOptionImpl struct {
@@ -57,7 +64,7 @@ func (s *saveRestaurantOptionImpl) HasReallyVerbose() bool { return s.has_really
 func makeSaveRestaurantOptionImpl(opts ...SaveRestaurantOption) *saveRestaurantOptionImpl {
 	res := &saveRestaurantOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

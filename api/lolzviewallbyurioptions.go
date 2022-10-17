@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type LolzViewAllByURIOption func(*lolzViewAllByURIOptionImpl)
+import "fmt"
+
+type LolzViewAllByURIOption struct {
+	f func(*lolzViewAllByURIOptionImpl)
+	s string
+}
+
+func (o LolzViewAllByURIOption) String() string { return o.s }
 
 type LolzViewAllByURIOptions interface {
 	Verbose() bool
@@ -13,51 +20,51 @@ type LolzViewAllByURIOptions interface {
 }
 
 func LolzViewAllByURIVerbose(verbose bool) LolzViewAllByURIOption {
-	return func(opts *lolzViewAllByURIOptionImpl) {
+	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.LolzViewAllByURIVerbose(bool %+v)}", verbose)}
 }
 func LolzViewAllByURIVerboseFlag(verbose *bool) LolzViewAllByURIOption {
-	return func(opts *lolzViewAllByURIOptionImpl) {
+	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.LolzViewAllByURIVerbose(bool %+v)}", verbose)}
 }
 
 func LolzViewAllByURIStartPage(startPage int) LolzViewAllByURIOption {
-	return func(opts *lolzViewAllByURIOptionImpl) {
+	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
 		opts.has_startPage = true
 		opts.startPage = startPage
-	}
+	}, fmt.Sprintf("api.LolzViewAllByURIStartPage(int %+v)}", startPage)}
 }
 func LolzViewAllByURIStartPageFlag(startPage *int) LolzViewAllByURIOption {
-	return func(opts *lolzViewAllByURIOptionImpl) {
+	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
 		if startPage == nil {
 			return
 		}
 		opts.has_startPage = true
 		opts.startPage = *startPage
-	}
+	}, fmt.Sprintf("api.LolzViewAllByURIStartPage(int %+v)}", startPage)}
 }
 
 func LolzViewAllByURIThreads(threads int) LolzViewAllByURIOption {
-	return func(opts *lolzViewAllByURIOptionImpl) {
+	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
 		opts.has_threads = true
 		opts.threads = threads
-	}
+	}, fmt.Sprintf("api.LolzViewAllByURIThreads(int %+v)}", threads)}
 }
 func LolzViewAllByURIThreadsFlag(threads *int) LolzViewAllByURIOption {
-	return func(opts *lolzViewAllByURIOptionImpl) {
+	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
 		if threads == nil {
 			return
 		}
 		opts.has_threads = true
 		opts.threads = *threads
-	}
+	}, fmt.Sprintf("api.LolzViewAllByURIThreads(int %+v)}", threads)}
 }
 
 type lolzViewAllByURIOptionImpl struct {
@@ -94,7 +101,7 @@ func (o LolzViewAllByURIParams) Options() []LolzViewAllByURIOption {
 func makeLolzViewAllByURIOptionImpl(opts ...LolzViewAllByURIOption) *lolzViewAllByURIOptionImpl {
 	res := &lolzViewAllByURIOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

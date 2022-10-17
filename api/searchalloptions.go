@@ -1,9 +1,17 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
-type SearchAllOption func(*searchAllOptionImpl)
+type SearchAllOption struct {
+	f func(*searchAllOptionImpl)
+	s string
+}
+
+func (o SearchAllOption) String() string { return o.s }
 
 type SearchAllOptions interface {
 	Verbose() bool
@@ -31,179 +39,179 @@ type SearchAllOptions interface {
 }
 
 func SearchAllVerbose(verbose bool) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.SearchAllVerbose(bool %+v)}", verbose)}
 }
 func SearchAllVerboseFlag(verbose *bool) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.SearchAllVerbose(bool %+v)}", verbose)}
 }
 
 func SearchAllDebugFailures(debugFailures bool) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}
+	}, fmt.Sprintf("api.SearchAllDebugFailures(bool %+v)}", debugFailures)}
 }
 func SearchAllDebugFailuresFlag(debugFailures *bool) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		if debugFailures == nil {
 			return
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}
+	}, fmt.Sprintf("api.SearchAllDebugFailures(bool %+v)}", debugFailures)}
 }
 
 func SearchAllOriginalTerm(originalTerm string) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		opts.has_originalTerm = true
 		opts.originalTerm = originalTerm
-	}
+	}, fmt.Sprintf("api.SearchAllOriginalTerm(string %+v)}", originalTerm)}
 }
 func SearchAllOriginalTermFlag(originalTerm *string) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		if originalTerm == nil {
 			return
 		}
 		opts.has_originalTerm = true
 		opts.originalTerm = *originalTerm
-	}
+	}, fmt.Sprintf("api.SearchAllOriginalTerm(string %+v)}", originalTerm)}
 }
 
 func SearchAllDate(date time.Time) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		opts.has_date = true
 		opts.date = date
-	}
+	}, fmt.Sprintf("api.SearchAllDate(time.Time %+v)}", date)}
 }
 func SearchAllDateFlag(date *time.Time) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		if date == nil {
 			return
 		}
 		opts.has_date = true
 		opts.date = *date
-	}
+	}, fmt.Sprintf("api.SearchAllDate(time.Time %+v)}", date)}
 }
 
 func SearchAllIntentModifiedTerm(intentModifiedTerm string) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		opts.has_intentModifiedTerm = true
 		opts.intentModifiedTerm = intentModifiedTerm
-	}
+	}, fmt.Sprintf("api.SearchAllIntentModifiedTerm(string %+v)}", intentModifiedTerm)}
 }
 func SearchAllIntentModifiedTermFlag(intentModifiedTerm *string) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		if intentModifiedTerm == nil {
 			return
 		}
 		opts.has_intentModifiedTerm = true
 		opts.intentModifiedTerm = *intentModifiedTerm
-	}
+	}, fmt.Sprintf("api.SearchAllIntentModifiedTerm(string %+v)}", intentModifiedTerm)}
 }
 
 func SearchAllCovers(covers int) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		opts.has_covers = true
 		opts.covers = covers
-	}
+	}, fmt.Sprintf("api.SearchAllCovers(int %+v)}", covers)}
 }
 func SearchAllCoversFlag(covers *int) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		if covers == nil {
 			return
 		}
 		opts.has_covers = true
 		opts.covers = *covers
-	}
+	}, fmt.Sprintf("api.SearchAllCovers(int %+v)}", covers)}
 }
 
 func SearchAllLatitude(latitude float32) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		opts.has_latitude = true
 		opts.latitude = latitude
-	}
+	}, fmt.Sprintf("api.SearchAllLatitude(float32 %+v)}", latitude)}
 }
 func SearchAllLatitudeFlag(latitude *float32) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		if latitude == nil {
 			return
 		}
 		opts.has_latitude = true
 		opts.latitude = *latitude
-	}
+	}, fmt.Sprintf("api.SearchAllLatitude(float32 %+v)}", latitude)}
 }
 
 func SearchAllLongitude(longitude float32) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		opts.has_longitude = true
 		opts.longitude = longitude
-	}
+	}, fmt.Sprintf("api.SearchAllLongitude(float32 %+v)}", longitude)}
 }
 func SearchAllLongitudeFlag(longitude *float32) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		if longitude == nil {
 			return
 		}
 		opts.has_longitude = true
 		opts.longitude = *longitude
-	}
+	}, fmt.Sprintf("api.SearchAllLongitude(float32 %+v)}", longitude)}
 }
 
 func SearchAllMetroID(metroID int) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		opts.has_metroID = true
 		opts.metroID = metroID
-	}
+	}, fmt.Sprintf("api.SearchAllMetroID(int %+v)}", metroID)}
 }
 func SearchAllMetroIDFlag(metroID *int) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		if metroID == nil {
 			return
 		}
 		opts.has_metroID = true
 		opts.metroID = *metroID
-	}
+	}, fmt.Sprintf("api.SearchAllMetroID(int %+v)}", metroID)}
 }
 
 func SearchAllThreads(threads int) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		opts.has_threads = true
 		opts.threads = threads
-	}
+	}, fmt.Sprintf("api.SearchAllThreads(int %+v)}", threads)}
 }
 func SearchAllThreadsFlag(threads *int) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		if threads == nil {
 			return
 		}
 		opts.has_threads = true
 		opts.threads = *threads
-	}
+	}, fmt.Sprintf("api.SearchAllThreads(int %+v)}", threads)}
 }
 
 func SearchAllStartPage(startPage int) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		opts.has_startPage = true
 		opts.startPage = startPage
-	}
+	}, fmt.Sprintf("api.SearchAllStartPage(int %+v)}", startPage)}
 }
 func SearchAllStartPageFlag(startPage *int) SearchAllOption {
-	return func(opts *searchAllOptionImpl) {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		if startPage == nil {
 			return
 		}
 		opts.has_startPage = true
 		opts.startPage = *startPage
-	}
+	}, fmt.Sprintf("api.SearchAllStartPage(int %+v)}", startPage)}
 }
 
 type searchAllOptionImpl struct {
@@ -288,7 +296,7 @@ func (o SearchAllParams) Options() []SearchAllOption {
 func makeSearchAllOptionImpl(opts ...SearchAllOption) *searchAllOptionImpl {
 	res := &searchAllOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

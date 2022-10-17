@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type SearchRestaurantFromQueueOption func(*searchRestaurantFromQueueOptionImpl)
+import "fmt"
+
+type SearchRestaurantFromQueueOption struct {
+	f func(*searchRestaurantFromQueueOptionImpl)
+	s string
+}
+
+func (o SearchRestaurantFromQueueOption) String() string { return o.s }
 
 type SearchRestaurantFromQueueOptions interface {
 	Verbose() bool
@@ -9,19 +16,19 @@ type SearchRestaurantFromQueueOptions interface {
 }
 
 func SearchRestaurantFromQueueVerbose(verbose bool) SearchRestaurantFromQueueOption {
-	return func(opts *searchRestaurantFromQueueOptionImpl) {
+	return SearchRestaurantFromQueueOption{func(opts *searchRestaurantFromQueueOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.SearchRestaurantFromQueueVerbose(bool %+v)}", verbose)}
 }
 func SearchRestaurantFromQueueVerboseFlag(verbose *bool) SearchRestaurantFromQueueOption {
-	return func(opts *searchRestaurantFromQueueOptionImpl) {
+	return SearchRestaurantFromQueueOption{func(opts *searchRestaurantFromQueueOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.SearchRestaurantFromQueueVerbose(bool %+v)}", verbose)}
 }
 
 type searchRestaurantFromQueueOptionImpl struct {
@@ -45,7 +52,7 @@ func (o SearchRestaurantFromQueueParams) Options() []SearchRestaurantFromQueueOp
 func makeSearchRestaurantFromQueueOptionImpl(opts ...SearchRestaurantFromQueueOption) *searchRestaurantFromQueueOptionImpl {
 	res := &searchRestaurantFromQueueOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

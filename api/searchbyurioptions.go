@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type SearchByURIOption func(*searchByURIOptionImpl)
+import "fmt"
+
+type SearchByURIOption struct {
+	f func(*searchByURIOptionImpl)
+	s string
+}
+
+func (o SearchByURIOption) String() string { return o.s }
 
 type SearchByURIOptions interface {
 	Verbose() bool
@@ -11,35 +18,35 @@ type SearchByURIOptions interface {
 }
 
 func SearchByURIVerbose(verbose bool) SearchByURIOption {
-	return func(opts *searchByURIOptionImpl) {
+	return SearchByURIOption{func(opts *searchByURIOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.SearchByURIVerbose(bool %+v)}", verbose)}
 }
 func SearchByURIVerboseFlag(verbose *bool) SearchByURIOption {
-	return func(opts *searchByURIOptionImpl) {
+	return SearchByURIOption{func(opts *searchByURIOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.SearchByURIVerbose(bool %+v)}", verbose)}
 }
 
 func SearchByURIDebugFailures(debugFailures bool) SearchByURIOption {
-	return func(opts *searchByURIOptionImpl) {
+	return SearchByURIOption{func(opts *searchByURIOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}
+	}, fmt.Sprintf("api.SearchByURIDebugFailures(bool %+v)}", debugFailures)}
 }
 func SearchByURIDebugFailuresFlag(debugFailures *bool) SearchByURIOption {
-	return func(opts *searchByURIOptionImpl) {
+	return SearchByURIOption{func(opts *searchByURIOptionImpl) {
 		if debugFailures == nil {
 			return
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}
+	}, fmt.Sprintf("api.SearchByURIDebugFailures(bool %+v)}", debugFailures)}
 }
 
 type searchByURIOptionImpl struct {
@@ -70,7 +77,7 @@ func (o SearchByURIParams) Options() []SearchByURIOption {
 func makeSearchByURIOptionImpl(opts ...SearchByURIOption) *searchByURIOptionImpl {
 	res := &searchByURIOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

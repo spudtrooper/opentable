@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type SearchAndSaveOption func(*searchAndSaveOptionImpl)
+import "fmt"
+
+type SearchAndSaveOption struct {
+	f func(*searchAndSaveOptionImpl)
+	s string
+}
+
+func (o SearchAndSaveOption) String() string { return o.s }
 
 type SearchAndSaveOptions interface {
 	Verbose() bool
@@ -9,19 +16,19 @@ type SearchAndSaveOptions interface {
 }
 
 func SearchAndSaveVerbose(verbose bool) SearchAndSaveOption {
-	return func(opts *searchAndSaveOptionImpl) {
+	return SearchAndSaveOption{func(opts *searchAndSaveOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.SearchAndSaveVerbose(bool %+v)}", verbose)}
 }
 func SearchAndSaveVerboseFlag(verbose *bool) SearchAndSaveOption {
-	return func(opts *searchAndSaveOptionImpl) {
+	return SearchAndSaveOption{func(opts *searchAndSaveOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.SearchAndSaveVerbose(bool %+v)}", verbose)}
 }
 
 type searchAndSaveOptionImpl struct {
@@ -46,7 +53,7 @@ func (o SearchAndSaveParams) Options() []SearchAndSaveOption {
 func makeSearchAndSaveOptionImpl(opts ...SearchAndSaveOption) *searchAndSaveOptionImpl {
 	res := &searchAndSaveOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

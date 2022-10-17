@@ -1,9 +1,17 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
-type SearchEmptyRestaurantsOption func(*searchEmptyRestaurantsOptionImpl)
+type SearchEmptyRestaurantsOption struct {
+	f func(*searchEmptyRestaurantsOptionImpl)
+	s string
+}
+
+func (o SearchEmptyRestaurantsOption) String() string { return o.s }
 
 type SearchEmptyRestaurantsOptions interface {
 	Threads() int
@@ -15,51 +23,51 @@ type SearchEmptyRestaurantsOptions interface {
 }
 
 func SearchEmptyRestaurantsThreads(threads int) SearchEmptyRestaurantsOption {
-	return func(opts *searchEmptyRestaurantsOptionImpl) {
+	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
 		opts.has_threads = true
 		opts.threads = threads
-	}
+	}, fmt.Sprintf("api.SearchEmptyRestaurantsThreads(int %+v)}", threads)}
 }
 func SearchEmptyRestaurantsThreadsFlag(threads *int) SearchEmptyRestaurantsOption {
-	return func(opts *searchEmptyRestaurantsOptionImpl) {
+	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
 		if threads == nil {
 			return
 		}
 		opts.has_threads = true
 		opts.threads = *threads
-	}
+	}, fmt.Sprintf("api.SearchEmptyRestaurantsThreads(int %+v)}", threads)}
 }
 
 func SearchEmptyRestaurantsVerbose(verbose bool) SearchEmptyRestaurantsOption {
-	return func(opts *searchEmptyRestaurantsOptionImpl) {
+	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.SearchEmptyRestaurantsVerbose(bool %+v)}", verbose)}
 }
 func SearchEmptyRestaurantsVerboseFlag(verbose *bool) SearchEmptyRestaurantsOption {
-	return func(opts *searchEmptyRestaurantsOptionImpl) {
+	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.SearchEmptyRestaurantsVerbose(bool %+v)}", verbose)}
 }
 
 func SearchEmptyRestaurantsSleep(sleep time.Duration) SearchEmptyRestaurantsOption {
-	return func(opts *searchEmptyRestaurantsOptionImpl) {
+	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
 		opts.has_sleep = true
 		opts.sleep = sleep
-	}
+	}, fmt.Sprintf("api.SearchEmptyRestaurantsSleep(time.Duration %+v)}", sleep)}
 }
 func SearchEmptyRestaurantsSleepFlag(sleep *time.Duration) SearchEmptyRestaurantsOption {
-	return func(opts *searchEmptyRestaurantsOptionImpl) {
+	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
 		if sleep == nil {
 			return
 		}
 		opts.has_sleep = true
 		opts.sleep = *sleep
-	}
+	}, fmt.Sprintf("api.SearchEmptyRestaurantsSleep(time.Duration %+v)}", sleep)}
 }
 
 type searchEmptyRestaurantsOptionImpl struct {
@@ -95,7 +103,7 @@ func (o SearchEmptyRestaurantsParams) Options() []SearchEmptyRestaurantsOption {
 func makeSearchEmptyRestaurantsOptionImpl(opts ...SearchEmptyRestaurantsOption) *searchEmptyRestaurantsOptionImpl {
 	res := &searchEmptyRestaurantsOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

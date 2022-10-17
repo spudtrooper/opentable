@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type ListByURIOption func(*listByURIOptionImpl)
+import "fmt"
+
+type ListByURIOption struct {
+	f func(*listByURIOptionImpl)
+	s string
+}
+
+func (o ListByURIOption) String() string { return o.s }
 
 type ListByURIOptions interface {
 	Verbose() bool
@@ -11,35 +18,35 @@ type ListByURIOptions interface {
 }
 
 func ListByURIVerbose(verbose bool) ListByURIOption {
-	return func(opts *listByURIOptionImpl) {
+	return ListByURIOption{func(opts *listByURIOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.ListByURIVerbose(bool %+v)}", verbose)}
 }
 func ListByURIVerboseFlag(verbose *bool) ListByURIOption {
-	return func(opts *listByURIOptionImpl) {
+	return ListByURIOption{func(opts *listByURIOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.ListByURIVerbose(bool %+v)}", verbose)}
 }
 
 func ListByURIDebugFailures(debugFailures bool) ListByURIOption {
-	return func(opts *listByURIOptionImpl) {
+	return ListByURIOption{func(opts *listByURIOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}
+	}, fmt.Sprintf("api.ListByURIDebugFailures(bool %+v)}", debugFailures)}
 }
 func ListByURIDebugFailuresFlag(debugFailures *bool) ListByURIOption {
-	return func(opts *listByURIOptionImpl) {
+	return ListByURIOption{func(opts *listByURIOptionImpl) {
 		if debugFailures == nil {
 			return
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}
+	}, fmt.Sprintf("api.ListByURIDebugFailures(bool %+v)}", debugFailures)}
 }
 
 type listByURIOptionImpl struct {
@@ -70,7 +77,7 @@ func (o ListByURIParams) Options() []ListByURIOption {
 func makeListByURIOptionImpl(opts ...ListByURIOption) *listByURIOptionImpl {
 	res := &listByURIOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

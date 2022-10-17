@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type IncIntOption func(*incIntOptionImpl)
+import "fmt"
+
+type IncIntOption struct {
+	f func(*incIntOptionImpl)
+	s string
+}
+
+func (o IncIntOption) String() string { return o.s }
 
 type IncIntOptions interface {
 	Verbose() bool
@@ -9,19 +16,19 @@ type IncIntOptions interface {
 }
 
 func IncIntVerbose(verbose bool) IncIntOption {
-	return func(opts *incIntOptionImpl) {
+	return IncIntOption{func(opts *incIntOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.IncIntVerbose(bool %+v)}", verbose)}
 }
 func IncIntVerboseFlag(verbose *bool) IncIntOption {
-	return func(opts *incIntOptionImpl) {
+	return IncIntOption{func(opts *incIntOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.IncIntVerbose(bool %+v)}", verbose)}
 }
 
 type incIntOptionImpl struct {
@@ -35,7 +42,7 @@ func (i *incIntOptionImpl) HasVerbose() bool { return i.has_verbose }
 func makeIncIntOptionImpl(opts ...IncIntOption) *incIntOptionImpl {
 	res := &incIntOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

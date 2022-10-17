@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type RawRestaurantDetailsByURIOption func(*rawRestaurantDetailsByURIOptionImpl)
+import "fmt"
+
+type RawRestaurantDetailsByURIOption struct {
+	f func(*rawRestaurantDetailsByURIOptionImpl)
+	s string
+}
+
+func (o RawRestaurantDetailsByURIOption) String() string { return o.s }
 
 type RawRestaurantDetailsByURIOptions interface {
 	Verbose() bool
@@ -11,35 +18,35 @@ type RawRestaurantDetailsByURIOptions interface {
 }
 
 func RawRestaurantDetailsByURIVerbose(verbose bool) RawRestaurantDetailsByURIOption {
-	return func(opts *rawRestaurantDetailsByURIOptionImpl) {
+	return RawRestaurantDetailsByURIOption{func(opts *rawRestaurantDetailsByURIOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}
+	}, fmt.Sprintf("api.RawRestaurantDetailsByURIVerbose(bool %+v)}", verbose)}
 }
 func RawRestaurantDetailsByURIVerboseFlag(verbose *bool) RawRestaurantDetailsByURIOption {
-	return func(opts *rawRestaurantDetailsByURIOptionImpl) {
+	return RawRestaurantDetailsByURIOption{func(opts *rawRestaurantDetailsByURIOptionImpl) {
 		if verbose == nil {
 			return
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}
+	}, fmt.Sprintf("api.RawRestaurantDetailsByURIVerbose(bool %+v)}", verbose)}
 }
 
 func RawRestaurantDetailsByURIDebugFailures(debugFailures bool) RawRestaurantDetailsByURIOption {
-	return func(opts *rawRestaurantDetailsByURIOptionImpl) {
+	return RawRestaurantDetailsByURIOption{func(opts *rawRestaurantDetailsByURIOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}
+	}, fmt.Sprintf("api.RawRestaurantDetailsByURIDebugFailures(bool %+v)}", debugFailures)}
 }
 func RawRestaurantDetailsByURIDebugFailuresFlag(debugFailures *bool) RawRestaurantDetailsByURIOption {
-	return func(opts *rawRestaurantDetailsByURIOptionImpl) {
+	return RawRestaurantDetailsByURIOption{func(opts *rawRestaurantDetailsByURIOptionImpl) {
 		if debugFailures == nil {
 			return
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}
+	}, fmt.Sprintf("api.RawRestaurantDetailsByURIDebugFailures(bool %+v)}", debugFailures)}
 }
 
 type rawRestaurantDetailsByURIOptionImpl struct {
@@ -70,7 +77,7 @@ func (o RawRestaurantDetailsByURIParams) Options() []RawRestaurantDetailsByURIOp
 func makeRawRestaurantDetailsByURIOptionImpl(opts ...RawRestaurantDetailsByURIOption) *rawRestaurantDetailsByURIOptionImpl {
 	res := &rawRestaurantDetailsByURIOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }
