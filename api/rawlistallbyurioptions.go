@@ -86,14 +86,14 @@ func RawListAllByURIVerboseFlag(verbose *bool) RawListAllByURIOption {
 }
 
 type rawListAllByURIOptionImpl struct {
-	verbose       bool
-	has_verbose   bool
 	startPage     int
 	has_startPage bool
-	threads       int
-	has_threads   bool
 	sync          bool
 	has_sync      bool
+	threads       int
+	has_threads   bool
+	verbose       bool
+	has_verbose   bool
 }
 
 func (r *rawListAllByURIOptionImpl) StartPage() int     { return r.startPage }

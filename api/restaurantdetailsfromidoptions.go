@@ -50,10 +50,10 @@ func RestaurantDetailsFromIDVerboseFlag(verbose *bool) RestaurantDetailsFromIDOp
 }
 
 type restaurantDetailsFromIDOptionImpl struct {
-	verbose           bool
-	has_verbose       bool
 	debugFailures     bool
 	has_debugFailures bool
+	verbose           bool
+	has_verbose       bool
 }
 
 func (r *restaurantDetailsFromIDOptionImpl) DebugFailures() bool    { return r.debugFailures }

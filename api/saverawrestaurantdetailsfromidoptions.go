@@ -70,12 +70,12 @@ func SaveRawRestaurantDetailsFromIDVerboseFlag(verbose *bool) SaveRawRestaurantD
 }
 
 type saveRawRestaurantDetailsFromIDOptionImpl struct {
-	verbose           bool
-	has_verbose       bool
 	debugFailures     bool
 	has_debugFailures bool
 	reallyVerbose     bool
 	has_reallyVerbose bool
+	verbose           bool
+	has_verbose       bool
 }
 
 func (s *saveRawRestaurantDetailsFromIDOptionImpl) DebugFailures() bool { return s.debugFailures }

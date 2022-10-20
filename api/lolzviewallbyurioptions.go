@@ -68,12 +68,12 @@ func LolzViewAllByURIVerboseFlag(verbose *bool) LolzViewAllByURIOption {
 }
 
 type lolzViewAllByURIOptionImpl struct {
-	verbose       bool
-	has_verbose   bool
 	startPage     int
 	has_startPage bool
 	threads       int
 	has_threads   bool
+	verbose       bool
+	has_verbose   bool
 }
 
 func (l *lolzViewAllByURIOptionImpl) StartPage() int     { return l.startPage }

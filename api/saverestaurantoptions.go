@@ -50,10 +50,10 @@ func SaveRestaurantVerboseFlag(verbose *bool) SaveRestaurantOption {
 }
 
 type saveRestaurantOptionImpl struct {
-	verbose           bool
-	has_verbose       bool
 	reallyVerbose     bool
 	has_reallyVerbose bool
+	verbose           bool
+	has_verbose       bool
 }
 
 func (s *saveRestaurantOptionImpl) ReallyVerbose() bool    { return s.reallyVerbose }

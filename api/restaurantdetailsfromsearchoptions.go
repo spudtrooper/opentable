@@ -32,8 +32,8 @@ type RestaurantDetailsFromSearchOptions interface {
 	HasOriginalTerm() bool
 	Verbose() bool
 	HasVerbose() bool
-	ToSearchOptions() []SearchOption
 	ToRestaurantDetailsOptions() []RestaurantDetailsOption
+	ToSearchOptions() []SearchOption
 }
 
 func RestaurantDetailsFromSearchCovers(covers int) RestaurantDetailsFromSearchOption {
@@ -181,24 +181,24 @@ func RestaurantDetailsFromSearchVerboseFlag(verbose *bool) RestaurantDetailsFrom
 }
 
 type restaurantDetailsFromSearchOptionImpl struct {
-	verbose                bool
-	has_verbose            bool
-	debugFailures          bool
-	has_debugFailures      bool
-	originalTerm           string
-	has_originalTerm       bool
-	date                   time.Time
-	has_date               bool
-	intentModifiedTerm     string
-	has_intentModifiedTerm bool
 	covers                 int
 	has_covers             bool
+	date                   time.Time
+	has_date               bool
+	debugFailures          bool
+	has_debugFailures      bool
+	intentModifiedTerm     string
+	has_intentModifiedTerm bool
 	latitude               float32
 	has_latitude           bool
 	longitude              float32
 	has_longitude          bool
 	metroID                int
 	has_metroID            bool
+	originalTerm           string
+	has_originalTerm       bool
+	verbose                bool
+	has_verbose            bool
 }
 
 func (r *restaurantDetailsFromSearchOptionImpl) Covers() int            { return r.covers }
@@ -251,26 +251,26 @@ func (o RestaurantDetailsFromSearchParams) Options() []RestaurantDetailsFromSear
 	}
 }
 
-// ToSearchOptions converts RestaurantDetailsFromSearchOption to an array of SearchOption
-func (o *restaurantDetailsFromSearchOptionImpl) ToSearchOptions() []SearchOption {
-	return []SearchOption{
-		SearchDebugFailures(o.DebugFailures()),
-		SearchOriginalTerm(o.OriginalTerm()),
-		SearchDate(o.Date()),
-		SearchVerbose(o.Verbose()),
-		SearchIntentModifiedTerm(o.IntentModifiedTerm()),
-		SearchCovers(o.Covers()),
-		SearchLatitude(o.Latitude()),
-		SearchLongitude(o.Longitude()),
-		SearchMetroID(o.MetroID()),
-	}
-}
-
 // ToRestaurantDetailsOptions converts RestaurantDetailsFromSearchOption to an array of RestaurantDetailsOption
 func (o *restaurantDetailsFromSearchOptionImpl) ToRestaurantDetailsOptions() []RestaurantDetailsOption {
 	return []RestaurantDetailsOption{
 		RestaurantDetailsVerbose(o.Verbose()),
 		RestaurantDetailsDebugFailures(o.DebugFailures()),
+	}
+}
+
+// ToSearchOptions converts RestaurantDetailsFromSearchOption to an array of SearchOption
+func (o *restaurantDetailsFromSearchOptionImpl) ToSearchOptions() []SearchOption {
+	return []SearchOption{
+		SearchDate(o.Date()),
+		SearchIntentModifiedTerm(o.IntentModifiedTerm()),
+		SearchCovers(o.Covers()),
+		SearchLatitude(o.Latitude()),
+		SearchMetroID(o.MetroID()),
+		SearchVerbose(o.Verbose()),
+		SearchOriginalTerm(o.OriginalTerm()),
+		SearchLongitude(o.Longitude()),
+		SearchDebugFailures(o.DebugFailures()),
 	}
 }
 

@@ -86,14 +86,14 @@ func FindMenuItemVerboseFlag(verbose *bool) FindMenuItemOption {
 }
 
 type findMenuItemOptionImpl struct {
-	verbose       bool
-	has_verbose   bool
 	latitude      float32
 	has_latitude  bool
 	longitude     float32
 	has_longitude bool
 	metroID       int
 	has_metroID   bool
+	verbose       bool
+	has_verbose   bool
 }
 
 func (f *findMenuItemOptionImpl) Latitude() float32  { return f.latitude }

@@ -179,24 +179,24 @@ func SearchVerboseFlag(verbose *bool) SearchOption {
 }
 
 type searchOptionImpl struct {
-	verbose                bool
-	has_verbose            bool
-	debugFailures          bool
-	has_debugFailures      bool
-	originalTerm           string
-	has_originalTerm       bool
-	date                   time.Time
-	has_date               bool
-	intentModifiedTerm     string
-	has_intentModifiedTerm bool
 	covers                 int
 	has_covers             bool
+	date                   time.Time
+	has_date               bool
+	debugFailures          bool
+	has_debugFailures      bool
+	intentModifiedTerm     string
+	has_intentModifiedTerm bool
 	latitude               float32
 	has_latitude           bool
 	longitude              float32
 	has_longitude          bool
 	metroID                int
 	has_metroID            bool
+	originalTerm           string
+	has_originalTerm       bool
+	verbose                bool
+	has_verbose            bool
 }
 
 func (s *searchOptionImpl) Covers() int                 { return s.covers }

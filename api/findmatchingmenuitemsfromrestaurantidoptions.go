@@ -51,10 +51,10 @@ func FindMatchingMenuItemsFromRestaurantIDVerboseFlag(verbose *bool) FindMatchin
 }
 
 type findMatchingMenuItemsFromRestaurantIDOptionImpl struct {
-	verbose           bool
-	has_verbose       bool
 	debugFailures     bool
 	has_debugFailures bool
+	verbose           bool
+	has_verbose       bool
 }
 
 func (f *findMatchingMenuItemsFromRestaurantIDOptionImpl) DebugFailures() bool {

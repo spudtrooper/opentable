@@ -179,24 +179,24 @@ func RestaurantsAvailabilityVerboseFlag(verbose *bool) RestaurantsAvailabilityOp
 }
 
 type restaurantsAvailabilityOptionImpl struct {
-	verbose                    bool
-	has_verbose                bool
-	restaurantIDs              []int
-	has_restaurantIDs          bool
-	onlyPop                    bool
-	has_onlyPop                bool
-	requestNewAvailability     bool
-	has_requestNewAvailability bool
-	forwardDays                int
-	has_forwardDays            bool
-	requireTimes               bool
-	has_requireTimes           bool
-	partySize                  int
-	has_partySize              bool
 	databaseRegion             string
 	has_databaseRegion         bool
 	date                       time.Time
 	has_date                   bool
+	forwardDays                int
+	has_forwardDays            bool
+	onlyPop                    bool
+	has_onlyPop                bool
+	partySize                  int
+	has_partySize              bool
+	requestNewAvailability     bool
+	has_requestNewAvailability bool
+	requireTimes               bool
+	has_requireTimes           bool
+	restaurantIDs              []int
+	has_restaurantIDs          bool
+	verbose                    bool
+	has_verbose                bool
 }
 
 func (r *restaurantsAvailabilityOptionImpl) DatabaseRegion() string  { return r.databaseRegion }

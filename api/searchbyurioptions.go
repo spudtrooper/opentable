@@ -50,10 +50,10 @@ func SearchByURIVerboseFlag(verbose *bool) SearchByURIOption {
 }
 
 type searchByURIOptionImpl struct {
-	verbose           bool
-	has_verbose       bool
 	debugFailures     bool
 	has_debugFailures bool
+	verbose           bool
+	has_verbose       bool
 }
 
 func (s *searchByURIOptionImpl) DebugFailures() bool    { return s.debugFailures }

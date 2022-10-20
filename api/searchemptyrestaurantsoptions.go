@@ -71,12 +71,12 @@ func SearchEmptyRestaurantsVerboseFlag(verbose *bool) SearchEmptyRestaurantsOpti
 }
 
 type searchEmptyRestaurantsOptionImpl struct {
+	sleep       time.Duration
+	has_sleep   bool
 	threads     int
 	has_threads bool
 	verbose     bool
 	has_verbose bool
-	sleep       time.Duration
-	has_sleep   bool
 }
 
 func (s *searchEmptyRestaurantsOptionImpl) Sleep() time.Duration { return s.sleep }

@@ -104,16 +104,16 @@ func LocationPickerVerboseFlag(verbose *bool) LocationPickerOption {
 }
 
 type locationPickerOptionImpl struct {
-	tld          string
-	has_tld      bool
-	metroID      int
-	has_metroID  bool
-	domainID     int
-	has_domainID bool
-	verbose      bool
-	has_verbose  bool
 	authCke      string
 	has_authCke  bool
+	domainID     int
+	has_domainID bool
+	metroID      int
+	has_metroID  bool
+	tld          string
+	has_tld      bool
+	verbose      bool
+	has_verbose  bool
 }
 
 func (l *locationPickerOptionImpl) AuthCke() string   { return l.authCke }
