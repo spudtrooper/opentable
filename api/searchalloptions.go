@@ -14,76 +14,44 @@ type SearchAllOption struct {
 func (o SearchAllOption) String() string { return o.s }
 
 type SearchAllOptions interface {
-	Verbose() bool
-	HasVerbose() bool
-	DebugFailures() bool
-	HasDebugFailures() bool
-	OriginalTerm() string
-	HasOriginalTerm() bool
-	Date() time.Time
-	HasDate() bool
-	IntentModifiedTerm() string
-	HasIntentModifiedTerm() bool
 	Covers() int
 	HasCovers() bool
+	Date() time.Time
+	HasDate() bool
+	DebugFailures() bool
+	HasDebugFailures() bool
+	IntentModifiedTerm() string
+	HasIntentModifiedTerm() bool
 	Latitude() float32
 	HasLatitude() bool
 	Longitude() float32
 	HasLongitude() bool
 	MetroID() int
 	HasMetroID() bool
-	Threads() int
-	HasThreads() bool
+	OriginalTerm() string
+	HasOriginalTerm() bool
 	StartPage() int
 	HasStartPage() bool
+	Threads() int
+	HasThreads() bool
+	Verbose() bool
+	HasVerbose() bool
 }
 
-func SearchAllVerbose(verbose bool) SearchAllOption {
+func SearchAllCovers(covers int) SearchAllOption {
 	return SearchAllOption{func(opts *searchAllOptionImpl) {
-		opts.has_verbose = true
-		opts.verbose = verbose
-	}, fmt.Sprintf("api.SearchAllVerbose(bool %+v)}", verbose)}
+		opts.has_covers = true
+		opts.covers = covers
+	}, fmt.Sprintf("api.SearchAllCovers(int %+v)}", covers)}
 }
-func SearchAllVerboseFlag(verbose *bool) SearchAllOption {
+func SearchAllCoversFlag(covers *int) SearchAllOption {
 	return SearchAllOption{func(opts *searchAllOptionImpl) {
-		if verbose == nil {
+		if covers == nil {
 			return
 		}
-		opts.has_verbose = true
-		opts.verbose = *verbose
-	}, fmt.Sprintf("api.SearchAllVerbose(bool %+v)}", verbose)}
-}
-
-func SearchAllDebugFailures(debugFailures bool) SearchAllOption {
-	return SearchAllOption{func(opts *searchAllOptionImpl) {
-		opts.has_debugFailures = true
-		opts.debugFailures = debugFailures
-	}, fmt.Sprintf("api.SearchAllDebugFailures(bool %+v)}", debugFailures)}
-}
-func SearchAllDebugFailuresFlag(debugFailures *bool) SearchAllOption {
-	return SearchAllOption{func(opts *searchAllOptionImpl) {
-		if debugFailures == nil {
-			return
-		}
-		opts.has_debugFailures = true
-		opts.debugFailures = *debugFailures
-	}, fmt.Sprintf("api.SearchAllDebugFailures(bool %+v)}", debugFailures)}
-}
-
-func SearchAllOriginalTerm(originalTerm string) SearchAllOption {
-	return SearchAllOption{func(opts *searchAllOptionImpl) {
-		opts.has_originalTerm = true
-		opts.originalTerm = originalTerm
-	}, fmt.Sprintf("api.SearchAllOriginalTerm(string %+v)}", originalTerm)}
-}
-func SearchAllOriginalTermFlag(originalTerm *string) SearchAllOption {
-	return SearchAllOption{func(opts *searchAllOptionImpl) {
-		if originalTerm == nil {
-			return
-		}
-		opts.has_originalTerm = true
-		opts.originalTerm = *originalTerm
-	}, fmt.Sprintf("api.SearchAllOriginalTerm(string %+v)}", originalTerm)}
+		opts.has_covers = true
+		opts.covers = *covers
+	}, fmt.Sprintf("api.SearchAllCovers(int %+v)}", covers)}
 }
 
 func SearchAllDate(date time.Time) SearchAllOption {
@@ -102,6 +70,22 @@ func SearchAllDateFlag(date *time.Time) SearchAllOption {
 	}, fmt.Sprintf("api.SearchAllDate(time.Time %+v)}", date)}
 }
 
+func SearchAllDebugFailures(debugFailures bool) SearchAllOption {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
+		opts.has_debugFailures = true
+		opts.debugFailures = debugFailures
+	}, fmt.Sprintf("api.SearchAllDebugFailures(bool %+v)}", debugFailures)}
+}
+func SearchAllDebugFailuresFlag(debugFailures *bool) SearchAllOption {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
+		if debugFailures == nil {
+			return
+		}
+		opts.has_debugFailures = true
+		opts.debugFailures = *debugFailures
+	}, fmt.Sprintf("api.SearchAllDebugFailures(bool %+v)}", debugFailures)}
+}
+
 func SearchAllIntentModifiedTerm(intentModifiedTerm string) SearchAllOption {
 	return SearchAllOption{func(opts *searchAllOptionImpl) {
 		opts.has_intentModifiedTerm = true
@@ -116,22 +100,6 @@ func SearchAllIntentModifiedTermFlag(intentModifiedTerm *string) SearchAllOption
 		opts.has_intentModifiedTerm = true
 		opts.intentModifiedTerm = *intentModifiedTerm
 	}, fmt.Sprintf("api.SearchAllIntentModifiedTerm(string %+v)}", intentModifiedTerm)}
-}
-
-func SearchAllCovers(covers int) SearchAllOption {
-	return SearchAllOption{func(opts *searchAllOptionImpl) {
-		opts.has_covers = true
-		opts.covers = covers
-	}, fmt.Sprintf("api.SearchAllCovers(int %+v)}", covers)}
-}
-func SearchAllCoversFlag(covers *int) SearchAllOption {
-	return SearchAllOption{func(opts *searchAllOptionImpl) {
-		if covers == nil {
-			return
-		}
-		opts.has_covers = true
-		opts.covers = *covers
-	}, fmt.Sprintf("api.SearchAllCovers(int %+v)}", covers)}
 }
 
 func SearchAllLatitude(latitude float32) SearchAllOption {
@@ -182,20 +150,20 @@ func SearchAllMetroIDFlag(metroID *int) SearchAllOption {
 	}, fmt.Sprintf("api.SearchAllMetroID(int %+v)}", metroID)}
 }
 
-func SearchAllThreads(threads int) SearchAllOption {
+func SearchAllOriginalTerm(originalTerm string) SearchAllOption {
 	return SearchAllOption{func(opts *searchAllOptionImpl) {
-		opts.has_threads = true
-		opts.threads = threads
-	}, fmt.Sprintf("api.SearchAllThreads(int %+v)}", threads)}
+		opts.has_originalTerm = true
+		opts.originalTerm = originalTerm
+	}, fmt.Sprintf("api.SearchAllOriginalTerm(string %+v)}", originalTerm)}
 }
-func SearchAllThreadsFlag(threads *int) SearchAllOption {
+func SearchAllOriginalTermFlag(originalTerm *string) SearchAllOption {
 	return SearchAllOption{func(opts *searchAllOptionImpl) {
-		if threads == nil {
+		if originalTerm == nil {
 			return
 		}
-		opts.has_threads = true
-		opts.threads = *threads
-	}, fmt.Sprintf("api.SearchAllThreads(int %+v)}", threads)}
+		opts.has_originalTerm = true
+		opts.originalTerm = *originalTerm
+	}, fmt.Sprintf("api.SearchAllOriginalTerm(string %+v)}", originalTerm)}
 }
 
 func SearchAllStartPage(startPage int) SearchAllOption {
@@ -212,6 +180,38 @@ func SearchAllStartPageFlag(startPage *int) SearchAllOption {
 		opts.has_startPage = true
 		opts.startPage = *startPage
 	}, fmt.Sprintf("api.SearchAllStartPage(int %+v)}", startPage)}
+}
+
+func SearchAllThreads(threads int) SearchAllOption {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
+		opts.has_threads = true
+		opts.threads = threads
+	}, fmt.Sprintf("api.SearchAllThreads(int %+v)}", threads)}
+}
+func SearchAllThreadsFlag(threads *int) SearchAllOption {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
+		if threads == nil {
+			return
+		}
+		opts.has_threads = true
+		opts.threads = *threads
+	}, fmt.Sprintf("api.SearchAllThreads(int %+v)}", threads)}
+}
+
+func SearchAllVerbose(verbose bool) SearchAllOption {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
+		opts.has_verbose = true
+		opts.verbose = verbose
+	}, fmt.Sprintf("api.SearchAllVerbose(bool %+v)}", verbose)}
+}
+func SearchAllVerboseFlag(verbose *bool) SearchAllOption {
+	return SearchAllOption{func(opts *searchAllOptionImpl) {
+		if verbose == nil {
+			return
+		}
+		opts.has_verbose = true
+		opts.verbose = *verbose
+	}, fmt.Sprintf("api.SearchAllVerbose(bool %+v)}", verbose)}
 }
 
 type searchAllOptionImpl struct {
@@ -239,57 +239,57 @@ type searchAllOptionImpl struct {
 	has_startPage          bool
 }
 
-func (s *searchAllOptionImpl) Verbose() bool               { return s.verbose }
-func (s *searchAllOptionImpl) HasVerbose() bool            { return s.has_verbose }
-func (s *searchAllOptionImpl) DebugFailures() bool         { return s.debugFailures }
-func (s *searchAllOptionImpl) HasDebugFailures() bool      { return s.has_debugFailures }
-func (s *searchAllOptionImpl) OriginalTerm() string        { return s.originalTerm }
-func (s *searchAllOptionImpl) HasOriginalTerm() bool       { return s.has_originalTerm }
-func (s *searchAllOptionImpl) Date() time.Time             { return s.date }
-func (s *searchAllOptionImpl) HasDate() bool               { return s.has_date }
-func (s *searchAllOptionImpl) IntentModifiedTerm() string  { return s.intentModifiedTerm }
-func (s *searchAllOptionImpl) HasIntentModifiedTerm() bool { return s.has_intentModifiedTerm }
 func (s *searchAllOptionImpl) Covers() int                 { return s.covers }
 func (s *searchAllOptionImpl) HasCovers() bool             { return s.has_covers }
+func (s *searchAllOptionImpl) Date() time.Time             { return s.date }
+func (s *searchAllOptionImpl) HasDate() bool               { return s.has_date }
+func (s *searchAllOptionImpl) DebugFailures() bool         { return s.debugFailures }
+func (s *searchAllOptionImpl) HasDebugFailures() bool      { return s.has_debugFailures }
+func (s *searchAllOptionImpl) IntentModifiedTerm() string  { return s.intentModifiedTerm }
+func (s *searchAllOptionImpl) HasIntentModifiedTerm() bool { return s.has_intentModifiedTerm }
 func (s *searchAllOptionImpl) Latitude() float32           { return s.latitude }
 func (s *searchAllOptionImpl) HasLatitude() bool           { return s.has_latitude }
 func (s *searchAllOptionImpl) Longitude() float32          { return s.longitude }
 func (s *searchAllOptionImpl) HasLongitude() bool          { return s.has_longitude }
 func (s *searchAllOptionImpl) MetroID() int                { return s.metroID }
 func (s *searchAllOptionImpl) HasMetroID() bool            { return s.has_metroID }
-func (s *searchAllOptionImpl) Threads() int                { return s.threads }
-func (s *searchAllOptionImpl) HasThreads() bool            { return s.has_threads }
+func (s *searchAllOptionImpl) OriginalTerm() string        { return s.originalTerm }
+func (s *searchAllOptionImpl) HasOriginalTerm() bool       { return s.has_originalTerm }
 func (s *searchAllOptionImpl) StartPage() int              { return s.startPage }
 func (s *searchAllOptionImpl) HasStartPage() bool          { return s.has_startPage }
+func (s *searchAllOptionImpl) Threads() int                { return s.threads }
+func (s *searchAllOptionImpl) HasThreads() bool            { return s.has_threads }
+func (s *searchAllOptionImpl) Verbose() bool               { return s.verbose }
+func (s *searchAllOptionImpl) HasVerbose() bool            { return s.has_verbose }
 
 type SearchAllParams struct {
-	Term               string    `json:"term" required:"true"`
-	Verbose            bool      `json:"verbose"`
-	DebugFailures      bool      `json:"debug_failures"`
-	OriginalTerm       string    `json:"original_term"`
-	Date               time.Time `json:"date"`
-	IntentModifiedTerm string    `json:"intent_modified_term"`
 	Covers             int       `json:"covers"`
+	Date               time.Time `json:"date"`
+	DebugFailures      bool      `json:"debug_failures"`
+	IntentModifiedTerm string    `json:"intent_modified_term"`
 	Latitude           float32   `json:"latitude"`
 	Longitude          float32   `json:"longitude"`
 	MetroID            int       `json:"metro_id"`
-	Threads            int       `json:"threads"`
+	OriginalTerm       string    `json:"original_term"`
 	StartPage          int       `json:"start_page"`
+	Term               string    `json:"term" required:"true"`
+	Threads            int       `json:"threads"`
+	Verbose            bool      `json:"verbose"`
 }
 
 func (o SearchAllParams) Options() []SearchAllOption {
 	return []SearchAllOption{
-		SearchAllVerbose(o.Verbose),
-		SearchAllDebugFailures(o.DebugFailures),
-		SearchAllOriginalTerm(o.OriginalTerm),
-		SearchAllDate(o.Date),
-		SearchAllIntentModifiedTerm(o.IntentModifiedTerm),
 		SearchAllCovers(o.Covers),
+		SearchAllDate(o.Date),
+		SearchAllDebugFailures(o.DebugFailures),
+		SearchAllIntentModifiedTerm(o.IntentModifiedTerm),
 		SearchAllLatitude(o.Latitude),
 		SearchAllLongitude(o.Longitude),
 		SearchAllMetroID(o.MetroID),
-		SearchAllThreads(o.Threads),
+		SearchAllOriginalTerm(o.OriginalTerm),
 		SearchAllStartPage(o.StartPage),
+		SearchAllThreads(o.Threads),
+		SearchAllVerbose(o.Verbose),
 	}
 }
 

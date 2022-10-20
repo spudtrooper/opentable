@@ -11,30 +11,14 @@ type FindMenuItemOption struct {
 func (o FindMenuItemOption) String() string { return o.s }
 
 type FindMenuItemOptions interface {
-	Verbose() bool
-	HasVerbose() bool
 	Latitude() float32
 	HasLatitude() bool
 	Longitude() float32
 	HasLongitude() bool
 	MetroID() int
 	HasMetroID() bool
-}
-
-func FindMenuItemVerbose(verbose bool) FindMenuItemOption {
-	return FindMenuItemOption{func(opts *findMenuItemOptionImpl) {
-		opts.has_verbose = true
-		opts.verbose = verbose
-	}, fmt.Sprintf("api.FindMenuItemVerbose(bool %+v)}", verbose)}
-}
-func FindMenuItemVerboseFlag(verbose *bool) FindMenuItemOption {
-	return FindMenuItemOption{func(opts *findMenuItemOptionImpl) {
-		if verbose == nil {
-			return
-		}
-		opts.has_verbose = true
-		opts.verbose = *verbose
-	}, fmt.Sprintf("api.FindMenuItemVerbose(bool %+v)}", verbose)}
+	Verbose() bool
+	HasVerbose() bool
 }
 
 func FindMenuItemLatitude(latitude float32) FindMenuItemOption {
@@ -85,6 +69,22 @@ func FindMenuItemMetroIDFlag(metroID *int) FindMenuItemOption {
 	}, fmt.Sprintf("api.FindMenuItemMetroID(int %+v)}", metroID)}
 }
 
+func FindMenuItemVerbose(verbose bool) FindMenuItemOption {
+	return FindMenuItemOption{func(opts *findMenuItemOptionImpl) {
+		opts.has_verbose = true
+		opts.verbose = verbose
+	}, fmt.Sprintf("api.FindMenuItemVerbose(bool %+v)}", verbose)}
+}
+func FindMenuItemVerboseFlag(verbose *bool) FindMenuItemOption {
+	return FindMenuItemOption{func(opts *findMenuItemOptionImpl) {
+		if verbose == nil {
+			return
+		}
+		opts.has_verbose = true
+		opts.verbose = *verbose
+	}, fmt.Sprintf("api.FindMenuItemVerbose(bool %+v)}", verbose)}
+}
+
 type findMenuItemOptionImpl struct {
 	verbose       bool
 	has_verbose   bool
@@ -96,29 +96,29 @@ type findMenuItemOptionImpl struct {
 	has_metroID   bool
 }
 
-func (f *findMenuItemOptionImpl) Verbose() bool      { return f.verbose }
-func (f *findMenuItemOptionImpl) HasVerbose() bool   { return f.has_verbose }
 func (f *findMenuItemOptionImpl) Latitude() float32  { return f.latitude }
 func (f *findMenuItemOptionImpl) HasLatitude() bool  { return f.has_latitude }
 func (f *findMenuItemOptionImpl) Longitude() float32 { return f.longitude }
 func (f *findMenuItemOptionImpl) HasLongitude() bool { return f.has_longitude }
 func (f *findMenuItemOptionImpl) MetroID() int       { return f.metroID }
 func (f *findMenuItemOptionImpl) HasMetroID() bool   { return f.has_metroID }
+func (f *findMenuItemOptionImpl) Verbose() bool      { return f.verbose }
+func (f *findMenuItemOptionImpl) HasVerbose() bool   { return f.has_verbose }
 
 type FindMenuItemParams struct {
-	Term      string  `json:"term" required:"true"`
-	Verbose   bool    `json:"verbose"`
 	Latitude  float32 `json:"latitude"`
 	Longitude float32 `json:"longitude"`
 	MetroID   int     `json:"metro_id"`
+	Term      string  `json:"term" required:"true"`
+	Verbose   bool    `json:"verbose"`
 }
 
 func (o FindMenuItemParams) Options() []FindMenuItemOption {
 	return []FindMenuItemOption{
-		FindMenuItemVerbose(o.Verbose),
 		FindMenuItemLatitude(o.Latitude),
 		FindMenuItemLongitude(o.Longitude),
 		FindMenuItemMetroID(o.MetroID),
+		FindMenuItemVerbose(o.Verbose),
 	}
 }
 

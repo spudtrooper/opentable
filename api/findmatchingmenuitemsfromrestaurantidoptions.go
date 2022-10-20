@@ -11,27 +11,11 @@ type FindMatchingMenuItemsFromRestaurantIDOption struct {
 func (o FindMatchingMenuItemsFromRestaurantIDOption) String() string { return o.s }
 
 type FindMatchingMenuItemsFromRestaurantIDOptions interface {
-	Verbose() bool
-	HasVerbose() bool
 	DebugFailures() bool
 	HasDebugFailures() bool
+	Verbose() bool
+	HasVerbose() bool
 	ToRestaurantDetailsFromIDOptions() []RestaurantDetailsFromIDOption
-}
-
-func FindMatchingMenuItemsFromRestaurantIDVerbose(verbose bool) FindMatchingMenuItemsFromRestaurantIDOption {
-	return FindMatchingMenuItemsFromRestaurantIDOption{func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
-		opts.has_verbose = true
-		opts.verbose = verbose
-	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDVerbose(bool %+v)}", verbose)}
-}
-func FindMatchingMenuItemsFromRestaurantIDVerboseFlag(verbose *bool) FindMatchingMenuItemsFromRestaurantIDOption {
-	return FindMatchingMenuItemsFromRestaurantIDOption{func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
-		if verbose == nil {
-			return
-		}
-		opts.has_verbose = true
-		opts.verbose = *verbose
-	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDVerbose(bool %+v)}", verbose)}
 }
 
 func FindMatchingMenuItemsFromRestaurantIDDebugFailures(debugFailures bool) FindMatchingMenuItemsFromRestaurantIDOption {
@@ -50,6 +34,22 @@ func FindMatchingMenuItemsFromRestaurantIDDebugFailuresFlag(debugFailures *bool)
 	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDDebugFailures(bool %+v)}", debugFailures)}
 }
 
+func FindMatchingMenuItemsFromRestaurantIDVerbose(verbose bool) FindMatchingMenuItemsFromRestaurantIDOption {
+	return FindMatchingMenuItemsFromRestaurantIDOption{func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
+		opts.has_verbose = true
+		opts.verbose = verbose
+	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDVerbose(bool %+v)}", verbose)}
+}
+func FindMatchingMenuItemsFromRestaurantIDVerboseFlag(verbose *bool) FindMatchingMenuItemsFromRestaurantIDOption {
+	return FindMatchingMenuItemsFromRestaurantIDOption{func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
+		if verbose == nil {
+			return
+		}
+		opts.has_verbose = true
+		opts.verbose = *verbose
+	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDVerbose(bool %+v)}", verbose)}
+}
+
 type findMatchingMenuItemsFromRestaurantIDOptionImpl struct {
 	verbose           bool
 	has_verbose       bool
@@ -57,26 +57,26 @@ type findMatchingMenuItemsFromRestaurantIDOptionImpl struct {
 	has_debugFailures bool
 }
 
-func (f *findMatchingMenuItemsFromRestaurantIDOptionImpl) Verbose() bool    { return f.verbose }
-func (f *findMatchingMenuItemsFromRestaurantIDOptionImpl) HasVerbose() bool { return f.has_verbose }
 func (f *findMatchingMenuItemsFromRestaurantIDOptionImpl) DebugFailures() bool {
 	return f.debugFailures
 }
 func (f *findMatchingMenuItemsFromRestaurantIDOptionImpl) HasDebugFailures() bool {
 	return f.has_debugFailures
 }
+func (f *findMatchingMenuItemsFromRestaurantIDOptionImpl) Verbose() bool    { return f.verbose }
+func (f *findMatchingMenuItemsFromRestaurantIDOptionImpl) HasVerbose() bool { return f.has_verbose }
 
 type FindMatchingMenuItemsFromRestaurantIDParams struct {
+	DebugFailures bool   `json:"debug_failures"`
 	RestID        string `json:"rest_id" required:"true"`
 	Term          string `json:"term" required:"true"`
 	Verbose       bool   `json:"verbose"`
-	DebugFailures bool   `json:"debug_failures"`
 }
 
 func (o FindMatchingMenuItemsFromRestaurantIDParams) Options() []FindMatchingMenuItemsFromRestaurantIDOption {
 	return []FindMatchingMenuItemsFromRestaurantIDOption{
-		FindMatchingMenuItemsFromRestaurantIDVerbose(o.Verbose),
 		FindMatchingMenuItemsFromRestaurantIDDebugFailures(o.DebugFailures),
+		FindMatchingMenuItemsFromRestaurantIDVerbose(o.Verbose),
 	}
 }
 

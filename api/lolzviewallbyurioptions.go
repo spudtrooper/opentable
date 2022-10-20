@@ -11,28 +11,12 @@ type LolzViewAllByURIOption struct {
 func (o LolzViewAllByURIOption) String() string { return o.s }
 
 type LolzViewAllByURIOptions interface {
-	Verbose() bool
-	HasVerbose() bool
 	StartPage() int
 	HasStartPage() bool
 	Threads() int
 	HasThreads() bool
-}
-
-func LolzViewAllByURIVerbose(verbose bool) LolzViewAllByURIOption {
-	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
-		opts.has_verbose = true
-		opts.verbose = verbose
-	}, fmt.Sprintf("api.LolzViewAllByURIVerbose(bool %+v)}", verbose)}
-}
-func LolzViewAllByURIVerboseFlag(verbose *bool) LolzViewAllByURIOption {
-	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
-		if verbose == nil {
-			return
-		}
-		opts.has_verbose = true
-		opts.verbose = *verbose
-	}, fmt.Sprintf("api.LolzViewAllByURIVerbose(bool %+v)}", verbose)}
+	Verbose() bool
+	HasVerbose() bool
 }
 
 func LolzViewAllByURIStartPage(startPage int) LolzViewAllByURIOption {
@@ -67,6 +51,22 @@ func LolzViewAllByURIThreadsFlag(threads *int) LolzViewAllByURIOption {
 	}, fmt.Sprintf("api.LolzViewAllByURIThreads(int %+v)}", threads)}
 }
 
+func LolzViewAllByURIVerbose(verbose bool) LolzViewAllByURIOption {
+	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
+		opts.has_verbose = true
+		opts.verbose = verbose
+	}, fmt.Sprintf("api.LolzViewAllByURIVerbose(bool %+v)}", verbose)}
+}
+func LolzViewAllByURIVerboseFlag(verbose *bool) LolzViewAllByURIOption {
+	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
+		if verbose == nil {
+			return
+		}
+		opts.has_verbose = true
+		opts.verbose = *verbose
+	}, fmt.Sprintf("api.LolzViewAllByURIVerbose(bool %+v)}", verbose)}
+}
+
 type lolzViewAllByURIOptionImpl struct {
 	verbose       bool
 	has_verbose   bool
@@ -76,25 +76,25 @@ type lolzViewAllByURIOptionImpl struct {
 	has_threads   bool
 }
 
-func (l *lolzViewAllByURIOptionImpl) Verbose() bool      { return l.verbose }
-func (l *lolzViewAllByURIOptionImpl) HasVerbose() bool   { return l.has_verbose }
 func (l *lolzViewAllByURIOptionImpl) StartPage() int     { return l.startPage }
 func (l *lolzViewAllByURIOptionImpl) HasStartPage() bool { return l.has_startPage }
 func (l *lolzViewAllByURIOptionImpl) Threads() int       { return l.threads }
 func (l *lolzViewAllByURIOptionImpl) HasThreads() bool   { return l.has_threads }
+func (l *lolzViewAllByURIOptionImpl) Verbose() bool      { return l.verbose }
+func (l *lolzViewAllByURIOptionImpl) HasVerbose() bool   { return l.has_verbose }
 
 type LolzViewAllByURIParams struct {
-	Uri       string `json:"uri" required:"true"`
-	Verbose   bool   `json:"verbose"`
 	StartPage int    `json:"start_page"`
 	Threads   int    `json:"threads"`
+	Uri       string `json:"uri" required:"true"`
+	Verbose   bool   `json:"verbose"`
 }
 
 func (o LolzViewAllByURIParams) Options() []LolzViewAllByURIOption {
 	return []LolzViewAllByURIOption{
-		LolzViewAllByURIVerbose(o.Verbose),
 		LolzViewAllByURIStartPage(o.StartPage),
 		LolzViewAllByURIThreads(o.Threads),
+		LolzViewAllByURIVerbose(o.Verbose),
 	}
 }
 

@@ -11,80 +11,16 @@ type LocationPickerOption struct {
 func (o LocationPickerOption) String() string { return o.s }
 
 type LocationPickerOptions interface {
-	Tld() string
-	HasTld() bool
-	MetroID() int
-	HasMetroID() bool
-	DomainID() int
-	HasDomainID() bool
-	Verbose() bool
-	HasVerbose() bool
 	AuthCke() string
 	HasAuthCke() bool
-}
-
-func LocationPickerTld(tld string) LocationPickerOption {
-	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
-		opts.has_tld = true
-		opts.tld = tld
-	}, fmt.Sprintf("api.LocationPickerTld(string %+v)}", tld)}
-}
-func LocationPickerTldFlag(tld *string) LocationPickerOption {
-	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
-		if tld == nil {
-			return
-		}
-		opts.has_tld = true
-		opts.tld = *tld
-	}, fmt.Sprintf("api.LocationPickerTld(string %+v)}", tld)}
-}
-
-func LocationPickerMetroID(metroID int) LocationPickerOption {
-	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
-		opts.has_metroID = true
-		opts.metroID = metroID
-	}, fmt.Sprintf("api.LocationPickerMetroID(int %+v)}", metroID)}
-}
-func LocationPickerMetroIDFlag(metroID *int) LocationPickerOption {
-	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
-		if metroID == nil {
-			return
-		}
-		opts.has_metroID = true
-		opts.metroID = *metroID
-	}, fmt.Sprintf("api.LocationPickerMetroID(int %+v)}", metroID)}
-}
-
-func LocationPickerDomainID(domainID int) LocationPickerOption {
-	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
-		opts.has_domainID = true
-		opts.domainID = domainID
-	}, fmt.Sprintf("api.LocationPickerDomainID(int %+v)}", domainID)}
-}
-func LocationPickerDomainIDFlag(domainID *int) LocationPickerOption {
-	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
-		if domainID == nil {
-			return
-		}
-		opts.has_domainID = true
-		opts.domainID = *domainID
-	}, fmt.Sprintf("api.LocationPickerDomainID(int %+v)}", domainID)}
-}
-
-func LocationPickerVerbose(verbose bool) LocationPickerOption {
-	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
-		opts.has_verbose = true
-		opts.verbose = verbose
-	}, fmt.Sprintf("api.LocationPickerVerbose(bool %+v)}", verbose)}
-}
-func LocationPickerVerboseFlag(verbose *bool) LocationPickerOption {
-	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
-		if verbose == nil {
-			return
-		}
-		opts.has_verbose = true
-		opts.verbose = *verbose
-	}, fmt.Sprintf("api.LocationPickerVerbose(bool %+v)}", verbose)}
+	DomainID() int
+	HasDomainID() bool
+	MetroID() int
+	HasMetroID() bool
+	Tld() string
+	HasTld() bool
+	Verbose() bool
+	HasVerbose() bool
 }
 
 func LocationPickerAuthCke(authCke string) LocationPickerOption {
@@ -103,6 +39,70 @@ func LocationPickerAuthCkeFlag(authCke *string) LocationPickerOption {
 	}, fmt.Sprintf("api.LocationPickerAuthCke(string %+v)}", authCke)}
 }
 
+func LocationPickerDomainID(domainID int) LocationPickerOption {
+	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
+		opts.has_domainID = true
+		opts.domainID = domainID
+	}, fmt.Sprintf("api.LocationPickerDomainID(int %+v)}", domainID)}
+}
+func LocationPickerDomainIDFlag(domainID *int) LocationPickerOption {
+	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
+		if domainID == nil {
+			return
+		}
+		opts.has_domainID = true
+		opts.domainID = *domainID
+	}, fmt.Sprintf("api.LocationPickerDomainID(int %+v)}", domainID)}
+}
+
+func LocationPickerMetroID(metroID int) LocationPickerOption {
+	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
+		opts.has_metroID = true
+		opts.metroID = metroID
+	}, fmt.Sprintf("api.LocationPickerMetroID(int %+v)}", metroID)}
+}
+func LocationPickerMetroIDFlag(metroID *int) LocationPickerOption {
+	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
+		if metroID == nil {
+			return
+		}
+		opts.has_metroID = true
+		opts.metroID = *metroID
+	}, fmt.Sprintf("api.LocationPickerMetroID(int %+v)}", metroID)}
+}
+
+func LocationPickerTld(tld string) LocationPickerOption {
+	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
+		opts.has_tld = true
+		opts.tld = tld
+	}, fmt.Sprintf("api.LocationPickerTld(string %+v)}", tld)}
+}
+func LocationPickerTldFlag(tld *string) LocationPickerOption {
+	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
+		if tld == nil {
+			return
+		}
+		opts.has_tld = true
+		opts.tld = *tld
+	}, fmt.Sprintf("api.LocationPickerTld(string %+v)}", tld)}
+}
+
+func LocationPickerVerbose(verbose bool) LocationPickerOption {
+	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
+		opts.has_verbose = true
+		opts.verbose = verbose
+	}, fmt.Sprintf("api.LocationPickerVerbose(bool %+v)}", verbose)}
+}
+func LocationPickerVerboseFlag(verbose *bool) LocationPickerOption {
+	return LocationPickerOption{func(opts *locationPickerOptionImpl) {
+		if verbose == nil {
+			return
+		}
+		opts.has_verbose = true
+		opts.verbose = *verbose
+	}, fmt.Sprintf("api.LocationPickerVerbose(bool %+v)}", verbose)}
+}
+
 type locationPickerOptionImpl struct {
 	tld          string
 	has_tld      bool
@@ -116,32 +116,32 @@ type locationPickerOptionImpl struct {
 	has_authCke  bool
 }
 
-func (l *locationPickerOptionImpl) Tld() string       { return l.tld }
-func (l *locationPickerOptionImpl) HasTld() bool      { return l.has_tld }
-func (l *locationPickerOptionImpl) MetroID() int      { return l.metroID }
-func (l *locationPickerOptionImpl) HasMetroID() bool  { return l.has_metroID }
-func (l *locationPickerOptionImpl) DomainID() int     { return l.domainID }
-func (l *locationPickerOptionImpl) HasDomainID() bool { return l.has_domainID }
-func (l *locationPickerOptionImpl) Verbose() bool     { return l.verbose }
-func (l *locationPickerOptionImpl) HasVerbose() bool  { return l.has_verbose }
 func (l *locationPickerOptionImpl) AuthCke() string   { return l.authCke }
 func (l *locationPickerOptionImpl) HasAuthCke() bool  { return l.has_authCke }
+func (l *locationPickerOptionImpl) DomainID() int     { return l.domainID }
+func (l *locationPickerOptionImpl) HasDomainID() bool { return l.has_domainID }
+func (l *locationPickerOptionImpl) MetroID() int      { return l.metroID }
+func (l *locationPickerOptionImpl) HasMetroID() bool  { return l.has_metroID }
+func (l *locationPickerOptionImpl) Tld() string       { return l.tld }
+func (l *locationPickerOptionImpl) HasTld() bool      { return l.has_tld }
+func (l *locationPickerOptionImpl) Verbose() bool     { return l.verbose }
+func (l *locationPickerOptionImpl) HasVerbose() bool  { return l.has_verbose }
 
 type LocationPickerParams struct {
-	Tld      string `json:"tld"`
-	MetroID  int    `json:"metro_id"`
-	DomainID int    `json:"domain_id"`
-	Verbose  bool   `json:"verbose"`
 	AuthCke  string `json:"auth_cke"`
+	DomainID int    `json:"domain_id"`
+	MetroID  int    `json:"metro_id"`
+	Tld      string `json:"tld"`
+	Verbose  bool   `json:"verbose"`
 }
 
 func (o LocationPickerParams) Options() []LocationPickerOption {
 	return []LocationPickerOption{
-		LocationPickerTld(o.Tld),
-		LocationPickerMetroID(o.MetroID),
-		LocationPickerDomainID(o.DomainID),
-		LocationPickerVerbose(o.Verbose),
 		LocationPickerAuthCke(o.AuthCke),
+		LocationPickerDomainID(o.DomainID),
+		LocationPickerMetroID(o.MetroID),
+		LocationPickerTld(o.Tld),
+		LocationPickerVerbose(o.Verbose),
 	}
 }
 

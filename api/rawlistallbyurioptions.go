@@ -11,30 +11,14 @@ type RawListAllByURIOption struct {
 func (o RawListAllByURIOption) String() string { return o.s }
 
 type RawListAllByURIOptions interface {
-	Verbose() bool
-	HasVerbose() bool
 	StartPage() int
 	HasStartPage() bool
-	Threads() int
-	HasThreads() bool
 	Sync() bool
 	HasSync() bool
-}
-
-func RawListAllByURIVerbose(verbose bool) RawListAllByURIOption {
-	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
-		opts.has_verbose = true
-		opts.verbose = verbose
-	}, fmt.Sprintf("api.RawListAllByURIVerbose(bool %+v)}", verbose)}
-}
-func RawListAllByURIVerboseFlag(verbose *bool) RawListAllByURIOption {
-	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
-		if verbose == nil {
-			return
-		}
-		opts.has_verbose = true
-		opts.verbose = *verbose
-	}, fmt.Sprintf("api.RawListAllByURIVerbose(bool %+v)}", verbose)}
+	Threads() int
+	HasThreads() bool
+	Verbose() bool
+	HasVerbose() bool
 }
 
 func RawListAllByURIStartPage(startPage int) RawListAllByURIOption {
@@ -53,22 +37,6 @@ func RawListAllByURIStartPageFlag(startPage *int) RawListAllByURIOption {
 	}, fmt.Sprintf("api.RawListAllByURIStartPage(int %+v)}", startPage)}
 }
 
-func RawListAllByURIThreads(threads int) RawListAllByURIOption {
-	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
-		opts.has_threads = true
-		opts.threads = threads
-	}, fmt.Sprintf("api.RawListAllByURIThreads(int %+v)}", threads)}
-}
-func RawListAllByURIThreadsFlag(threads *int) RawListAllByURIOption {
-	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
-		if threads == nil {
-			return
-		}
-		opts.has_threads = true
-		opts.threads = *threads
-	}, fmt.Sprintf("api.RawListAllByURIThreads(int %+v)}", threads)}
-}
-
 func RawListAllByURISync(sync bool) RawListAllByURIOption {
 	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
 		opts.has_sync = true
@@ -85,6 +53,38 @@ func RawListAllByURISyncFlag(sync *bool) RawListAllByURIOption {
 	}, fmt.Sprintf("api.RawListAllByURISync(bool %+v)}", sync)}
 }
 
+func RawListAllByURIThreads(threads int) RawListAllByURIOption {
+	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
+		opts.has_threads = true
+		opts.threads = threads
+	}, fmt.Sprintf("api.RawListAllByURIThreads(int %+v)}", threads)}
+}
+func RawListAllByURIThreadsFlag(threads *int) RawListAllByURIOption {
+	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
+		if threads == nil {
+			return
+		}
+		opts.has_threads = true
+		opts.threads = *threads
+	}, fmt.Sprintf("api.RawListAllByURIThreads(int %+v)}", threads)}
+}
+
+func RawListAllByURIVerbose(verbose bool) RawListAllByURIOption {
+	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
+		opts.has_verbose = true
+		opts.verbose = verbose
+	}, fmt.Sprintf("api.RawListAllByURIVerbose(bool %+v)}", verbose)}
+}
+func RawListAllByURIVerboseFlag(verbose *bool) RawListAllByURIOption {
+	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
+		if verbose == nil {
+			return
+		}
+		opts.has_verbose = true
+		opts.verbose = *verbose
+	}, fmt.Sprintf("api.RawListAllByURIVerbose(bool %+v)}", verbose)}
+}
+
 type rawListAllByURIOptionImpl struct {
 	verbose       bool
 	has_verbose   bool
@@ -96,29 +96,29 @@ type rawListAllByURIOptionImpl struct {
 	has_sync      bool
 }
 
-func (r *rawListAllByURIOptionImpl) Verbose() bool      { return r.verbose }
-func (r *rawListAllByURIOptionImpl) HasVerbose() bool   { return r.has_verbose }
 func (r *rawListAllByURIOptionImpl) StartPage() int     { return r.startPage }
 func (r *rawListAllByURIOptionImpl) HasStartPage() bool { return r.has_startPage }
-func (r *rawListAllByURIOptionImpl) Threads() int       { return r.threads }
-func (r *rawListAllByURIOptionImpl) HasThreads() bool   { return r.has_threads }
 func (r *rawListAllByURIOptionImpl) Sync() bool         { return r.sync }
 func (r *rawListAllByURIOptionImpl) HasSync() bool      { return r.has_sync }
+func (r *rawListAllByURIOptionImpl) Threads() int       { return r.threads }
+func (r *rawListAllByURIOptionImpl) HasThreads() bool   { return r.has_threads }
+func (r *rawListAllByURIOptionImpl) Verbose() bool      { return r.verbose }
+func (r *rawListAllByURIOptionImpl) HasVerbose() bool   { return r.has_verbose }
 
 type RawListAllByURIParams struct {
+	StartPage int    `json:"start_page"`
+	Sync      bool   `json:"sync"`
+	Threads   int    `json:"threads"`
 	Uri       string `json:"uri" required:"true"`
 	Verbose   bool   `json:"verbose"`
-	StartPage int    `json:"start_page"`
-	Threads   int    `json:"threads"`
-	Sync      bool   `json:"sync"`
 }
 
 func (o RawListAllByURIParams) Options() []RawListAllByURIOption {
 	return []RawListAllByURIOption{
-		RawListAllByURIVerbose(o.Verbose),
 		RawListAllByURIStartPage(o.StartPage),
-		RawListAllByURIThreads(o.Threads),
 		RawListAllByURISync(o.Sync),
+		RawListAllByURIThreads(o.Threads),
+		RawListAllByURIVerbose(o.Verbose),
 	}
 }
 

@@ -14,74 +14,42 @@ type RestaurantDetailsFromSearchOption struct {
 func (o RestaurantDetailsFromSearchOption) String() string { return o.s }
 
 type RestaurantDetailsFromSearchOptions interface {
-	Verbose() bool
-	HasVerbose() bool
-	DebugFailures() bool
-	HasDebugFailures() bool
-	OriginalTerm() string
-	HasOriginalTerm() bool
-	Date() time.Time
-	HasDate() bool
-	IntentModifiedTerm() string
-	HasIntentModifiedTerm() bool
 	Covers() int
 	HasCovers() bool
+	Date() time.Time
+	HasDate() bool
+	DebugFailures() bool
+	HasDebugFailures() bool
+	IntentModifiedTerm() string
+	HasIntentModifiedTerm() bool
 	Latitude() float32
 	HasLatitude() bool
 	Longitude() float32
 	HasLongitude() bool
 	MetroID() int
 	HasMetroID() bool
+	OriginalTerm() string
+	HasOriginalTerm() bool
+	Verbose() bool
+	HasVerbose() bool
 	ToSearchOptions() []SearchOption
 	ToRestaurantDetailsOptions() []RestaurantDetailsOption
 }
 
-func RestaurantDetailsFromSearchVerbose(verbose bool) RestaurantDetailsFromSearchOption {
+func RestaurantDetailsFromSearchCovers(covers int) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
-		opts.has_verbose = true
-		opts.verbose = verbose
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchVerbose(bool %+v)}", verbose)}
+		opts.has_covers = true
+		opts.covers = covers
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchCovers(int %+v)}", covers)}
 }
-func RestaurantDetailsFromSearchVerboseFlag(verbose *bool) RestaurantDetailsFromSearchOption {
+func RestaurantDetailsFromSearchCoversFlag(covers *int) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
-		if verbose == nil {
+		if covers == nil {
 			return
 		}
-		opts.has_verbose = true
-		opts.verbose = *verbose
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchVerbose(bool %+v)}", verbose)}
-}
-
-func RestaurantDetailsFromSearchDebugFailures(debugFailures bool) RestaurantDetailsFromSearchOption {
-	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
-		opts.has_debugFailures = true
-		opts.debugFailures = debugFailures
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchDebugFailures(bool %+v)}", debugFailures)}
-}
-func RestaurantDetailsFromSearchDebugFailuresFlag(debugFailures *bool) RestaurantDetailsFromSearchOption {
-	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
-		if debugFailures == nil {
-			return
-		}
-		opts.has_debugFailures = true
-		opts.debugFailures = *debugFailures
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchDebugFailures(bool %+v)}", debugFailures)}
-}
-
-func RestaurantDetailsFromSearchOriginalTerm(originalTerm string) RestaurantDetailsFromSearchOption {
-	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
-		opts.has_originalTerm = true
-		opts.originalTerm = originalTerm
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchOriginalTerm(string %+v)}", originalTerm)}
-}
-func RestaurantDetailsFromSearchOriginalTermFlag(originalTerm *string) RestaurantDetailsFromSearchOption {
-	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
-		if originalTerm == nil {
-			return
-		}
-		opts.has_originalTerm = true
-		opts.originalTerm = *originalTerm
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchOriginalTerm(string %+v)}", originalTerm)}
+		opts.has_covers = true
+		opts.covers = *covers
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchCovers(int %+v)}", covers)}
 }
 
 func RestaurantDetailsFromSearchDate(date time.Time) RestaurantDetailsFromSearchOption {
@@ -100,6 +68,22 @@ func RestaurantDetailsFromSearchDateFlag(date *time.Time) RestaurantDetailsFromS
 	}, fmt.Sprintf("api.RestaurantDetailsFromSearchDate(time.Time %+v)}", date)}
 }
 
+func RestaurantDetailsFromSearchDebugFailures(debugFailures bool) RestaurantDetailsFromSearchOption {
+	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
+		opts.has_debugFailures = true
+		opts.debugFailures = debugFailures
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchDebugFailures(bool %+v)}", debugFailures)}
+}
+func RestaurantDetailsFromSearchDebugFailuresFlag(debugFailures *bool) RestaurantDetailsFromSearchOption {
+	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
+		if debugFailures == nil {
+			return
+		}
+		opts.has_debugFailures = true
+		opts.debugFailures = *debugFailures
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchDebugFailures(bool %+v)}", debugFailures)}
+}
+
 func RestaurantDetailsFromSearchIntentModifiedTerm(intentModifiedTerm string) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
 		opts.has_intentModifiedTerm = true
@@ -114,22 +98,6 @@ func RestaurantDetailsFromSearchIntentModifiedTermFlag(intentModifiedTerm *strin
 		opts.has_intentModifiedTerm = true
 		opts.intentModifiedTerm = *intentModifiedTerm
 	}, fmt.Sprintf("api.RestaurantDetailsFromSearchIntentModifiedTerm(string %+v)}", intentModifiedTerm)}
-}
-
-func RestaurantDetailsFromSearchCovers(covers int) RestaurantDetailsFromSearchOption {
-	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
-		opts.has_covers = true
-		opts.covers = covers
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchCovers(int %+v)}", covers)}
-}
-func RestaurantDetailsFromSearchCoversFlag(covers *int) RestaurantDetailsFromSearchOption {
-	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
-		if covers == nil {
-			return
-		}
-		opts.has_covers = true
-		opts.covers = *covers
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchCovers(int %+v)}", covers)}
 }
 
 func RestaurantDetailsFromSearchLatitude(latitude float32) RestaurantDetailsFromSearchOption {
@@ -180,6 +148,38 @@ func RestaurantDetailsFromSearchMetroIDFlag(metroID *int) RestaurantDetailsFromS
 	}, fmt.Sprintf("api.RestaurantDetailsFromSearchMetroID(int %+v)}", metroID)}
 }
 
+func RestaurantDetailsFromSearchOriginalTerm(originalTerm string) RestaurantDetailsFromSearchOption {
+	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
+		opts.has_originalTerm = true
+		opts.originalTerm = originalTerm
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchOriginalTerm(string %+v)}", originalTerm)}
+}
+func RestaurantDetailsFromSearchOriginalTermFlag(originalTerm *string) RestaurantDetailsFromSearchOption {
+	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
+		if originalTerm == nil {
+			return
+		}
+		opts.has_originalTerm = true
+		opts.originalTerm = *originalTerm
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchOriginalTerm(string %+v)}", originalTerm)}
+}
+
+func RestaurantDetailsFromSearchVerbose(verbose bool) RestaurantDetailsFromSearchOption {
+	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
+		opts.has_verbose = true
+		opts.verbose = verbose
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchVerbose(bool %+v)}", verbose)}
+}
+func RestaurantDetailsFromSearchVerboseFlag(verbose *bool) RestaurantDetailsFromSearchOption {
+	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
+		if verbose == nil {
+			return
+		}
+		opts.has_verbose = true
+		opts.verbose = *verbose
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchVerbose(bool %+v)}", verbose)}
+}
+
 type restaurantDetailsFromSearchOptionImpl struct {
 	verbose                bool
 	has_verbose            bool
@@ -201,68 +201,68 @@ type restaurantDetailsFromSearchOptionImpl struct {
 	has_metroID            bool
 }
 
-func (r *restaurantDetailsFromSearchOptionImpl) Verbose() bool          { return r.verbose }
-func (r *restaurantDetailsFromSearchOptionImpl) HasVerbose() bool       { return r.has_verbose }
-func (r *restaurantDetailsFromSearchOptionImpl) DebugFailures() bool    { return r.debugFailures }
-func (r *restaurantDetailsFromSearchOptionImpl) HasDebugFailures() bool { return r.has_debugFailures }
-func (r *restaurantDetailsFromSearchOptionImpl) OriginalTerm() string   { return r.originalTerm }
-func (r *restaurantDetailsFromSearchOptionImpl) HasOriginalTerm() bool  { return r.has_originalTerm }
+func (r *restaurantDetailsFromSearchOptionImpl) Covers() int            { return r.covers }
+func (r *restaurantDetailsFromSearchOptionImpl) HasCovers() bool        { return r.has_covers }
 func (r *restaurantDetailsFromSearchOptionImpl) Date() time.Time        { return r.date }
 func (r *restaurantDetailsFromSearchOptionImpl) HasDate() bool          { return r.has_date }
+func (r *restaurantDetailsFromSearchOptionImpl) DebugFailures() bool    { return r.debugFailures }
+func (r *restaurantDetailsFromSearchOptionImpl) HasDebugFailures() bool { return r.has_debugFailures }
 func (r *restaurantDetailsFromSearchOptionImpl) IntentModifiedTerm() string {
 	return r.intentModifiedTerm
 }
 func (r *restaurantDetailsFromSearchOptionImpl) HasIntentModifiedTerm() bool {
 	return r.has_intentModifiedTerm
 }
-func (r *restaurantDetailsFromSearchOptionImpl) Covers() int        { return r.covers }
-func (r *restaurantDetailsFromSearchOptionImpl) HasCovers() bool    { return r.has_covers }
-func (r *restaurantDetailsFromSearchOptionImpl) Latitude() float32  { return r.latitude }
-func (r *restaurantDetailsFromSearchOptionImpl) HasLatitude() bool  { return r.has_latitude }
-func (r *restaurantDetailsFromSearchOptionImpl) Longitude() float32 { return r.longitude }
-func (r *restaurantDetailsFromSearchOptionImpl) HasLongitude() bool { return r.has_longitude }
-func (r *restaurantDetailsFromSearchOptionImpl) MetroID() int       { return r.metroID }
-func (r *restaurantDetailsFromSearchOptionImpl) HasMetroID() bool   { return r.has_metroID }
+func (r *restaurantDetailsFromSearchOptionImpl) Latitude() float32     { return r.latitude }
+func (r *restaurantDetailsFromSearchOptionImpl) HasLatitude() bool     { return r.has_latitude }
+func (r *restaurantDetailsFromSearchOptionImpl) Longitude() float32    { return r.longitude }
+func (r *restaurantDetailsFromSearchOptionImpl) HasLongitude() bool    { return r.has_longitude }
+func (r *restaurantDetailsFromSearchOptionImpl) MetroID() int          { return r.metroID }
+func (r *restaurantDetailsFromSearchOptionImpl) HasMetroID() bool      { return r.has_metroID }
+func (r *restaurantDetailsFromSearchOptionImpl) OriginalTerm() string  { return r.originalTerm }
+func (r *restaurantDetailsFromSearchOptionImpl) HasOriginalTerm() bool { return r.has_originalTerm }
+func (r *restaurantDetailsFromSearchOptionImpl) Verbose() bool         { return r.verbose }
+func (r *restaurantDetailsFromSearchOptionImpl) HasVerbose() bool      { return r.has_verbose }
 
 type RestaurantDetailsFromSearchParams struct {
-	Term               string    `json:"term" required:"true"`
-	Verbose            bool      `json:"verbose"`
-	DebugFailures      bool      `json:"debug_failures"`
-	OriginalTerm       string    `json:"original_term"`
-	Date               time.Time `json:"date"`
-	IntentModifiedTerm string    `json:"intent_modified_term"`
 	Covers             int       `json:"covers"`
+	Date               time.Time `json:"date"`
+	DebugFailures      bool      `json:"debug_failures"`
+	IntentModifiedTerm string    `json:"intent_modified_term"`
 	Latitude           float32   `json:"latitude"`
 	Longitude          float32   `json:"longitude"`
 	MetroID            int       `json:"metro_id"`
+	OriginalTerm       string    `json:"original_term"`
+	Term               string    `json:"term" required:"true"`
+	Verbose            bool      `json:"verbose"`
 }
 
 func (o RestaurantDetailsFromSearchParams) Options() []RestaurantDetailsFromSearchOption {
 	return []RestaurantDetailsFromSearchOption{
-		RestaurantDetailsFromSearchVerbose(o.Verbose),
-		RestaurantDetailsFromSearchDebugFailures(o.DebugFailures),
-		RestaurantDetailsFromSearchOriginalTerm(o.OriginalTerm),
-		RestaurantDetailsFromSearchDate(o.Date),
-		RestaurantDetailsFromSearchIntentModifiedTerm(o.IntentModifiedTerm),
 		RestaurantDetailsFromSearchCovers(o.Covers),
+		RestaurantDetailsFromSearchDate(o.Date),
+		RestaurantDetailsFromSearchDebugFailures(o.DebugFailures),
+		RestaurantDetailsFromSearchIntentModifiedTerm(o.IntentModifiedTerm),
 		RestaurantDetailsFromSearchLatitude(o.Latitude),
 		RestaurantDetailsFromSearchLongitude(o.Longitude),
 		RestaurantDetailsFromSearchMetroID(o.MetroID),
+		RestaurantDetailsFromSearchOriginalTerm(o.OriginalTerm),
+		RestaurantDetailsFromSearchVerbose(o.Verbose),
 	}
 }
 
 // ToSearchOptions converts RestaurantDetailsFromSearchOption to an array of SearchOption
 func (o *restaurantDetailsFromSearchOptionImpl) ToSearchOptions() []SearchOption {
 	return []SearchOption{
-		SearchDebugFailures(o.DebugFailures()),
+		SearchOriginalTerm(o.OriginalTerm()),
+		SearchCovers(o.Covers()),
+		SearchMetroID(o.MetroID()),
+		SearchIntentModifiedTerm(o.IntentModifiedTerm()),
 		SearchLatitude(o.Latitude()),
 		SearchLongitude(o.Longitude()),
-		SearchMetroID(o.MetroID()),
 		SearchVerbose(o.Verbose()),
-		SearchOriginalTerm(o.OriginalTerm()),
+		SearchDebugFailures(o.DebugFailures()),
 		SearchDate(o.Date()),
-		SearchIntentModifiedTerm(o.IntentModifiedTerm()),
-		SearchCovers(o.Covers()),
 	}
 }
 

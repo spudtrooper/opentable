@@ -11,26 +11,10 @@ type RestaurantDetailsOption struct {
 func (o RestaurantDetailsOption) String() string { return o.s }
 
 type RestaurantDetailsOptions interface {
-	Verbose() bool
-	HasVerbose() bool
 	DebugFailures() bool
 	HasDebugFailures() bool
-}
-
-func RestaurantDetailsVerbose(verbose bool) RestaurantDetailsOption {
-	return RestaurantDetailsOption{func(opts *restaurantDetailsOptionImpl) {
-		opts.has_verbose = true
-		opts.verbose = verbose
-	}, fmt.Sprintf("api.RestaurantDetailsVerbose(bool %+v)}", verbose)}
-}
-func RestaurantDetailsVerboseFlag(verbose *bool) RestaurantDetailsOption {
-	return RestaurantDetailsOption{func(opts *restaurantDetailsOptionImpl) {
-		if verbose == nil {
-			return
-		}
-		opts.has_verbose = true
-		opts.verbose = *verbose
-	}, fmt.Sprintf("api.RestaurantDetailsVerbose(bool %+v)}", verbose)}
+	Verbose() bool
+	HasVerbose() bool
 }
 
 func RestaurantDetailsDebugFailures(debugFailures bool) RestaurantDetailsOption {
@@ -49,6 +33,22 @@ func RestaurantDetailsDebugFailuresFlag(debugFailures *bool) RestaurantDetailsOp
 	}, fmt.Sprintf("api.RestaurantDetailsDebugFailures(bool %+v)}", debugFailures)}
 }
 
+func RestaurantDetailsVerbose(verbose bool) RestaurantDetailsOption {
+	return RestaurantDetailsOption{func(opts *restaurantDetailsOptionImpl) {
+		opts.has_verbose = true
+		opts.verbose = verbose
+	}, fmt.Sprintf("api.RestaurantDetailsVerbose(bool %+v)}", verbose)}
+}
+func RestaurantDetailsVerboseFlag(verbose *bool) RestaurantDetailsOption {
+	return RestaurantDetailsOption{func(opts *restaurantDetailsOptionImpl) {
+		if verbose == nil {
+			return
+		}
+		opts.has_verbose = true
+		opts.verbose = *verbose
+	}, fmt.Sprintf("api.RestaurantDetailsVerbose(bool %+v)}", verbose)}
+}
+
 type restaurantDetailsOptionImpl struct {
 	verbose           bool
 	has_verbose       bool
@@ -56,20 +56,20 @@ type restaurantDetailsOptionImpl struct {
 	has_debugFailures bool
 }
 
-func (r *restaurantDetailsOptionImpl) Verbose() bool          { return r.verbose }
-func (r *restaurantDetailsOptionImpl) HasVerbose() bool       { return r.has_verbose }
 func (r *restaurantDetailsOptionImpl) DebugFailures() bool    { return r.debugFailures }
 func (r *restaurantDetailsOptionImpl) HasDebugFailures() bool { return r.has_debugFailures }
+func (r *restaurantDetailsOptionImpl) Verbose() bool          { return r.verbose }
+func (r *restaurantDetailsOptionImpl) HasVerbose() bool       { return r.has_verbose }
 
 type RestaurantDetailsParams struct {
-	Verbose       bool `json:"verbose"`
 	DebugFailures bool `json:"debug_failures"`
+	Verbose       bool `json:"verbose"`
 }
 
 func (o RestaurantDetailsParams) Options() []RestaurantDetailsOption {
 	return []RestaurantDetailsOption{
-		RestaurantDetailsVerbose(o.Verbose),
 		RestaurantDetailsDebugFailures(o.DebugFailures),
+		RestaurantDetailsVerbose(o.Verbose),
 	}
 }
 

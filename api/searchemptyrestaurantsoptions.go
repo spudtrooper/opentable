@@ -14,12 +14,28 @@ type SearchEmptyRestaurantsOption struct {
 func (o SearchEmptyRestaurantsOption) String() string { return o.s }
 
 type SearchEmptyRestaurantsOptions interface {
+	Sleep() time.Duration
+	HasSleep() bool
 	Threads() int
 	HasThreads() bool
 	Verbose() bool
 	HasVerbose() bool
-	Sleep() time.Duration
-	HasSleep() bool
+}
+
+func SearchEmptyRestaurantsSleep(sleep time.Duration) SearchEmptyRestaurantsOption {
+	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
+		opts.has_sleep = true
+		opts.sleep = sleep
+	}, fmt.Sprintf("api.SearchEmptyRestaurantsSleep(time.Duration %+v)}", sleep)}
+}
+func SearchEmptyRestaurantsSleepFlag(sleep *time.Duration) SearchEmptyRestaurantsOption {
+	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
+		if sleep == nil {
+			return
+		}
+		opts.has_sleep = true
+		opts.sleep = *sleep
+	}, fmt.Sprintf("api.SearchEmptyRestaurantsSleep(time.Duration %+v)}", sleep)}
 }
 
 func SearchEmptyRestaurantsThreads(threads int) SearchEmptyRestaurantsOption {
@@ -54,22 +70,6 @@ func SearchEmptyRestaurantsVerboseFlag(verbose *bool) SearchEmptyRestaurantsOpti
 	}, fmt.Sprintf("api.SearchEmptyRestaurantsVerbose(bool %+v)}", verbose)}
 }
 
-func SearchEmptyRestaurantsSleep(sleep time.Duration) SearchEmptyRestaurantsOption {
-	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
-		opts.has_sleep = true
-		opts.sleep = sleep
-	}, fmt.Sprintf("api.SearchEmptyRestaurantsSleep(time.Duration %+v)}", sleep)}
-}
-func SearchEmptyRestaurantsSleepFlag(sleep *time.Duration) SearchEmptyRestaurantsOption {
-	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
-		if sleep == nil {
-			return
-		}
-		opts.has_sleep = true
-		opts.sleep = *sleep
-	}, fmt.Sprintf("api.SearchEmptyRestaurantsSleep(time.Duration %+v)}", sleep)}
-}
-
 type searchEmptyRestaurantsOptionImpl struct {
 	threads     int
 	has_threads bool
@@ -79,24 +79,24 @@ type searchEmptyRestaurantsOptionImpl struct {
 	has_sleep   bool
 }
 
+func (s *searchEmptyRestaurantsOptionImpl) Sleep() time.Duration { return s.sleep }
+func (s *searchEmptyRestaurantsOptionImpl) HasSleep() bool       { return s.has_sleep }
 func (s *searchEmptyRestaurantsOptionImpl) Threads() int         { return s.threads }
 func (s *searchEmptyRestaurantsOptionImpl) HasThreads() bool     { return s.has_threads }
 func (s *searchEmptyRestaurantsOptionImpl) Verbose() bool        { return s.verbose }
 func (s *searchEmptyRestaurantsOptionImpl) HasVerbose() bool     { return s.has_verbose }
-func (s *searchEmptyRestaurantsOptionImpl) Sleep() time.Duration { return s.sleep }
-func (s *searchEmptyRestaurantsOptionImpl) HasSleep() bool       { return s.has_sleep }
 
 type SearchEmptyRestaurantsParams struct {
+	Sleep   time.Duration `json:"sleep"`
 	Threads int           `json:"threads"`
 	Verbose bool          `json:"verbose"`
-	Sleep   time.Duration `json:"sleep"`
 }
 
 func (o SearchEmptyRestaurantsParams) Options() []SearchEmptyRestaurantsOption {
 	return []SearchEmptyRestaurantsOption{
+		SearchEmptyRestaurantsSleep(o.Sleep),
 		SearchEmptyRestaurantsThreads(o.Threads),
 		SearchEmptyRestaurantsVerbose(o.Verbose),
-		SearchEmptyRestaurantsSleep(o.Sleep),
 	}
 }
 

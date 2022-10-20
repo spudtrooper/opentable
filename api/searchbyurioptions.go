@@ -11,26 +11,10 @@ type SearchByURIOption struct {
 func (o SearchByURIOption) String() string { return o.s }
 
 type SearchByURIOptions interface {
-	Verbose() bool
-	HasVerbose() bool
 	DebugFailures() bool
 	HasDebugFailures() bool
-}
-
-func SearchByURIVerbose(verbose bool) SearchByURIOption {
-	return SearchByURIOption{func(opts *searchByURIOptionImpl) {
-		opts.has_verbose = true
-		opts.verbose = verbose
-	}, fmt.Sprintf("api.SearchByURIVerbose(bool %+v)}", verbose)}
-}
-func SearchByURIVerboseFlag(verbose *bool) SearchByURIOption {
-	return SearchByURIOption{func(opts *searchByURIOptionImpl) {
-		if verbose == nil {
-			return
-		}
-		opts.has_verbose = true
-		opts.verbose = *verbose
-	}, fmt.Sprintf("api.SearchByURIVerbose(bool %+v)}", verbose)}
+	Verbose() bool
+	HasVerbose() bool
 }
 
 func SearchByURIDebugFailures(debugFailures bool) SearchByURIOption {
@@ -49,6 +33,22 @@ func SearchByURIDebugFailuresFlag(debugFailures *bool) SearchByURIOption {
 	}, fmt.Sprintf("api.SearchByURIDebugFailures(bool %+v)}", debugFailures)}
 }
 
+func SearchByURIVerbose(verbose bool) SearchByURIOption {
+	return SearchByURIOption{func(opts *searchByURIOptionImpl) {
+		opts.has_verbose = true
+		opts.verbose = verbose
+	}, fmt.Sprintf("api.SearchByURIVerbose(bool %+v)}", verbose)}
+}
+func SearchByURIVerboseFlag(verbose *bool) SearchByURIOption {
+	return SearchByURIOption{func(opts *searchByURIOptionImpl) {
+		if verbose == nil {
+			return
+		}
+		opts.has_verbose = true
+		opts.verbose = *verbose
+	}, fmt.Sprintf("api.SearchByURIVerbose(bool %+v)}", verbose)}
+}
+
 type searchByURIOptionImpl struct {
 	verbose           bool
 	has_verbose       bool
@@ -56,21 +56,21 @@ type searchByURIOptionImpl struct {
 	has_debugFailures bool
 }
 
-func (s *searchByURIOptionImpl) Verbose() bool          { return s.verbose }
-func (s *searchByURIOptionImpl) HasVerbose() bool       { return s.has_verbose }
 func (s *searchByURIOptionImpl) DebugFailures() bool    { return s.debugFailures }
 func (s *searchByURIOptionImpl) HasDebugFailures() bool { return s.has_debugFailures }
+func (s *searchByURIOptionImpl) Verbose() bool          { return s.verbose }
+func (s *searchByURIOptionImpl) HasVerbose() bool       { return s.has_verbose }
 
 type SearchByURIParams struct {
+	DebugFailures bool   `json:"debug_failures"`
 	Uri           string `json:"uri" required:"true"`
 	Verbose       bool   `json:"verbose"`
-	DebugFailures bool   `json:"debug_failures"`
 }
 
 func (o SearchByURIParams) Options() []SearchByURIOption {
 	return []SearchByURIOption{
-		SearchByURIVerbose(o.Verbose),
 		SearchByURIDebugFailures(o.DebugFailures),
+		SearchByURIVerbose(o.Verbose),
 	}
 }
 

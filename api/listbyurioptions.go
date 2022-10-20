@@ -11,26 +11,10 @@ type ListByURIOption struct {
 func (o ListByURIOption) String() string { return o.s }
 
 type ListByURIOptions interface {
-	Verbose() bool
-	HasVerbose() bool
 	DebugFailures() bool
 	HasDebugFailures() bool
-}
-
-func ListByURIVerbose(verbose bool) ListByURIOption {
-	return ListByURIOption{func(opts *listByURIOptionImpl) {
-		opts.has_verbose = true
-		opts.verbose = verbose
-	}, fmt.Sprintf("api.ListByURIVerbose(bool %+v)}", verbose)}
-}
-func ListByURIVerboseFlag(verbose *bool) ListByURIOption {
-	return ListByURIOption{func(opts *listByURIOptionImpl) {
-		if verbose == nil {
-			return
-		}
-		opts.has_verbose = true
-		opts.verbose = *verbose
-	}, fmt.Sprintf("api.ListByURIVerbose(bool %+v)}", verbose)}
+	Verbose() bool
+	HasVerbose() bool
 }
 
 func ListByURIDebugFailures(debugFailures bool) ListByURIOption {
@@ -49,6 +33,22 @@ func ListByURIDebugFailuresFlag(debugFailures *bool) ListByURIOption {
 	}, fmt.Sprintf("api.ListByURIDebugFailures(bool %+v)}", debugFailures)}
 }
 
+func ListByURIVerbose(verbose bool) ListByURIOption {
+	return ListByURIOption{func(opts *listByURIOptionImpl) {
+		opts.has_verbose = true
+		opts.verbose = verbose
+	}, fmt.Sprintf("api.ListByURIVerbose(bool %+v)}", verbose)}
+}
+func ListByURIVerboseFlag(verbose *bool) ListByURIOption {
+	return ListByURIOption{func(opts *listByURIOptionImpl) {
+		if verbose == nil {
+			return
+		}
+		opts.has_verbose = true
+		opts.verbose = *verbose
+	}, fmt.Sprintf("api.ListByURIVerbose(bool %+v)}", verbose)}
+}
+
 type listByURIOptionImpl struct {
 	verbose           bool
 	has_verbose       bool
@@ -56,21 +56,21 @@ type listByURIOptionImpl struct {
 	has_debugFailures bool
 }
 
-func (l *listByURIOptionImpl) Verbose() bool          { return l.verbose }
-func (l *listByURIOptionImpl) HasVerbose() bool       { return l.has_verbose }
 func (l *listByURIOptionImpl) DebugFailures() bool    { return l.debugFailures }
 func (l *listByURIOptionImpl) HasDebugFailures() bool { return l.has_debugFailures }
+func (l *listByURIOptionImpl) Verbose() bool          { return l.verbose }
+func (l *listByURIOptionImpl) HasVerbose() bool       { return l.has_verbose }
 
 type ListByURIParams struct {
+	DebugFailures bool   `json:"debug_failures"`
 	Uri           string `json:"uri" required:"true"`
 	Verbose       bool   `json:"verbose"`
-	DebugFailures bool   `json:"debug_failures"`
 }
 
 func (o ListByURIParams) Options() []ListByURIOption {
 	return []ListByURIOption{
-		ListByURIVerbose(o.Verbose),
 		ListByURIDebugFailures(o.DebugFailures),
+		ListByURIVerbose(o.Verbose),
 	}
 }
 

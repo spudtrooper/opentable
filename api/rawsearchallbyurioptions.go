@@ -11,30 +11,14 @@ type RawSearchAllByURIOption struct {
 func (o RawSearchAllByURIOption) String() string { return o.s }
 
 type RawSearchAllByURIOptions interface {
-	Verbose() bool
-	HasVerbose() bool
 	StartPage() int
 	HasStartPage() bool
-	Threads() int
-	HasThreads() bool
 	Sync() bool
 	HasSync() bool
-}
-
-func RawSearchAllByURIVerbose(verbose bool) RawSearchAllByURIOption {
-	return RawSearchAllByURIOption{func(opts *rawSearchAllByURIOptionImpl) {
-		opts.has_verbose = true
-		opts.verbose = verbose
-	}, fmt.Sprintf("api.RawSearchAllByURIVerbose(bool %+v)}", verbose)}
-}
-func RawSearchAllByURIVerboseFlag(verbose *bool) RawSearchAllByURIOption {
-	return RawSearchAllByURIOption{func(opts *rawSearchAllByURIOptionImpl) {
-		if verbose == nil {
-			return
-		}
-		opts.has_verbose = true
-		opts.verbose = *verbose
-	}, fmt.Sprintf("api.RawSearchAllByURIVerbose(bool %+v)}", verbose)}
+	Threads() int
+	HasThreads() bool
+	Verbose() bool
+	HasVerbose() bool
 }
 
 func RawSearchAllByURIStartPage(startPage int) RawSearchAllByURIOption {
@@ -53,22 +37,6 @@ func RawSearchAllByURIStartPageFlag(startPage *int) RawSearchAllByURIOption {
 	}, fmt.Sprintf("api.RawSearchAllByURIStartPage(int %+v)}", startPage)}
 }
 
-func RawSearchAllByURIThreads(threads int) RawSearchAllByURIOption {
-	return RawSearchAllByURIOption{func(opts *rawSearchAllByURIOptionImpl) {
-		opts.has_threads = true
-		opts.threads = threads
-	}, fmt.Sprintf("api.RawSearchAllByURIThreads(int %+v)}", threads)}
-}
-func RawSearchAllByURIThreadsFlag(threads *int) RawSearchAllByURIOption {
-	return RawSearchAllByURIOption{func(opts *rawSearchAllByURIOptionImpl) {
-		if threads == nil {
-			return
-		}
-		opts.has_threads = true
-		opts.threads = *threads
-	}, fmt.Sprintf("api.RawSearchAllByURIThreads(int %+v)}", threads)}
-}
-
 func RawSearchAllByURISync(sync bool) RawSearchAllByURIOption {
 	return RawSearchAllByURIOption{func(opts *rawSearchAllByURIOptionImpl) {
 		opts.has_sync = true
@@ -85,6 +53,38 @@ func RawSearchAllByURISyncFlag(sync *bool) RawSearchAllByURIOption {
 	}, fmt.Sprintf("api.RawSearchAllByURISync(bool %+v)}", sync)}
 }
 
+func RawSearchAllByURIThreads(threads int) RawSearchAllByURIOption {
+	return RawSearchAllByURIOption{func(opts *rawSearchAllByURIOptionImpl) {
+		opts.has_threads = true
+		opts.threads = threads
+	}, fmt.Sprintf("api.RawSearchAllByURIThreads(int %+v)}", threads)}
+}
+func RawSearchAllByURIThreadsFlag(threads *int) RawSearchAllByURIOption {
+	return RawSearchAllByURIOption{func(opts *rawSearchAllByURIOptionImpl) {
+		if threads == nil {
+			return
+		}
+		opts.has_threads = true
+		opts.threads = *threads
+	}, fmt.Sprintf("api.RawSearchAllByURIThreads(int %+v)}", threads)}
+}
+
+func RawSearchAllByURIVerbose(verbose bool) RawSearchAllByURIOption {
+	return RawSearchAllByURIOption{func(opts *rawSearchAllByURIOptionImpl) {
+		opts.has_verbose = true
+		opts.verbose = verbose
+	}, fmt.Sprintf("api.RawSearchAllByURIVerbose(bool %+v)}", verbose)}
+}
+func RawSearchAllByURIVerboseFlag(verbose *bool) RawSearchAllByURIOption {
+	return RawSearchAllByURIOption{func(opts *rawSearchAllByURIOptionImpl) {
+		if verbose == nil {
+			return
+		}
+		opts.has_verbose = true
+		opts.verbose = *verbose
+	}, fmt.Sprintf("api.RawSearchAllByURIVerbose(bool %+v)}", verbose)}
+}
+
 type rawSearchAllByURIOptionImpl struct {
 	verbose       bool
 	has_verbose   bool
@@ -96,29 +96,29 @@ type rawSearchAllByURIOptionImpl struct {
 	has_sync      bool
 }
 
-func (r *rawSearchAllByURIOptionImpl) Verbose() bool      { return r.verbose }
-func (r *rawSearchAllByURIOptionImpl) HasVerbose() bool   { return r.has_verbose }
 func (r *rawSearchAllByURIOptionImpl) StartPage() int     { return r.startPage }
 func (r *rawSearchAllByURIOptionImpl) HasStartPage() bool { return r.has_startPage }
-func (r *rawSearchAllByURIOptionImpl) Threads() int       { return r.threads }
-func (r *rawSearchAllByURIOptionImpl) HasThreads() bool   { return r.has_threads }
 func (r *rawSearchAllByURIOptionImpl) Sync() bool         { return r.sync }
 func (r *rawSearchAllByURIOptionImpl) HasSync() bool      { return r.has_sync }
+func (r *rawSearchAllByURIOptionImpl) Threads() int       { return r.threads }
+func (r *rawSearchAllByURIOptionImpl) HasThreads() bool   { return r.has_threads }
+func (r *rawSearchAllByURIOptionImpl) Verbose() bool      { return r.verbose }
+func (r *rawSearchAllByURIOptionImpl) HasVerbose() bool   { return r.has_verbose }
 
 type RawSearchAllByURIParams struct {
+	StartPage int    `json:"start_page"`
+	Sync      bool   `json:"sync"`
+	Threads   int    `json:"threads"`
 	Uri       string `json:"uri" required:"true"`
 	Verbose   bool   `json:"verbose"`
-	StartPage int    `json:"start_page"`
-	Threads   int    `json:"threads"`
-	Sync      bool   `json:"sync"`
 }
 
 func (o RawSearchAllByURIParams) Options() []RawSearchAllByURIOption {
 	return []RawSearchAllByURIOption{
-		RawSearchAllByURIVerbose(o.Verbose),
 		RawSearchAllByURIStartPage(o.StartPage),
-		RawSearchAllByURIThreads(o.Threads),
 		RawSearchAllByURISync(o.Sync),
+		RawSearchAllByURIThreads(o.Threads),
+		RawSearchAllByURIVerbose(o.Verbose),
 	}
 }
 

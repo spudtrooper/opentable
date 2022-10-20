@@ -11,30 +11,14 @@ type SaveRawRestaurantDetailsFromIDOption struct {
 func (o SaveRawRestaurantDetailsFromIDOption) String() string { return o.s }
 
 type SaveRawRestaurantDetailsFromIDOptions interface {
-	Verbose() bool
-	HasVerbose() bool
 	DebugFailures() bool
 	HasDebugFailures() bool
 	ReallyVerbose() bool
 	HasReallyVerbose() bool
+	Verbose() bool
+	HasVerbose() bool
 	ToRawRestaurantDetailsFromIDOptions() []RawRestaurantDetailsFromIDOption
 	ToSaveRestaurantOptions() []SaveRestaurantOption
-}
-
-func SaveRawRestaurantDetailsFromIDVerbose(verbose bool) SaveRawRestaurantDetailsFromIDOption {
-	return SaveRawRestaurantDetailsFromIDOption{func(opts *saveRawRestaurantDetailsFromIDOptionImpl) {
-		opts.has_verbose = true
-		opts.verbose = verbose
-	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDVerbose(bool %+v)}", verbose)}
-}
-func SaveRawRestaurantDetailsFromIDVerboseFlag(verbose *bool) SaveRawRestaurantDetailsFromIDOption {
-	return SaveRawRestaurantDetailsFromIDOption{func(opts *saveRawRestaurantDetailsFromIDOptionImpl) {
-		if verbose == nil {
-			return
-		}
-		opts.has_verbose = true
-		opts.verbose = *verbose
-	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDVerbose(bool %+v)}", verbose)}
 }
 
 func SaveRawRestaurantDetailsFromIDDebugFailures(debugFailures bool) SaveRawRestaurantDetailsFromIDOption {
@@ -69,6 +53,22 @@ func SaveRawRestaurantDetailsFromIDReallyVerboseFlag(reallyVerbose *bool) SaveRa
 	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDReallyVerbose(bool %+v)}", reallyVerbose)}
 }
 
+func SaveRawRestaurantDetailsFromIDVerbose(verbose bool) SaveRawRestaurantDetailsFromIDOption {
+	return SaveRawRestaurantDetailsFromIDOption{func(opts *saveRawRestaurantDetailsFromIDOptionImpl) {
+		opts.has_verbose = true
+		opts.verbose = verbose
+	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDVerbose(bool %+v)}", verbose)}
+}
+func SaveRawRestaurantDetailsFromIDVerboseFlag(verbose *bool) SaveRawRestaurantDetailsFromIDOption {
+	return SaveRawRestaurantDetailsFromIDOption{func(opts *saveRawRestaurantDetailsFromIDOptionImpl) {
+		if verbose == nil {
+			return
+		}
+		opts.has_verbose = true
+		opts.verbose = *verbose
+	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDVerbose(bool %+v)}", verbose)}
+}
+
 type saveRawRestaurantDetailsFromIDOptionImpl struct {
 	verbose           bool
 	has_verbose       bool
@@ -78,8 +78,6 @@ type saveRawRestaurantDetailsFromIDOptionImpl struct {
 	has_reallyVerbose bool
 }
 
-func (s *saveRawRestaurantDetailsFromIDOptionImpl) Verbose() bool       { return s.verbose }
-func (s *saveRawRestaurantDetailsFromIDOptionImpl) HasVerbose() bool    { return s.has_verbose }
 func (s *saveRawRestaurantDetailsFromIDOptionImpl) DebugFailures() bool { return s.debugFailures }
 func (s *saveRawRestaurantDetailsFromIDOptionImpl) HasDebugFailures() bool {
 	return s.has_debugFailures
@@ -88,19 +86,21 @@ func (s *saveRawRestaurantDetailsFromIDOptionImpl) ReallyVerbose() bool { return
 func (s *saveRawRestaurantDetailsFromIDOptionImpl) HasReallyVerbose() bool {
 	return s.has_reallyVerbose
 }
+func (s *saveRawRestaurantDetailsFromIDOptionImpl) Verbose() bool    { return s.verbose }
+func (s *saveRawRestaurantDetailsFromIDOptionImpl) HasVerbose() bool { return s.has_verbose }
 
 type SaveRawRestaurantDetailsFromIDParams struct {
-	RestID        string `json:"rest_id" required:"true"`
-	Verbose       bool   `json:"verbose"`
 	DebugFailures bool   `json:"debug_failures"`
 	ReallyVerbose bool   `json:"really_verbose"`
+	RestID        string `json:"rest_id" required:"true"`
+	Verbose       bool   `json:"verbose"`
 }
 
 func (o SaveRawRestaurantDetailsFromIDParams) Options() []SaveRawRestaurantDetailsFromIDOption {
 	return []SaveRawRestaurantDetailsFromIDOption{
-		SaveRawRestaurantDetailsFromIDVerbose(o.Verbose),
 		SaveRawRestaurantDetailsFromIDDebugFailures(o.DebugFailures),
 		SaveRawRestaurantDetailsFromIDReallyVerbose(o.ReallyVerbose),
+		SaveRawRestaurantDetailsFromIDVerbose(o.Verbose),
 	}
 }
 
@@ -115,8 +115,8 @@ func (o *saveRawRestaurantDetailsFromIDOptionImpl) ToRawRestaurantDetailsFromIDO
 // ToSaveRestaurantOptions converts SaveRawRestaurantDetailsFromIDOption to an array of SaveRestaurantOption
 func (o *saveRawRestaurantDetailsFromIDOptionImpl) ToSaveRestaurantOptions() []SaveRestaurantOption {
 	return []SaveRestaurantOption{
-		SaveRestaurantReallyVerbose(o.ReallyVerbose()),
 		SaveRestaurantVerbose(o.Verbose()),
+		SaveRestaurantReallyVerbose(o.ReallyVerbose()),
 	}
 }
 
