@@ -115,8 +115,8 @@ func (o *saveRawRestaurantDetailsFromIDOptionImpl) ToRawRestaurantDetailsFromIDO
 // ToSaveRestaurantOptions converts SaveRawRestaurantDetailsFromIDOption to an array of SaveRestaurantOption
 func (o *saveRawRestaurantDetailsFromIDOptionImpl) ToSaveRestaurantOptions() []SaveRestaurantOption {
 	return []SaveRestaurantOption{
-		SaveRestaurantReallyVerbose(o.ReallyVerbose()),
 		SaveRestaurantVerbose(o.Verbose()),
+		SaveRestaurantReallyVerbose(o.ReallyVerbose()),
 	}
 }
 
