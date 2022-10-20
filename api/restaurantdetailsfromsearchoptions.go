@@ -254,15 +254,15 @@ func (o RestaurantDetailsFromSearchParams) Options() []RestaurantDetailsFromSear
 // ToSearchOptions converts RestaurantDetailsFromSearchOption to an array of SearchOption
 func (o *restaurantDetailsFromSearchOptionImpl) ToSearchOptions() []SearchOption {
 	return []SearchOption{
-		SearchOriginalTerm(o.OriginalTerm()),
-		SearchDate(o.Date()),
-		SearchCovers(o.Covers()),
+		SearchDebugFailures(o.DebugFailures()),
 		SearchLatitude(o.Latitude()),
 		SearchLongitude(o.Longitude()),
-		SearchVerbose(o.Verbose()),
-		SearchDebugFailures(o.DebugFailures()),
-		SearchIntentModifiedTerm(o.IntentModifiedTerm()),
 		SearchMetroID(o.MetroID()),
+		SearchVerbose(o.Verbose()),
+		SearchOriginalTerm(o.OriginalTerm()),
+		SearchDate(o.Date()),
+		SearchIntentModifiedTerm(o.IntentModifiedTerm()),
+		SearchCovers(o.Covers()),
 	}
 }
 
