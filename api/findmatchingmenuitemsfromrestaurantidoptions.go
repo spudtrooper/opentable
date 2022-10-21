@@ -83,8 +83,8 @@ func (o FindMatchingMenuItemsFromRestaurantIDParams) Options() []FindMatchingMen
 // ToRestaurantDetailsFromIDOptions converts FindMatchingMenuItemsFromRestaurantIDOption to an array of RestaurantDetailsFromIDOption
 func (o *findMatchingMenuItemsFromRestaurantIDOptionImpl) ToRestaurantDetailsFromIDOptions() []RestaurantDetailsFromIDOption {
 	return []RestaurantDetailsFromIDOption{
-		RestaurantDetailsFromIDVerbose(o.Verbose()),
 		RestaurantDetailsFromIDDebugFailures(o.DebugFailures()),
+		RestaurantDetailsFromIDVerbose(o.Verbose()),
 	}
 }
 
