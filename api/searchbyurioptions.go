@@ -21,7 +21,7 @@ func SearchByURIDebugFailures(debugFailures bool) SearchByURIOption {
 	return SearchByURIOption{func(opts *searchByURIOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}, fmt.Sprintf("api.SearchByURIDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.SearchByURIDebugFailures(bool %+v)", debugFailures)}
 }
 func SearchByURIDebugFailuresFlag(debugFailures *bool) SearchByURIOption {
 	return SearchByURIOption{func(opts *searchByURIOptionImpl) {
@@ -30,14 +30,14 @@ func SearchByURIDebugFailuresFlag(debugFailures *bool) SearchByURIOption {
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}, fmt.Sprintf("api.SearchByURIDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.SearchByURIDebugFailures(bool %+v)", debugFailures)}
 }
 
 func SearchByURIVerbose(verbose bool) SearchByURIOption {
 	return SearchByURIOption{func(opts *searchByURIOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.SearchByURIVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SearchByURIVerbose(bool %+v)", verbose)}
 }
 func SearchByURIVerboseFlag(verbose *bool) SearchByURIOption {
 	return SearchByURIOption{func(opts *searchByURIOptionImpl) {
@@ -46,7 +46,7 @@ func SearchByURIVerboseFlag(verbose *bool) SearchByURIOption {
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.SearchByURIVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SearchByURIVerbose(bool %+v)", verbose)}
 }
 
 type searchByURIOptionImpl struct {

@@ -19,7 +19,7 @@ func SearchByURIAndSaveVerbose(verbose bool) SearchByURIAndSaveOption {
 	return SearchByURIAndSaveOption{func(opts *searchByURIAndSaveOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.SearchByURIAndSaveVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SearchByURIAndSaveVerbose(bool %+v)", verbose)}
 }
 func SearchByURIAndSaveVerboseFlag(verbose *bool) SearchByURIAndSaveOption {
 	return SearchByURIAndSaveOption{func(opts *searchByURIAndSaveOptionImpl) {
@@ -28,7 +28,7 @@ func SearchByURIAndSaveVerboseFlag(verbose *bool) SearchByURIAndSaveOption {
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.SearchByURIAndSaveVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SearchByURIAndSaveVerbose(bool %+v)", verbose)}
 }
 
 type searchByURIAndSaveOptionImpl struct {

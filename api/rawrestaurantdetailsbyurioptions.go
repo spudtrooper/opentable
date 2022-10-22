@@ -21,7 +21,7 @@ func RawRestaurantDetailsByURIDebugFailures(debugFailures bool) RawRestaurantDet
 	return RawRestaurantDetailsByURIOption{func(opts *rawRestaurantDetailsByURIOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}, fmt.Sprintf("api.RawRestaurantDetailsByURIDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.RawRestaurantDetailsByURIDebugFailures(bool %+v)", debugFailures)}
 }
 func RawRestaurantDetailsByURIDebugFailuresFlag(debugFailures *bool) RawRestaurantDetailsByURIOption {
 	return RawRestaurantDetailsByURIOption{func(opts *rawRestaurantDetailsByURIOptionImpl) {
@@ -30,14 +30,14 @@ func RawRestaurantDetailsByURIDebugFailuresFlag(debugFailures *bool) RawRestaura
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}, fmt.Sprintf("api.RawRestaurantDetailsByURIDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.RawRestaurantDetailsByURIDebugFailures(bool %+v)", debugFailures)}
 }
 
 func RawRestaurantDetailsByURIVerbose(verbose bool) RawRestaurantDetailsByURIOption {
 	return RawRestaurantDetailsByURIOption{func(opts *rawRestaurantDetailsByURIOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.RawRestaurantDetailsByURIVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.RawRestaurantDetailsByURIVerbose(bool %+v)", verbose)}
 }
 func RawRestaurantDetailsByURIVerboseFlag(verbose *bool) RawRestaurantDetailsByURIOption {
 	return RawRestaurantDetailsByURIOption{func(opts *rawRestaurantDetailsByURIOptionImpl) {
@@ -46,7 +46,7 @@ func RawRestaurantDetailsByURIVerboseFlag(verbose *bool) RawRestaurantDetailsByU
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.RawRestaurantDetailsByURIVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.RawRestaurantDetailsByURIVerbose(bool %+v)", verbose)}
 }
 
 type rawRestaurantDetailsByURIOptionImpl struct {

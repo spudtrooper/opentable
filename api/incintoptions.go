@@ -19,7 +19,7 @@ func IncIntVerbose(verbose bool) IncIntOption {
 	return IncIntOption{func(opts *incIntOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.IncIntVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.IncIntVerbose(bool %+v)", verbose)}
 }
 func IncIntVerboseFlag(verbose *bool) IncIntOption {
 	return IncIntOption{func(opts *incIntOptionImpl) {
@@ -28,7 +28,7 @@ func IncIntVerboseFlag(verbose *bool) IncIntOption {
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.IncIntVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.IncIntVerbose(bool %+v)", verbose)}
 }
 
 type incIntOptionImpl struct {

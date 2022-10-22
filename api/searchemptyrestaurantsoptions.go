@@ -26,7 +26,7 @@ func SearchEmptyRestaurantsSleep(sleep time.Duration) SearchEmptyRestaurantsOpti
 	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
 		opts.has_sleep = true
 		opts.sleep = sleep
-	}, fmt.Sprintf("api.SearchEmptyRestaurantsSleep(time.Duration %+v)}", sleep)}
+	}, fmt.Sprintf("api.SearchEmptyRestaurantsSleep(time.Duration %+v)", sleep)}
 }
 func SearchEmptyRestaurantsSleepFlag(sleep *time.Duration) SearchEmptyRestaurantsOption {
 	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
@@ -35,14 +35,14 @@ func SearchEmptyRestaurantsSleepFlag(sleep *time.Duration) SearchEmptyRestaurant
 		}
 		opts.has_sleep = true
 		opts.sleep = *sleep
-	}, fmt.Sprintf("api.SearchEmptyRestaurantsSleep(time.Duration %+v)}", sleep)}
+	}, fmt.Sprintf("api.SearchEmptyRestaurantsSleep(time.Duration %+v)", sleep)}
 }
 
 func SearchEmptyRestaurantsThreads(threads int) SearchEmptyRestaurantsOption {
 	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
 		opts.has_threads = true
 		opts.threads = threads
-	}, fmt.Sprintf("api.SearchEmptyRestaurantsThreads(int %+v)}", threads)}
+	}, fmt.Sprintf("api.SearchEmptyRestaurantsThreads(int %+v)", threads)}
 }
 func SearchEmptyRestaurantsThreadsFlag(threads *int) SearchEmptyRestaurantsOption {
 	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
@@ -51,14 +51,14 @@ func SearchEmptyRestaurantsThreadsFlag(threads *int) SearchEmptyRestaurantsOptio
 		}
 		opts.has_threads = true
 		opts.threads = *threads
-	}, fmt.Sprintf("api.SearchEmptyRestaurantsThreads(int %+v)}", threads)}
+	}, fmt.Sprintf("api.SearchEmptyRestaurantsThreads(int %+v)", threads)}
 }
 
 func SearchEmptyRestaurantsVerbose(verbose bool) SearchEmptyRestaurantsOption {
 	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.SearchEmptyRestaurantsVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SearchEmptyRestaurantsVerbose(bool %+v)", verbose)}
 }
 func SearchEmptyRestaurantsVerboseFlag(verbose *bool) SearchEmptyRestaurantsOption {
 	return SearchEmptyRestaurantsOption{func(opts *searchEmptyRestaurantsOptionImpl) {
@@ -67,7 +67,7 @@ func SearchEmptyRestaurantsVerboseFlag(verbose *bool) SearchEmptyRestaurantsOpti
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.SearchEmptyRestaurantsVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SearchEmptyRestaurantsVerbose(bool %+v)", verbose)}
 }
 
 type searchEmptyRestaurantsOptionImpl struct {

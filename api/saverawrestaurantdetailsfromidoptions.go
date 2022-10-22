@@ -25,7 +25,7 @@ func SaveRawRestaurantDetailsFromIDDebugFailures(debugFailures bool) SaveRawRest
 	return SaveRawRestaurantDetailsFromIDOption{func(opts *saveRawRestaurantDetailsFromIDOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDDebugFailures(bool %+v)", debugFailures)}
 }
 func SaveRawRestaurantDetailsFromIDDebugFailuresFlag(debugFailures *bool) SaveRawRestaurantDetailsFromIDOption {
 	return SaveRawRestaurantDetailsFromIDOption{func(opts *saveRawRestaurantDetailsFromIDOptionImpl) {
@@ -34,14 +34,14 @@ func SaveRawRestaurantDetailsFromIDDebugFailuresFlag(debugFailures *bool) SaveRa
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDDebugFailures(bool %+v)", debugFailures)}
 }
 
 func SaveRawRestaurantDetailsFromIDReallyVerbose(reallyVerbose bool) SaveRawRestaurantDetailsFromIDOption {
 	return SaveRawRestaurantDetailsFromIDOption{func(opts *saveRawRestaurantDetailsFromIDOptionImpl) {
 		opts.has_reallyVerbose = true
 		opts.reallyVerbose = reallyVerbose
-	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDReallyVerbose(bool %+v)}", reallyVerbose)}
+	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDReallyVerbose(bool %+v)", reallyVerbose)}
 }
 func SaveRawRestaurantDetailsFromIDReallyVerboseFlag(reallyVerbose *bool) SaveRawRestaurantDetailsFromIDOption {
 	return SaveRawRestaurantDetailsFromIDOption{func(opts *saveRawRestaurantDetailsFromIDOptionImpl) {
@@ -50,14 +50,14 @@ func SaveRawRestaurantDetailsFromIDReallyVerboseFlag(reallyVerbose *bool) SaveRa
 		}
 		opts.has_reallyVerbose = true
 		opts.reallyVerbose = *reallyVerbose
-	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDReallyVerbose(bool %+v)}", reallyVerbose)}
+	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDReallyVerbose(bool %+v)", reallyVerbose)}
 }
 
 func SaveRawRestaurantDetailsFromIDVerbose(verbose bool) SaveRawRestaurantDetailsFromIDOption {
 	return SaveRawRestaurantDetailsFromIDOption{func(opts *saveRawRestaurantDetailsFromIDOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDVerbose(bool %+v)", verbose)}
 }
 func SaveRawRestaurantDetailsFromIDVerboseFlag(verbose *bool) SaveRawRestaurantDetailsFromIDOption {
 	return SaveRawRestaurantDetailsFromIDOption{func(opts *saveRawRestaurantDetailsFromIDOptionImpl) {
@@ -66,7 +66,7 @@ func SaveRawRestaurantDetailsFromIDVerboseFlag(verbose *bool) SaveRawRestaurantD
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SaveRawRestaurantDetailsFromIDVerbose(bool %+v)", verbose)}
 }
 
 type saveRawRestaurantDetailsFromIDOptionImpl struct {

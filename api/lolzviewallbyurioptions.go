@@ -23,7 +23,7 @@ func LolzViewAllByURIStartPage(startPage int) LolzViewAllByURIOption {
 	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
 		opts.has_startPage = true
 		opts.startPage = startPage
-	}, fmt.Sprintf("api.LolzViewAllByURIStartPage(int %+v)}", startPage)}
+	}, fmt.Sprintf("api.LolzViewAllByURIStartPage(int %+v)", startPage)}
 }
 func LolzViewAllByURIStartPageFlag(startPage *int) LolzViewAllByURIOption {
 	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
@@ -32,14 +32,14 @@ func LolzViewAllByURIStartPageFlag(startPage *int) LolzViewAllByURIOption {
 		}
 		opts.has_startPage = true
 		opts.startPage = *startPage
-	}, fmt.Sprintf("api.LolzViewAllByURIStartPage(int %+v)}", startPage)}
+	}, fmt.Sprintf("api.LolzViewAllByURIStartPage(int %+v)", startPage)}
 }
 
 func LolzViewAllByURIThreads(threads int) LolzViewAllByURIOption {
 	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
 		opts.has_threads = true
 		opts.threads = threads
-	}, fmt.Sprintf("api.LolzViewAllByURIThreads(int %+v)}", threads)}
+	}, fmt.Sprintf("api.LolzViewAllByURIThreads(int %+v)", threads)}
 }
 func LolzViewAllByURIThreadsFlag(threads *int) LolzViewAllByURIOption {
 	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
@@ -48,14 +48,14 @@ func LolzViewAllByURIThreadsFlag(threads *int) LolzViewAllByURIOption {
 		}
 		opts.has_threads = true
 		opts.threads = *threads
-	}, fmt.Sprintf("api.LolzViewAllByURIThreads(int %+v)}", threads)}
+	}, fmt.Sprintf("api.LolzViewAllByURIThreads(int %+v)", threads)}
 }
 
 func LolzViewAllByURIVerbose(verbose bool) LolzViewAllByURIOption {
 	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.LolzViewAllByURIVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.LolzViewAllByURIVerbose(bool %+v)", verbose)}
 }
 func LolzViewAllByURIVerboseFlag(verbose *bool) LolzViewAllByURIOption {
 	return LolzViewAllByURIOption{func(opts *lolzViewAllByURIOptionImpl) {
@@ -64,7 +64,7 @@ func LolzViewAllByURIVerboseFlag(verbose *bool) LolzViewAllByURIOption {
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.LolzViewAllByURIVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.LolzViewAllByURIVerbose(bool %+v)", verbose)}
 }
 
 type lolzViewAllByURIOptionImpl struct {

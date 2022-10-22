@@ -21,7 +21,7 @@ func HeaderUserProfileTld(tld string) HeaderUserProfileOption {
 	return HeaderUserProfileOption{func(opts *headerUserProfileOptionImpl) {
 		opts.has_tld = true
 		opts.tld = tld
-	}, fmt.Sprintf("api.HeaderUserProfileTld(string %+v)}", tld)}
+	}, fmt.Sprintf("api.HeaderUserProfileTld(string %+v)", tld)}
 }
 func HeaderUserProfileTldFlag(tld *string) HeaderUserProfileOption {
 	return HeaderUserProfileOption{func(opts *headerUserProfileOptionImpl) {
@@ -30,14 +30,14 @@ func HeaderUserProfileTldFlag(tld *string) HeaderUserProfileOption {
 		}
 		opts.has_tld = true
 		opts.tld = *tld
-	}, fmt.Sprintf("api.HeaderUserProfileTld(string %+v)}", tld)}
+	}, fmt.Sprintf("api.HeaderUserProfileTld(string %+v)", tld)}
 }
 
 func HeaderUserProfileVerbose(verbose bool) HeaderUserProfileOption {
 	return HeaderUserProfileOption{func(opts *headerUserProfileOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.HeaderUserProfileVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.HeaderUserProfileVerbose(bool %+v)", verbose)}
 }
 func HeaderUserProfileVerboseFlag(verbose *bool) HeaderUserProfileOption {
 	return HeaderUserProfileOption{func(opts *headerUserProfileOptionImpl) {
@@ -46,7 +46,7 @@ func HeaderUserProfileVerboseFlag(verbose *bool) HeaderUserProfileOption {
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.HeaderUserProfileVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.HeaderUserProfileVerbose(bool %+v)", verbose)}
 }
 
 type headerUserProfileOptionImpl struct {

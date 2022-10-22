@@ -38,7 +38,7 @@ func RestaurantsAvailabilityDatabaseRegion(databaseRegion string) RestaurantsAva
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
 		opts.has_databaseRegion = true
 		opts.databaseRegion = databaseRegion
-	}, fmt.Sprintf("api.RestaurantsAvailabilityDatabaseRegion(string %+v)}", databaseRegion)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityDatabaseRegion(string %+v)", databaseRegion)}
 }
 func RestaurantsAvailabilityDatabaseRegionFlag(databaseRegion *string) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
@@ -47,14 +47,14 @@ func RestaurantsAvailabilityDatabaseRegionFlag(databaseRegion *string) Restauran
 		}
 		opts.has_databaseRegion = true
 		opts.databaseRegion = *databaseRegion
-	}, fmt.Sprintf("api.RestaurantsAvailabilityDatabaseRegion(string %+v)}", databaseRegion)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityDatabaseRegion(string %+v)", databaseRegion)}
 }
 
 func RestaurantsAvailabilityDate(date time.Time) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
 		opts.has_date = true
 		opts.date = date
-	}, fmt.Sprintf("api.RestaurantsAvailabilityDate(time.Time %+v)}", date)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityDate(time.Time %+v)", date)}
 }
 func RestaurantsAvailabilityDateFlag(date *time.Time) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
@@ -63,14 +63,14 @@ func RestaurantsAvailabilityDateFlag(date *time.Time) RestaurantsAvailabilityOpt
 		}
 		opts.has_date = true
 		opts.date = *date
-	}, fmt.Sprintf("api.RestaurantsAvailabilityDate(time.Time %+v)}", date)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityDate(time.Time %+v)", date)}
 }
 
 func RestaurantsAvailabilityForwardDays(forwardDays int) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
 		opts.has_forwardDays = true
 		opts.forwardDays = forwardDays
-	}, fmt.Sprintf("api.RestaurantsAvailabilityForwardDays(int %+v)}", forwardDays)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityForwardDays(int %+v)", forwardDays)}
 }
 func RestaurantsAvailabilityForwardDaysFlag(forwardDays *int) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
@@ -79,14 +79,14 @@ func RestaurantsAvailabilityForwardDaysFlag(forwardDays *int) RestaurantsAvailab
 		}
 		opts.has_forwardDays = true
 		opts.forwardDays = *forwardDays
-	}, fmt.Sprintf("api.RestaurantsAvailabilityForwardDays(int %+v)}", forwardDays)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityForwardDays(int %+v)", forwardDays)}
 }
 
 func RestaurantsAvailabilityOnlyPop(onlyPop bool) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
 		opts.has_onlyPop = true
 		opts.onlyPop = onlyPop
-	}, fmt.Sprintf("api.RestaurantsAvailabilityOnlyPop(bool %+v)}", onlyPop)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityOnlyPop(bool %+v)", onlyPop)}
 }
 func RestaurantsAvailabilityOnlyPopFlag(onlyPop *bool) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
@@ -95,14 +95,14 @@ func RestaurantsAvailabilityOnlyPopFlag(onlyPop *bool) RestaurantsAvailabilityOp
 		}
 		opts.has_onlyPop = true
 		opts.onlyPop = *onlyPop
-	}, fmt.Sprintf("api.RestaurantsAvailabilityOnlyPop(bool %+v)}", onlyPop)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityOnlyPop(bool %+v)", onlyPop)}
 }
 
 func RestaurantsAvailabilityPartySize(partySize int) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
 		opts.has_partySize = true
 		opts.partySize = partySize
-	}, fmt.Sprintf("api.RestaurantsAvailabilityPartySize(int %+v)}", partySize)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityPartySize(int %+v)", partySize)}
 }
 func RestaurantsAvailabilityPartySizeFlag(partySize *int) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
@@ -111,14 +111,14 @@ func RestaurantsAvailabilityPartySizeFlag(partySize *int) RestaurantsAvailabilit
 		}
 		opts.has_partySize = true
 		opts.partySize = *partySize
-	}, fmt.Sprintf("api.RestaurantsAvailabilityPartySize(int %+v)}", partySize)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityPartySize(int %+v)", partySize)}
 }
 
 func RestaurantsAvailabilityRequestNewAvailability(requestNewAvailability bool) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
 		opts.has_requestNewAvailability = true
 		opts.requestNewAvailability = requestNewAvailability
-	}, fmt.Sprintf("api.RestaurantsAvailabilityRequestNewAvailability(bool %+v)}", requestNewAvailability)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityRequestNewAvailability(bool %+v)", requestNewAvailability)}
 }
 func RestaurantsAvailabilityRequestNewAvailabilityFlag(requestNewAvailability *bool) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
@@ -127,14 +127,14 @@ func RestaurantsAvailabilityRequestNewAvailabilityFlag(requestNewAvailability *b
 		}
 		opts.has_requestNewAvailability = true
 		opts.requestNewAvailability = *requestNewAvailability
-	}, fmt.Sprintf("api.RestaurantsAvailabilityRequestNewAvailability(bool %+v)}", requestNewAvailability)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityRequestNewAvailability(bool %+v)", requestNewAvailability)}
 }
 
 func RestaurantsAvailabilityRequireTimes(requireTimes bool) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
 		opts.has_requireTimes = true
 		opts.requireTimes = requireTimes
-	}, fmt.Sprintf("api.RestaurantsAvailabilityRequireTimes(bool %+v)}", requireTimes)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityRequireTimes(bool %+v)", requireTimes)}
 }
 func RestaurantsAvailabilityRequireTimesFlag(requireTimes *bool) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
@@ -143,14 +143,14 @@ func RestaurantsAvailabilityRequireTimesFlag(requireTimes *bool) RestaurantsAvai
 		}
 		opts.has_requireTimes = true
 		opts.requireTimes = *requireTimes
-	}, fmt.Sprintf("api.RestaurantsAvailabilityRequireTimes(bool %+v)}", requireTimes)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityRequireTimes(bool %+v)", requireTimes)}
 }
 
 func RestaurantsAvailabilityRestaurantIDs(restaurantIDs []int) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
 		opts.has_restaurantIDs = true
 		opts.restaurantIDs = restaurantIDs
-	}, fmt.Sprintf("api.RestaurantsAvailabilityRestaurantIDs([]int %+v)}", restaurantIDs)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityRestaurantIDs([]int %+v)", restaurantIDs)}
 }
 func RestaurantsAvailabilityRestaurantIDsFlag(restaurantIDs *[]int) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
@@ -159,14 +159,14 @@ func RestaurantsAvailabilityRestaurantIDsFlag(restaurantIDs *[]int) RestaurantsA
 		}
 		opts.has_restaurantIDs = true
 		opts.restaurantIDs = *restaurantIDs
-	}, fmt.Sprintf("api.RestaurantsAvailabilityRestaurantIDs([]int %+v)}", restaurantIDs)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityRestaurantIDs([]int %+v)", restaurantIDs)}
 }
 
 func RestaurantsAvailabilityVerbose(verbose bool) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.RestaurantsAvailabilityVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityVerbose(bool %+v)", verbose)}
 }
 func RestaurantsAvailabilityVerboseFlag(verbose *bool) RestaurantsAvailabilityOption {
 	return RestaurantsAvailabilityOption{func(opts *restaurantsAvailabilityOptionImpl) {
@@ -175,7 +175,7 @@ func RestaurantsAvailabilityVerboseFlag(verbose *bool) RestaurantsAvailabilityOp
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.RestaurantsAvailabilityVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.RestaurantsAvailabilityVerbose(bool %+v)", verbose)}
 }
 
 type restaurantsAvailabilityOptionImpl struct {

@@ -25,7 +25,7 @@ func FindMenuItemLatitude(latitude float32) FindMenuItemOption {
 	return FindMenuItemOption{func(opts *findMenuItemOptionImpl) {
 		opts.has_latitude = true
 		opts.latitude = latitude
-	}, fmt.Sprintf("api.FindMenuItemLatitude(float32 %+v)}", latitude)}
+	}, fmt.Sprintf("api.FindMenuItemLatitude(float32 %+v)", latitude)}
 }
 func FindMenuItemLatitudeFlag(latitude *float32) FindMenuItemOption {
 	return FindMenuItemOption{func(opts *findMenuItemOptionImpl) {
@@ -34,14 +34,14 @@ func FindMenuItemLatitudeFlag(latitude *float32) FindMenuItemOption {
 		}
 		opts.has_latitude = true
 		opts.latitude = *latitude
-	}, fmt.Sprintf("api.FindMenuItemLatitude(float32 %+v)}", latitude)}
+	}, fmt.Sprintf("api.FindMenuItemLatitude(float32 %+v)", latitude)}
 }
 
 func FindMenuItemLongitude(longitude float32) FindMenuItemOption {
 	return FindMenuItemOption{func(opts *findMenuItemOptionImpl) {
 		opts.has_longitude = true
 		opts.longitude = longitude
-	}, fmt.Sprintf("api.FindMenuItemLongitude(float32 %+v)}", longitude)}
+	}, fmt.Sprintf("api.FindMenuItemLongitude(float32 %+v)", longitude)}
 }
 func FindMenuItemLongitudeFlag(longitude *float32) FindMenuItemOption {
 	return FindMenuItemOption{func(opts *findMenuItemOptionImpl) {
@@ -50,14 +50,14 @@ func FindMenuItemLongitudeFlag(longitude *float32) FindMenuItemOption {
 		}
 		opts.has_longitude = true
 		opts.longitude = *longitude
-	}, fmt.Sprintf("api.FindMenuItemLongitude(float32 %+v)}", longitude)}
+	}, fmt.Sprintf("api.FindMenuItemLongitude(float32 %+v)", longitude)}
 }
 
 func FindMenuItemMetroID(metroID int) FindMenuItemOption {
 	return FindMenuItemOption{func(opts *findMenuItemOptionImpl) {
 		opts.has_metroID = true
 		opts.metroID = metroID
-	}, fmt.Sprintf("api.FindMenuItemMetroID(int %+v)}", metroID)}
+	}, fmt.Sprintf("api.FindMenuItemMetroID(int %+v)", metroID)}
 }
 func FindMenuItemMetroIDFlag(metroID *int) FindMenuItemOption {
 	return FindMenuItemOption{func(opts *findMenuItemOptionImpl) {
@@ -66,14 +66,14 @@ func FindMenuItemMetroIDFlag(metroID *int) FindMenuItemOption {
 		}
 		opts.has_metroID = true
 		opts.metroID = *metroID
-	}, fmt.Sprintf("api.FindMenuItemMetroID(int %+v)}", metroID)}
+	}, fmt.Sprintf("api.FindMenuItemMetroID(int %+v)", metroID)}
 }
 
 func FindMenuItemVerbose(verbose bool) FindMenuItemOption {
 	return FindMenuItemOption{func(opts *findMenuItemOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.FindMenuItemVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.FindMenuItemVerbose(bool %+v)", verbose)}
 }
 func FindMenuItemVerboseFlag(verbose *bool) FindMenuItemOption {
 	return FindMenuItemOption{func(opts *findMenuItemOptionImpl) {
@@ -82,7 +82,7 @@ func FindMenuItemVerboseFlag(verbose *bool) FindMenuItemOption {
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.FindMenuItemVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.FindMenuItemVerbose(bool %+v)", verbose)}
 }
 
 type findMenuItemOptionImpl struct {

@@ -21,7 +21,7 @@ func SaveRestaurantReallyVerbose(reallyVerbose bool) SaveRestaurantOption {
 	return SaveRestaurantOption{func(opts *saveRestaurantOptionImpl) {
 		opts.has_reallyVerbose = true
 		opts.reallyVerbose = reallyVerbose
-	}, fmt.Sprintf("api.SaveRestaurantReallyVerbose(bool %+v)}", reallyVerbose)}
+	}, fmt.Sprintf("api.SaveRestaurantReallyVerbose(bool %+v)", reallyVerbose)}
 }
 func SaveRestaurantReallyVerboseFlag(reallyVerbose *bool) SaveRestaurantOption {
 	return SaveRestaurantOption{func(opts *saveRestaurantOptionImpl) {
@@ -30,14 +30,14 @@ func SaveRestaurantReallyVerboseFlag(reallyVerbose *bool) SaveRestaurantOption {
 		}
 		opts.has_reallyVerbose = true
 		opts.reallyVerbose = *reallyVerbose
-	}, fmt.Sprintf("api.SaveRestaurantReallyVerbose(bool %+v)}", reallyVerbose)}
+	}, fmt.Sprintf("api.SaveRestaurantReallyVerbose(bool %+v)", reallyVerbose)}
 }
 
 func SaveRestaurantVerbose(verbose bool) SaveRestaurantOption {
 	return SaveRestaurantOption{func(opts *saveRestaurantOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.SaveRestaurantVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SaveRestaurantVerbose(bool %+v)", verbose)}
 }
 func SaveRestaurantVerboseFlag(verbose *bool) SaveRestaurantOption {
 	return SaveRestaurantOption{func(opts *saveRestaurantOptionImpl) {
@@ -46,7 +46,7 @@ func SaveRestaurantVerboseFlag(verbose *bool) SaveRestaurantOption {
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.SaveRestaurantVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SaveRestaurantVerbose(bool %+v)", verbose)}
 }
 
 type saveRestaurantOptionImpl struct {

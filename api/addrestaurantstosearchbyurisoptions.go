@@ -21,7 +21,7 @@ func AddRestaurantsToSearchByURIsThreads(threads int) AddRestaurantsToSearchByUR
 	return AddRestaurantsToSearchByURIsOption{func(opts *addRestaurantsToSearchByURIsOptionImpl) {
 		opts.has_threads = true
 		opts.threads = threads
-	}, fmt.Sprintf("api.AddRestaurantsToSearchByURIsThreads(int %+v)}", threads)}
+	}, fmt.Sprintf("api.AddRestaurantsToSearchByURIsThreads(int %+v)", threads)}
 }
 func AddRestaurantsToSearchByURIsThreadsFlag(threads *int) AddRestaurantsToSearchByURIsOption {
 	return AddRestaurantsToSearchByURIsOption{func(opts *addRestaurantsToSearchByURIsOptionImpl) {
@@ -30,14 +30,14 @@ func AddRestaurantsToSearchByURIsThreadsFlag(threads *int) AddRestaurantsToSearc
 		}
 		opts.has_threads = true
 		opts.threads = *threads
-	}, fmt.Sprintf("api.AddRestaurantsToSearchByURIsThreads(int %+v)}", threads)}
+	}, fmt.Sprintf("api.AddRestaurantsToSearchByURIsThreads(int %+v)", threads)}
 }
 
 func AddRestaurantsToSearchByURIsVerbose(verbose bool) AddRestaurantsToSearchByURIsOption {
 	return AddRestaurantsToSearchByURIsOption{func(opts *addRestaurantsToSearchByURIsOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.AddRestaurantsToSearchByURIsVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.AddRestaurantsToSearchByURIsVerbose(bool %+v)", verbose)}
 }
 func AddRestaurantsToSearchByURIsVerboseFlag(verbose *bool) AddRestaurantsToSearchByURIsOption {
 	return AddRestaurantsToSearchByURIsOption{func(opts *addRestaurantsToSearchByURIsOptionImpl) {
@@ -46,7 +46,7 @@ func AddRestaurantsToSearchByURIsVerboseFlag(verbose *bool) AddRestaurantsToSear
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.AddRestaurantsToSearchByURIsVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.AddRestaurantsToSearchByURIsVerbose(bool %+v)", verbose)}
 }
 
 type addRestaurantsToSearchByURIsOptionImpl struct {

@@ -25,7 +25,7 @@ func RawListAllByURIStartPage(startPage int) RawListAllByURIOption {
 	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
 		opts.has_startPage = true
 		opts.startPage = startPage
-	}, fmt.Sprintf("api.RawListAllByURIStartPage(int %+v)}", startPage)}
+	}, fmt.Sprintf("api.RawListAllByURIStartPage(int %+v)", startPage)}
 }
 func RawListAllByURIStartPageFlag(startPage *int) RawListAllByURIOption {
 	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
@@ -34,14 +34,14 @@ func RawListAllByURIStartPageFlag(startPage *int) RawListAllByURIOption {
 		}
 		opts.has_startPage = true
 		opts.startPage = *startPage
-	}, fmt.Sprintf("api.RawListAllByURIStartPage(int %+v)}", startPage)}
+	}, fmt.Sprintf("api.RawListAllByURIStartPage(int %+v)", startPage)}
 }
 
 func RawListAllByURISync(sync bool) RawListAllByURIOption {
 	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
 		opts.has_sync = true
 		opts.sync = sync
-	}, fmt.Sprintf("api.RawListAllByURISync(bool %+v)}", sync)}
+	}, fmt.Sprintf("api.RawListAllByURISync(bool %+v)", sync)}
 }
 func RawListAllByURISyncFlag(sync *bool) RawListAllByURIOption {
 	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
@@ -50,14 +50,14 @@ func RawListAllByURISyncFlag(sync *bool) RawListAllByURIOption {
 		}
 		opts.has_sync = true
 		opts.sync = *sync
-	}, fmt.Sprintf("api.RawListAllByURISync(bool %+v)}", sync)}
+	}, fmt.Sprintf("api.RawListAllByURISync(bool %+v)", sync)}
 }
 
 func RawListAllByURIThreads(threads int) RawListAllByURIOption {
 	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
 		opts.has_threads = true
 		opts.threads = threads
-	}, fmt.Sprintf("api.RawListAllByURIThreads(int %+v)}", threads)}
+	}, fmt.Sprintf("api.RawListAllByURIThreads(int %+v)", threads)}
 }
 func RawListAllByURIThreadsFlag(threads *int) RawListAllByURIOption {
 	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
@@ -66,14 +66,14 @@ func RawListAllByURIThreadsFlag(threads *int) RawListAllByURIOption {
 		}
 		opts.has_threads = true
 		opts.threads = *threads
-	}, fmt.Sprintf("api.RawListAllByURIThreads(int %+v)}", threads)}
+	}, fmt.Sprintf("api.RawListAllByURIThreads(int %+v)", threads)}
 }
 
 func RawListAllByURIVerbose(verbose bool) RawListAllByURIOption {
 	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.RawListAllByURIVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.RawListAllByURIVerbose(bool %+v)", verbose)}
 }
 func RawListAllByURIVerboseFlag(verbose *bool) RawListAllByURIOption {
 	return RawListAllByURIOption{func(opts *rawListAllByURIOptionImpl) {
@@ -82,7 +82,7 @@ func RawListAllByURIVerboseFlag(verbose *bool) RawListAllByURIOption {
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.RawListAllByURIVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.RawListAllByURIVerbose(bool %+v)", verbose)}
 }
 
 type rawListAllByURIOptionImpl struct {

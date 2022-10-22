@@ -19,7 +19,7 @@ func SearchRestaurantFromQueueVerbose(verbose bool) SearchRestaurantFromQueueOpt
 	return SearchRestaurantFromQueueOption{func(opts *searchRestaurantFromQueueOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.SearchRestaurantFromQueueVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SearchRestaurantFromQueueVerbose(bool %+v)", verbose)}
 }
 func SearchRestaurantFromQueueVerboseFlag(verbose *bool) SearchRestaurantFromQueueOption {
 	return SearchRestaurantFromQueueOption{func(opts *searchRestaurantFromQueueOptionImpl) {
@@ -28,7 +28,7 @@ func SearchRestaurantFromQueueVerboseFlag(verbose *bool) SearchRestaurantFromQue
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.SearchRestaurantFromQueueVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SearchRestaurantFromQueueVerbose(bool %+v)", verbose)}
 }
 
 type searchRestaurantFromQueueOptionImpl struct {

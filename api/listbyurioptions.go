@@ -21,7 +21,7 @@ func ListByURIDebugFailures(debugFailures bool) ListByURIOption {
 	return ListByURIOption{func(opts *listByURIOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}, fmt.Sprintf("api.ListByURIDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.ListByURIDebugFailures(bool %+v)", debugFailures)}
 }
 func ListByURIDebugFailuresFlag(debugFailures *bool) ListByURIOption {
 	return ListByURIOption{func(opts *listByURIOptionImpl) {
@@ -30,14 +30,14 @@ func ListByURIDebugFailuresFlag(debugFailures *bool) ListByURIOption {
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}, fmt.Sprintf("api.ListByURIDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.ListByURIDebugFailures(bool %+v)", debugFailures)}
 }
 
 func ListByURIVerbose(verbose bool) ListByURIOption {
 	return ListByURIOption{func(opts *listByURIOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.ListByURIVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.ListByURIVerbose(bool %+v)", verbose)}
 }
 func ListByURIVerboseFlag(verbose *bool) ListByURIOption {
 	return ListByURIOption{func(opts *listByURIOptionImpl) {
@@ -46,7 +46,7 @@ func ListByURIVerboseFlag(verbose *bool) ListByURIOption {
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.ListByURIVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.ListByURIVerbose(bool %+v)", verbose)}
 }
 
 type listByURIOptionImpl struct {

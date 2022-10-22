@@ -26,7 +26,7 @@ func RequestTimeout(timeout time.Duration) RequestOption {
 	return RequestOption{func(opts *requestOptionImpl) {
 		opts.has_timeout = true
 		opts.timeout = timeout
-	}, fmt.Sprintf("proxy.RequestTimeout(time.Duration %+v)}", timeout)}
+	}, fmt.Sprintf("proxy.RequestTimeout(time.Duration %+v)", timeout)}
 }
 func RequestTimeoutFlag(timeout *time.Duration) RequestOption {
 	return RequestOption{func(opts *requestOptionImpl) {
@@ -35,14 +35,14 @@ func RequestTimeoutFlag(timeout *time.Duration) RequestOption {
 		}
 		opts.has_timeout = true
 		opts.timeout = *timeout
-	}, fmt.Sprintf("proxy.RequestTimeout(time.Duration %+v)}", timeout)}
+	}, fmt.Sprintf("proxy.RequestTimeout(time.Duration %+v)", timeout)}
 }
 
 func RequestTimeouts(timeouts []time.Duration) RequestOption {
 	return RequestOption{func(opts *requestOptionImpl) {
 		opts.has_timeouts = true
 		opts.timeouts = timeouts
-	}, fmt.Sprintf("proxy.RequestTimeouts([]time.Duration %+v)}", timeouts)}
+	}, fmt.Sprintf("proxy.RequestTimeouts([]time.Duration %+v)", timeouts)}
 }
 func RequestTimeoutsFlag(timeouts *[]time.Duration) RequestOption {
 	return RequestOption{func(opts *requestOptionImpl) {
@@ -51,7 +51,7 @@ func RequestTimeoutsFlag(timeouts *[]time.Duration) RequestOption {
 		}
 		opts.has_timeouts = true
 		opts.timeouts = *timeouts
-	}, fmt.Sprintf("proxy.RequestTimeouts([]time.Duration %+v)}", timeouts)}
+	}, fmt.Sprintf("proxy.RequestTimeouts([]time.Duration %+v)", timeouts)}
 }
 
 type requestOptionImpl struct {

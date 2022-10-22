@@ -22,7 +22,7 @@ func FindMatchingMenuItemsFromRestaurantIDDebugFailures(debugFailures bool) Find
 	return FindMatchingMenuItemsFromRestaurantIDOption{func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDDebugFailures(bool %+v)", debugFailures)}
 }
 func FindMatchingMenuItemsFromRestaurantIDDebugFailuresFlag(debugFailures *bool) FindMatchingMenuItemsFromRestaurantIDOption {
 	return FindMatchingMenuItemsFromRestaurantIDOption{func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
@@ -31,14 +31,14 @@ func FindMatchingMenuItemsFromRestaurantIDDebugFailuresFlag(debugFailures *bool)
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDDebugFailures(bool %+v)", debugFailures)}
 }
 
 func FindMatchingMenuItemsFromRestaurantIDVerbose(verbose bool) FindMatchingMenuItemsFromRestaurantIDOption {
 	return FindMatchingMenuItemsFromRestaurantIDOption{func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDVerbose(bool %+v)", verbose)}
 }
 func FindMatchingMenuItemsFromRestaurantIDVerboseFlag(verbose *bool) FindMatchingMenuItemsFromRestaurantIDOption {
 	return FindMatchingMenuItemsFromRestaurantIDOption{func(opts *findMatchingMenuItemsFromRestaurantIDOptionImpl) {
@@ -47,7 +47,7 @@ func FindMatchingMenuItemsFromRestaurantIDVerboseFlag(verbose *bool) FindMatchin
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.FindMatchingMenuItemsFromRestaurantIDVerbose(bool %+v)", verbose)}
 }
 
 type findMatchingMenuItemsFromRestaurantIDOptionImpl struct {

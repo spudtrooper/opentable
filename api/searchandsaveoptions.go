@@ -19,7 +19,7 @@ func SearchAndSaveVerbose(verbose bool) SearchAndSaveOption {
 	return SearchAndSaveOption{func(opts *searchAndSaveOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.SearchAndSaveVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SearchAndSaveVerbose(bool %+v)", verbose)}
 }
 func SearchAndSaveVerboseFlag(verbose *bool) SearchAndSaveOption {
 	return SearchAndSaveOption{func(opts *searchAndSaveOptionImpl) {
@@ -28,7 +28,7 @@ func SearchAndSaveVerboseFlag(verbose *bool) SearchAndSaveOption {
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.SearchAndSaveVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SearchAndSaveVerbose(bool %+v)", verbose)}
 }
 
 type searchAndSaveOptionImpl struct {

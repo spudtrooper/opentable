@@ -38,7 +38,7 @@ func SearchCovers(covers int) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
 		opts.has_covers = true
 		opts.covers = covers
-	}, fmt.Sprintf("api.SearchCovers(int %+v)}", covers)}
+	}, fmt.Sprintf("api.SearchCovers(int %+v)", covers)}
 }
 func SearchCoversFlag(covers *int) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
@@ -47,14 +47,14 @@ func SearchCoversFlag(covers *int) SearchOption {
 		}
 		opts.has_covers = true
 		opts.covers = *covers
-	}, fmt.Sprintf("api.SearchCovers(int %+v)}", covers)}
+	}, fmt.Sprintf("api.SearchCovers(int %+v)", covers)}
 }
 
 func SearchDate(date time.Time) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
 		opts.has_date = true
 		opts.date = date
-	}, fmt.Sprintf("api.SearchDate(time.Time %+v)}", date)}
+	}, fmt.Sprintf("api.SearchDate(time.Time %+v)", date)}
 }
 func SearchDateFlag(date *time.Time) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
@@ -63,14 +63,14 @@ func SearchDateFlag(date *time.Time) SearchOption {
 		}
 		opts.has_date = true
 		opts.date = *date
-	}, fmt.Sprintf("api.SearchDate(time.Time %+v)}", date)}
+	}, fmt.Sprintf("api.SearchDate(time.Time %+v)", date)}
 }
 
 func SearchDebugFailures(debugFailures bool) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}, fmt.Sprintf("api.SearchDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.SearchDebugFailures(bool %+v)", debugFailures)}
 }
 func SearchDebugFailuresFlag(debugFailures *bool) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
@@ -79,14 +79,14 @@ func SearchDebugFailuresFlag(debugFailures *bool) SearchOption {
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}, fmt.Sprintf("api.SearchDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.SearchDebugFailures(bool %+v)", debugFailures)}
 }
 
 func SearchIntentModifiedTerm(intentModifiedTerm string) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
 		opts.has_intentModifiedTerm = true
 		opts.intentModifiedTerm = intentModifiedTerm
-	}, fmt.Sprintf("api.SearchIntentModifiedTerm(string %+v)}", intentModifiedTerm)}
+	}, fmt.Sprintf("api.SearchIntentModifiedTerm(string %+v)", intentModifiedTerm)}
 }
 func SearchIntentModifiedTermFlag(intentModifiedTerm *string) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
@@ -95,14 +95,14 @@ func SearchIntentModifiedTermFlag(intentModifiedTerm *string) SearchOption {
 		}
 		opts.has_intentModifiedTerm = true
 		opts.intentModifiedTerm = *intentModifiedTerm
-	}, fmt.Sprintf("api.SearchIntentModifiedTerm(string %+v)}", intentModifiedTerm)}
+	}, fmt.Sprintf("api.SearchIntentModifiedTerm(string %+v)", intentModifiedTerm)}
 }
 
 func SearchLatitude(latitude float32) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
 		opts.has_latitude = true
 		opts.latitude = latitude
-	}, fmt.Sprintf("api.SearchLatitude(float32 %+v)}", latitude)}
+	}, fmt.Sprintf("api.SearchLatitude(float32 %+v)", latitude)}
 }
 func SearchLatitudeFlag(latitude *float32) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
@@ -111,14 +111,14 @@ func SearchLatitudeFlag(latitude *float32) SearchOption {
 		}
 		opts.has_latitude = true
 		opts.latitude = *latitude
-	}, fmt.Sprintf("api.SearchLatitude(float32 %+v)}", latitude)}
+	}, fmt.Sprintf("api.SearchLatitude(float32 %+v)", latitude)}
 }
 
 func SearchLongitude(longitude float32) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
 		opts.has_longitude = true
 		opts.longitude = longitude
-	}, fmt.Sprintf("api.SearchLongitude(float32 %+v)}", longitude)}
+	}, fmt.Sprintf("api.SearchLongitude(float32 %+v)", longitude)}
 }
 func SearchLongitudeFlag(longitude *float32) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
@@ -127,14 +127,14 @@ func SearchLongitudeFlag(longitude *float32) SearchOption {
 		}
 		opts.has_longitude = true
 		opts.longitude = *longitude
-	}, fmt.Sprintf("api.SearchLongitude(float32 %+v)}", longitude)}
+	}, fmt.Sprintf("api.SearchLongitude(float32 %+v)", longitude)}
 }
 
 func SearchMetroID(metroID int) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
 		opts.has_metroID = true
 		opts.metroID = metroID
-	}, fmt.Sprintf("api.SearchMetroID(int %+v)}", metroID)}
+	}, fmt.Sprintf("api.SearchMetroID(int %+v)", metroID)}
 }
 func SearchMetroIDFlag(metroID *int) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
@@ -143,14 +143,14 @@ func SearchMetroIDFlag(metroID *int) SearchOption {
 		}
 		opts.has_metroID = true
 		opts.metroID = *metroID
-	}, fmt.Sprintf("api.SearchMetroID(int %+v)}", metroID)}
+	}, fmt.Sprintf("api.SearchMetroID(int %+v)", metroID)}
 }
 
 func SearchOriginalTerm(originalTerm string) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
 		opts.has_originalTerm = true
 		opts.originalTerm = originalTerm
-	}, fmt.Sprintf("api.SearchOriginalTerm(string %+v)}", originalTerm)}
+	}, fmt.Sprintf("api.SearchOriginalTerm(string %+v)", originalTerm)}
 }
 func SearchOriginalTermFlag(originalTerm *string) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
@@ -159,14 +159,14 @@ func SearchOriginalTermFlag(originalTerm *string) SearchOption {
 		}
 		opts.has_originalTerm = true
 		opts.originalTerm = *originalTerm
-	}, fmt.Sprintf("api.SearchOriginalTerm(string %+v)}", originalTerm)}
+	}, fmt.Sprintf("api.SearchOriginalTerm(string %+v)", originalTerm)}
 }
 
 func SearchVerbose(verbose bool) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.SearchVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SearchVerbose(bool %+v)", verbose)}
 }
 func SearchVerboseFlag(verbose *bool) SearchOption {
 	return SearchOption{func(opts *searchOptionImpl) {
@@ -175,7 +175,7 @@ func SearchVerboseFlag(verbose *bool) SearchOption {
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.SearchVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.SearchVerbose(bool %+v)", verbose)}
 }
 
 type searchOptionImpl struct {

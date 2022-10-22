@@ -21,7 +21,7 @@ func RestaurantDetailsDebugFailures(debugFailures bool) RestaurantDetailsOption 
 	return RestaurantDetailsOption{func(opts *restaurantDetailsOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}, fmt.Sprintf("api.RestaurantDetailsDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.RestaurantDetailsDebugFailures(bool %+v)", debugFailures)}
 }
 func RestaurantDetailsDebugFailuresFlag(debugFailures *bool) RestaurantDetailsOption {
 	return RestaurantDetailsOption{func(opts *restaurantDetailsOptionImpl) {
@@ -30,14 +30,14 @@ func RestaurantDetailsDebugFailuresFlag(debugFailures *bool) RestaurantDetailsOp
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}, fmt.Sprintf("api.RestaurantDetailsDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.RestaurantDetailsDebugFailures(bool %+v)", debugFailures)}
 }
 
 func RestaurantDetailsVerbose(verbose bool) RestaurantDetailsOption {
 	return RestaurantDetailsOption{func(opts *restaurantDetailsOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.RestaurantDetailsVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.RestaurantDetailsVerbose(bool %+v)", verbose)}
 }
 func RestaurantDetailsVerboseFlag(verbose *bool) RestaurantDetailsOption {
 	return RestaurantDetailsOption{func(opts *restaurantDetailsOptionImpl) {
@@ -46,7 +46,7 @@ func RestaurantDetailsVerboseFlag(verbose *bool) RestaurantDetailsOption {
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.RestaurantDetailsVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.RestaurantDetailsVerbose(bool %+v)", verbose)}
 }
 
 type restaurantDetailsOptionImpl struct {

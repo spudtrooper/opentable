@@ -40,7 +40,7 @@ func RestaurantDetailsFromSearchCovers(covers int) RestaurantDetailsFromSearchOp
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
 		opts.has_covers = true
 		opts.covers = covers
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchCovers(int %+v)}", covers)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchCovers(int %+v)", covers)}
 }
 func RestaurantDetailsFromSearchCoversFlag(covers *int) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
@@ -49,14 +49,14 @@ func RestaurantDetailsFromSearchCoversFlag(covers *int) RestaurantDetailsFromSea
 		}
 		opts.has_covers = true
 		opts.covers = *covers
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchCovers(int %+v)}", covers)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchCovers(int %+v)", covers)}
 }
 
 func RestaurantDetailsFromSearchDate(date time.Time) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
 		opts.has_date = true
 		opts.date = date
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchDate(time.Time %+v)}", date)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchDate(time.Time %+v)", date)}
 }
 func RestaurantDetailsFromSearchDateFlag(date *time.Time) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
@@ -65,14 +65,14 @@ func RestaurantDetailsFromSearchDateFlag(date *time.Time) RestaurantDetailsFromS
 		}
 		opts.has_date = true
 		opts.date = *date
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchDate(time.Time %+v)}", date)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchDate(time.Time %+v)", date)}
 }
 
 func RestaurantDetailsFromSearchDebugFailures(debugFailures bool) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
 		opts.has_debugFailures = true
 		opts.debugFailures = debugFailures
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchDebugFailures(bool %+v)", debugFailures)}
 }
 func RestaurantDetailsFromSearchDebugFailuresFlag(debugFailures *bool) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
@@ -81,14 +81,14 @@ func RestaurantDetailsFromSearchDebugFailuresFlag(debugFailures *bool) Restauran
 		}
 		opts.has_debugFailures = true
 		opts.debugFailures = *debugFailures
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchDebugFailures(bool %+v)}", debugFailures)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchDebugFailures(bool %+v)", debugFailures)}
 }
 
 func RestaurantDetailsFromSearchIntentModifiedTerm(intentModifiedTerm string) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
 		opts.has_intentModifiedTerm = true
 		opts.intentModifiedTerm = intentModifiedTerm
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchIntentModifiedTerm(string %+v)}", intentModifiedTerm)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchIntentModifiedTerm(string %+v)", intentModifiedTerm)}
 }
 func RestaurantDetailsFromSearchIntentModifiedTermFlag(intentModifiedTerm *string) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
@@ -97,14 +97,14 @@ func RestaurantDetailsFromSearchIntentModifiedTermFlag(intentModifiedTerm *strin
 		}
 		opts.has_intentModifiedTerm = true
 		opts.intentModifiedTerm = *intentModifiedTerm
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchIntentModifiedTerm(string %+v)}", intentModifiedTerm)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchIntentModifiedTerm(string %+v)", intentModifiedTerm)}
 }
 
 func RestaurantDetailsFromSearchLatitude(latitude float32) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
 		opts.has_latitude = true
 		opts.latitude = latitude
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchLatitude(float32 %+v)}", latitude)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchLatitude(float32 %+v)", latitude)}
 }
 func RestaurantDetailsFromSearchLatitudeFlag(latitude *float32) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
@@ -113,14 +113,14 @@ func RestaurantDetailsFromSearchLatitudeFlag(latitude *float32) RestaurantDetail
 		}
 		opts.has_latitude = true
 		opts.latitude = *latitude
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchLatitude(float32 %+v)}", latitude)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchLatitude(float32 %+v)", latitude)}
 }
 
 func RestaurantDetailsFromSearchLongitude(longitude float32) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
 		opts.has_longitude = true
 		opts.longitude = longitude
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchLongitude(float32 %+v)}", longitude)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchLongitude(float32 %+v)", longitude)}
 }
 func RestaurantDetailsFromSearchLongitudeFlag(longitude *float32) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
@@ -129,14 +129,14 @@ func RestaurantDetailsFromSearchLongitudeFlag(longitude *float32) RestaurantDeta
 		}
 		opts.has_longitude = true
 		opts.longitude = *longitude
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchLongitude(float32 %+v)}", longitude)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchLongitude(float32 %+v)", longitude)}
 }
 
 func RestaurantDetailsFromSearchMetroID(metroID int) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
 		opts.has_metroID = true
 		opts.metroID = metroID
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchMetroID(int %+v)}", metroID)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchMetroID(int %+v)", metroID)}
 }
 func RestaurantDetailsFromSearchMetroIDFlag(metroID *int) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
@@ -145,14 +145,14 @@ func RestaurantDetailsFromSearchMetroIDFlag(metroID *int) RestaurantDetailsFromS
 		}
 		opts.has_metroID = true
 		opts.metroID = *metroID
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchMetroID(int %+v)}", metroID)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchMetroID(int %+v)", metroID)}
 }
 
 func RestaurantDetailsFromSearchOriginalTerm(originalTerm string) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
 		opts.has_originalTerm = true
 		opts.originalTerm = originalTerm
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchOriginalTerm(string %+v)}", originalTerm)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchOriginalTerm(string %+v)", originalTerm)}
 }
 func RestaurantDetailsFromSearchOriginalTermFlag(originalTerm *string) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
@@ -161,14 +161,14 @@ func RestaurantDetailsFromSearchOriginalTermFlag(originalTerm *string) Restauran
 		}
 		opts.has_originalTerm = true
 		opts.originalTerm = *originalTerm
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchOriginalTerm(string %+v)}", originalTerm)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchOriginalTerm(string %+v)", originalTerm)}
 }
 
 func RestaurantDetailsFromSearchVerbose(verbose bool) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
 		opts.has_verbose = true
 		opts.verbose = verbose
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchVerbose(bool %+v)", verbose)}
 }
 func RestaurantDetailsFromSearchVerboseFlag(verbose *bool) RestaurantDetailsFromSearchOption {
 	return RestaurantDetailsFromSearchOption{func(opts *restaurantDetailsFromSearchOptionImpl) {
@@ -177,7 +177,7 @@ func RestaurantDetailsFromSearchVerboseFlag(verbose *bool) RestaurantDetailsFrom
 		}
 		opts.has_verbose = true
 		opts.verbose = *verbose
-	}, fmt.Sprintf("api.RestaurantDetailsFromSearchVerbose(bool %+v)}", verbose)}
+	}, fmt.Sprintf("api.RestaurantDetailsFromSearchVerbose(bool %+v)", verbose)}
 }
 
 type restaurantDetailsFromSearchOptionImpl struct {
