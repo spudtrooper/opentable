@@ -6,7 +6,7 @@ Go client API for http://opentable.com
 
 ### Deployed frontend
 
-https://unofficial-opentable-api.herokuapp.com/
+https://api-dumpster-fire.herokuapp.com/opentable
 
 ### Running local front end
 
